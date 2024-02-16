@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ValidateRegister;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
@@ -13,7 +14,7 @@ class RegistrationController extends Controller
         return view('authentication.register');
     }
 
-    public function store(Request $request)
+    public function store(ValidateRegister $request)
     {
         $input = DB::table('users')->where('email', $request->email)
             ->first();

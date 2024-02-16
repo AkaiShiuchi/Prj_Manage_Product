@@ -1,110 +1,105 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:300,400,500,500i,600,700,700i,800');
 
-body {
+@import url('https://fonts.googleapis.com/css?family=Numans');
 
-    background-image: linear-gradient(to right, #f7de1c, #64638f, #0c907d);
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    font-family: 'Raleway', sans-serif;
+html,body{
+background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
+background-size: cover;
+background-repeat: no-repeat;
+height: 100%;
+font-family: 'Numans', sans-serif;
 }
 
-a:link {
-    text-decoration: none;
+.container{
+height: 100%;
+align-content: center;
 }
 
-h1 {
-    text-align: center;
-    color: #fff;
-    padding-top: 30px;
-    padding-bottom: 20px;
+.card{
+height: 450px;
+margin-top: auto;
+margin-bottom: auto;
+width: 400px;
+background-color: rgba(0,0,0,0.5) !important;
 }
 
-h2 {
-
-    font-size: 40px;
-    padding-bottom: 20px;
-    letter-spacing: 1px;
+.social_icon span{
+font-size: 60px;
+margin-left: 10px;
+color: #FFC312;
 }
 
-form {
-
-
-    display: block;
-    text-align: center;
-    margin: 10px auto;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    border-radius: 4px;
-    background-image: linear-gradient(to right, #9fe8fa, #26baee);
-
+.social_icon span:hover{
+color: white;
+cursor: pointer;
 }
 
-.btn-dark {
-    width: 80%;
-    font-size: 18px;
+.card-header h3{
+color: white;
 }
 
-.form-check {
-    text-align: center !important;
-    padding: 10px;
+.social_icon{
+position: absolute;
+right: 20px;
+top: -45px;
 }
 
-#sign .form1 {
-    width: 60%;
-    border: 2px solid black;
-    display: block;
-    text-align: center;
-    margin: 70px auto;
-    padding: 50px;
+.input-group-prepend span{
+width: 50px;
+background-color: #FFC312;
+color: black;
+border:0 !important;
+}
+
+input:focus{
+outline: 0 0 0 0  !important;
+box-shadow: 0 0 0 0 !important;
 
 }
 
-.form-control::placeholder {
-    padding-left: 10px;
+.remember{
+color: white;
 }
 
-.form-control {
-    outline: none;
-    border: none;
-    margin: 0 auto;
-    width: 80%;
-    border-bottom: 1px solid #fff;
-    border-radius: 40px;
-    height: 40px;
+.remember input
+{
+width: 20px;
+height: 20px;
+margin-left: 15px;
+margin-right: 5px;
 }
 
-.form-control:focus {
-    border: none;
-
-    box-shadow: none;
-    border: 1px solid #000;
+.login_btn{
+color: black;
+background-color: #FFC312;
+width: 100px;
 }
 
-.form-control:hover {
-    text-decoration: none;
-    border: none;
-
-    box-shadow: none;
-    border: 1px solid #000;
-
-
+.login_btn:hover{
+color: black;
+background-color: white;
 }
 
-.form-check {
-    text-align: left;
-    font-size: 20px;
+.links{
+color: white;
 }
 
-@media(max-width: 768px) {
-    #sign {
-        margin-top: 50px;
-        margin-bottom: 50px;
-    }
+.links a{
+margin-left: 4px;
 }
 
-@media(max-width: 424px) {
-    h1 {
-        font-size: 30px;
-    }
+.card-body form {
+    margin-top: 20px;
+}
+
+.card-body form input {
+    margin-bottom: 10px;
+}
+
+.card-body form .remember {
+    margin-top: 15px;
+}
+
+.alert {
+    font-size: 12px; /* Giảm kích thước font */
+    padding: 5px 10px; /* Giảm padding */
 }
