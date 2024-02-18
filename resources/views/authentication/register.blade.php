@@ -19,6 +19,9 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    @if (session('no'))
+                        <div class="alert alert-danger">{{ session('no') }}</div>
+                    @endif
                     <form action="/handle-register" method="POST">
                         @csrf
                         @if ($errors->any())
