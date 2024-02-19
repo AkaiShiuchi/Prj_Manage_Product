@@ -56,4 +56,29 @@ class RegistrationController extends Controller
             return redirect()->route('authentication.register')->with('no', 'Mã xác nhận bạn gửi không hợp lệ');
         }
     }
+
+    public function get_actived()
+    {
+        return view('authentication.get_actived');
+    }
+
+    public function post_get(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|exists:users'
+        ], [
+            'email.required' => 'Địa chỉ email không hợp lệ',
+            'email.exists' => 'Email này không tồn tại'
+        ]);
+
+        $token = Str::random(10);
+        $user = User::where('email', $request->email)->first();
+        $user->update(['token' => $token]);
+
+        Mail::send('authentication.check_email', compact('user'), function ($email) use ($user) {
+            $email->subject('xác nhận tài khoản');
+            $email->to($user->email, $user->name);
+        });
+        return redirect()->back()->with('message', 'Vui lòng kiểm tra email để thực hiện đổi mật khẩu');
+    }
 }
