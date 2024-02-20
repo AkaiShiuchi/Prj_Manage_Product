@@ -22,10 +22,29 @@ class ValidateRegister extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'name' => [
+                'required',
+                'min:6',
+                // 'regex:/^[a-zA-Z]+$/',
+            ],
+            'email' => 'required|email',
+            'password' => [
+                'required',
+                'min:6',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+            ],
             'confirm_password' => 'required|same:password',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name' => 'Tên người dùng phải có ít nhất 6 kí tự',
+            'email' => 'Định dạng email không hợp lệ',
+            'password' => 'Mật khẩu phải có ít nhất 6 kí tự',
+            'password.regex' => 'Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một kí tự số và một kí tự đặc biệt.',
+            'confirm_password' => 'Xác nhận mật khẩu không trùng khớp với mật khẩu'
         ];
     }
 }

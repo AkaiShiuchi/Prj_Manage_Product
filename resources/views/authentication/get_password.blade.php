@@ -15,7 +15,7 @@
                     <div></div>
                 </div>
                 <div class="card-body">
-                    <form action="/handle-get" method="POST">
+                    <form action="/handle-get/{{ $user->id }}/{{ $token }}" method="POST">
                         @csrf
                         @if (session('err'))
                             <div class="alert alert-danger">{{ session('err') }}</div>

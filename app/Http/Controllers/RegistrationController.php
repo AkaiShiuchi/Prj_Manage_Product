@@ -37,7 +37,7 @@ class RegistrationController extends Controller
                     $email->to($user->email, $user->name);
                 });
                 toastr()->success('You create account successful');
-                return redirect()->route('authentication.login');
+                return redirect()->route('authentication.login')->with('message', 'Đăng kí thành công, vui lòng kiểm tra email để xác nhận tài khoản');
             }
         }
 
@@ -75,10 +75,10 @@ class RegistrationController extends Controller
         $user = User::where('email', $request->email)->first();
         $user->update(['token' => $token]);
 
-        Mail::send('authentication.check_email', compact('user'), function ($email) use ($user) {
+        Mail::send('authentication.active_account', compact('user'), function ($email) use ($user) {
             $email->subject('xác nhận tài khoản');
             $email->to($user->email, $user->name);
         });
-        return redirect()->back()->with('message', 'Vui lòng kiểm tra email để thực hiện đổi mật khẩu');
+        return redirect()->back()->with('message', 'Vui lòng kiểm tra email để kích hoạt tài khoản');
     }
 }

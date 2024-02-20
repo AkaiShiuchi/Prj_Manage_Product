@@ -8,6 +8,9 @@
 
 @section('content')
     <div class="container">
+        @if (session('message'))
+            <div class="alert alert-info">{{ session('message') }}</div>
+        @endif
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
