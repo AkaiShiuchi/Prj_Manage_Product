@@ -11,11 +11,22 @@ use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
+    /**
+     * display form login
+     *
+     * @return void
+     */
     public function display()
     {
         return view('authentication.login');
     }
 
+    /**
+     * handle form login
+     *
+     * @param ValidateLogin $request
+     * @return void
+     */
     public function handle_login(ValidateLogin $request)
     {
         $check = $request->only('email', 'password');
@@ -34,11 +45,22 @@ class LoginController extends Controller
         return redirect()->route('authentication.login')->with('err', 'email hoặc mật khẩu không chính xác');
     }
 
+    /**
+     * display form input email forget password
+     *
+     * @return void
+     */
     public function forget_pass()
     {
         return view('authentication.forget_pass');
     }
 
+    /**
+     * handle email while forger password
+     *
+     * @param Request $request
+     * @return void
+     */
     public function handle_forget(Request $request)
     {
         $request->validate([
@@ -59,6 +81,13 @@ class LoginController extends Controller
         return redirect()->back()->with('message', 'Vui lòng kiểm tra email để đặt lại mật khẩu');
     }
 
+    /**
+     * display form get password
+     *
+     * @param User $user
+     * @param [type] $token
+     * @return void
+     */
     public function get_pass(User $user, $token)
     {
         if ($user->token === $token) {
@@ -68,6 +97,14 @@ class LoginController extends Controller
         return abort(404);
     }
 
+    /**
+     * handle form get password
+     *
+     * @param User $user
+     * @param [type] $token
+     * @param Request $request
+     * @return void
+     */
     public function handle_get(User $user, $token, Request $request)
     {
         $request->validate([

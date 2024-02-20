@@ -3,6 +3,7 @@
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\HomeController;
 
 
 Route::get('/register', [RegistrationController::class, 'display'])->name('authentication.register');
@@ -18,3 +19,7 @@ Route::get('/forget-password', [LoginController::class, 'forget_pass'])->name('f
 Route::post('/handle-forget', [LoginController::class, 'handle_forget']);
 Route::get('/get-password/{user}/{token}', [LoginController::class, 'get_pass'])->name('get_password');
 Route::post('/handle-get/{user}/{token}', [LoginController::class, 'handle_get']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [HomeController::class, 'display'])->name('home');
+});

@@ -11,11 +11,22 @@ use Illuminate\Support\Str;
 
 class RegistrationController extends Controller
 {
+    /**
+     * function display view register
+     *
+     * @return void
+     */
     public function display()
     {
         return view('authentication.register');
     }
 
+    /**
+     * function handle form submit register
+     *
+     * @param ValidateRegister $request
+     * @return void
+     */
     public function store(ValidateRegister $request)
     {
         $input = DB::table('users')->where('email', $request->email)
@@ -45,6 +56,13 @@ class RegistrationController extends Controller
         return redirect()->route('authentication.register');
     }
 
+    /**
+     * function button in message check account gmail
+     *
+     * @param User $user
+     * @param [type] $token
+     * @return void
+     */
     public function actived(User $user, $token)
     {
         if ($user->token === $token) {
@@ -57,11 +75,22 @@ class RegistrationController extends Controller
         }
     }
 
+    /**
+     * function display view form check account
+     *
+     * @return void
+     */
     public function get_actived()
     {
         return view('authentication.get_actived');
     }
 
+    /**
+     * function handle check account in gmail
+     *
+     * @param Request $request
+     * @return void
+     */
     public function post_get(Request $request)
     {
         $request->validate([
