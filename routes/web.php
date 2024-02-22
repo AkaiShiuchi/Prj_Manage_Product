@@ -20,6 +20,8 @@ Route::post('/handle-forget', [LoginController::class, 'handle_forget']);
 Route::get('/get-password/{user}/{token}', [LoginController::class, 'get_pass'])->name('get_password');
 Route::post('/handle-get/{user}/{token}', [LoginController::class, 'handle_get']);
 
-Route::middleware(['auth'])->group(function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [HomeController::class, 'display'])->name('home');
+    Route::get('/product-manage', [HomeController::class, 'product_manage'])->name('product_manage');
+    Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
 });

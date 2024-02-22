@@ -3,11 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
+    /**
+     * Hàm điều hướng đến trang home
+     *
+     * @return void
+     */
     public function display()
     {
         return view('home.home');
+    }
+
+    public function product_manage()
+    {
+        return view('home.product_manage');
+    }
+
+    /**
+     * Hàm đăng xuất
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout(); // Đăng xuất người dùng
+        Session::flush();
+        Session::regenerate();
+        return redirect()->route('authentication.login'); // Điều hướng đến trang đăng nhập
     }
 }
