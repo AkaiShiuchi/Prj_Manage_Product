@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -18,9 +19,10 @@ class HomeController extends Controller
         return view('home.home');
     }
 
-    public function product_manage()
+    public function product_manage(Product $products)
     {
-        return view('home.product_manage');
+        $products = Product::all();
+        return view('home.product_manage')->with('products', $products);
     }
 
     /**

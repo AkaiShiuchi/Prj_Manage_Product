@@ -4,6 +4,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/product_manage.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/add_modal.css') }}">
 @endsection
 
 @section('content')
@@ -85,9 +86,10 @@
                     </div>
                     <div class="col-lg-1">
                         <div class="mt-2 mt-lg-0 text-center">
-                            <a class="btn btn-info" href="#"><i class="uil uil-filter"></i>
+                            <button type="button" class="btn btn-info" title="Add New" data-toggle="modal"
+                                data-target="#addNewModal">
                                 Thêm
-                            </a>
+                            </button>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -124,40 +126,46 @@
                     <div class="candidate-list-box card mt-4">
                         <div class="p-4 card-body">
                             <div class="align-items-center row">
-                                <div class="col-auto">
-                                    <div class="candidate-list-images">
-                                        <a href="#"><img src="product_image_url.jpg" alt="Product Image"
-                                                class="avatar-md img-thumbnail rounded-circle" /></a>
+                                @foreach ($products as $item)
+                                    <div class="col-auto">
+                                        <div class="candidate-list-images">
+                                            <a href="#"><img src="{{ asset('storage/uploads/' . $item->image) }}"
+                                                    alt="Product Image"
+                                                    class="avatar-md img-thumbnail rounded-circle" /></a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-5">
-                                    <div class="candidate-list-content mt-3 mt-lg-0">
-                                        <h5 class="fs-19 mb-0">
-                                            <a class="primary-link" href="#">Product Name</a>
-                                        </h5>
-                                        <p class="text-muted mb-2">Description</p>
-                                        <ul class="list-inline mb-0 text-muted">
-                                            <li class="list-inline-item"><i class="mdi mdi-map-marker"></i> Product Code
-                                            </li>
-                                            <li class="list-inline-item"><i class="mdi mdi-wallet"></i> $Price</li>
-                                        </ul>
+                                    <div class="col-lg-5">
+                                        <div class="candidate-list-content mt-3 mt-lg-0">
+                                            <h5 class="fs-19 mb-0">
+                                                <a class="primary-link" href="#">{{ $item->name }}</a>
+                                            </h5>
+                                            <p class="text-muted mb-2">{{ $item->description }}</p>
+                                            <ul class="list-inline mb-0 text-muted">
+                                                <li class="list-inline-item"><i
+                                                        class="mdi mdi-map-marker"></i>{{ $item->id }}
+                                                </li>
+                                                <li class="list-inline-item"><i
+                                                        class="mdi mdi-wallet"></i>{{ $item->price }}</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
-                                        <span class="badge bg-soft-secondary fs-14 mt-1">Category</span>
+                                    <div class="col-lg-3">
+                                        <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
+                                            <span
+                                                class="badge bg-soft-secondary fs-14 mt-1">{{ $item->category->name }}</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
-                                        <a class="btn btn-warning" href="#"><i class="uil uil-filter"></i>
-                                            Sửa
-                                        </a>
-                                        <a class="btn btn-danger" href="#"><i class="uil uil-filter"></i>
-                                            Xóa
-                                        </a>
+                                    <div class="col-lg-2">
+                                        <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
+                                            <a class="btn btn-warning" href="#"><i class="uil uil-filter"></i>
+                                                Sửa
+                                            </a>
+                                            <a class="btn btn-danger" href="#"><i class="uil uil-filter"></i>
+                                                Xóa
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -185,4 +193,6 @@
             </div>
         </div>
     </div>
+
+    @include('home.modal.add_new_product')
 @endsection

@@ -19,6 +19,11 @@ class Product extends Model
 
     protected $table = 'products';
 
+    public function category()
+    {
+        return $this->belongsTo(Categories::class, 'category_id');
+    }
+
     public function purchases()
     {
         return $this->belongsToMany(Purchase::class, 'product_purchase', 'product_id', 'purchase_id')

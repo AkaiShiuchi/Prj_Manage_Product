@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CrudProductController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -22,6 +23,11 @@ Route::post('/handle-get/{user}/{token}', [LoginController::class, 'handle_get']
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [HomeController::class, 'display'])->name('home');
-    Route::get('/product-manage', [HomeController::class, 'product_manage'])->name('product_manage');
     Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
+
+    Route::get('/product-manage', [HomeController::class, 'product_manage'])->name('product_manage');
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::post('add-product', [CrudProductController::class, 'add_product'])->name('add_product');
 });
