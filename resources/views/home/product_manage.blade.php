@@ -34,46 +34,49 @@
 
     <div class="container">
         <div class="justify-content-center row">
-            <div class="col-lg-12">
+            <div class="col-lg-8">
                 <div class="candidate-list-widgets mb-4">
-                    <form action="#" class="">
+                    <form action="{{ route('search') }}" method="POST">
+                        @csrf
                         <div class="g-2 row">
-                            <div class="col-lg-3">
+                            <div class="col-lg-5">
                                 <div class="filler-job-form">
-                                    <i class="uil uil-briefcase-alt"></i><input id="exampleFormControlInput1"
+                                    <i class="uil uil-briefcase-alt"></i><input id="product_name" name="product_name"
                                         placeholder="Product name... " type="search"
                                         class="form-control filler-job-input-box form-control" />
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-5">
                                 <div class="filler-job-form">
                                     <i class="uil uil-location-point"></i>
-                                    <select class="form-select selectForm__inner" data-trigger="true"
-                                        name="choices-single-location" id="choices-single-location"
-                                        aria-label="Default select example">
-                                        <option value="AF">Đồ gia dụng</option>
-                                        <option value="AX">Máy tính</option>
-                                        <option value="AL">Phụ kiện</option>
+                                    <select class="form-select selectForm__inner" data-trigger="true" name="category_id"
+                                        id="category_id" aria-label="Default select example">
+                                        <option value="0"></option>
+                                        <option value="1">Đồ gia dụng</option>
+                                        <option value="2">Máy tính</option>
+                                        <option value="3">Phụ kiện</option>
 
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                                 <div>
-                                    <a class="btn btn-primary" href="#"><i class="uil uil-filter"></i>
+                                    <button class="btn btn-primary" type="submit"><i class="uil uil-filter"></i>
                                         Filter
-                                    </a>
-                                    <a class="btn btn-success ms-5" href="#"><i class="uil uil-cog"></i>
-                                        Import
-                                    </a>
-                                    <a class="btn btn-success ms-2" href="#"><i class="uil uil-cog"></i>
-                                        Export
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
+            </div>
+            <div class="col-lg-4">
+                <a class="btn btn-success ms-5" href="#"><i class="uil uil-cog"></i>
+                    Import
+                </a>
+                <a class="btn btn-success ms-2" href="#"><i class="uil uil-cog"></i>
+                    Export
+                </a>
             </div>
         </div>
         <div class="row">
@@ -123,53 +126,105 @@
                 </div>
 
                 <div class="candidate-list">
-                    <div class="candidate-list-box card mt-4">
-                        <div class="p-4 card-body">
-                            <div class="align-items-center row">
-                                @foreach ($products as $item)
-                                    <div class="col-auto">
-                                        <div class="candidate-list-images">
-                                            <a href="#"><img src="{{ asset('storage/uploads/' . $item->image) }}"
-                                                    alt="Product Image"
-                                                    class="avatar-md img-thumbnail rounded-circle" /></a>
+                    @if (isset($results) && $results->count() > 0)
+                        @foreach ($results as $item)
+                            <div class="candidate-list-box card mt-4">
+                                <div class="p-4 card-body">
+                                    <div class="align-items-center row">
+                                        <div class="col-auto">
+                                            <div class="candidate-list-images">
+                                                <a href="#"><img
+                                                        src="{{ asset('storage/uploads/' . $item->image) }}"
+                                                        alt="Product Image"
+                                                        class="avatar-md img-thumbnail rounded-circle" /></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="candidate-list-content mt-3 mt-lg-0">
+                                                <h5 class="fs-19 mb-0">
+                                                    <a class="primary-link" href="#">{{ $item->name }}</a>
+                                                </h5>
+                                                <p class="text-muted mb-2"></p>
+                                                <ul class="list-inline mb-0 text-muted">
+                                                    <li class="list-inline-item"><i
+                                                            class="mdi mdi-map-marker"></i>{{ $item->id }}
+                                                    </li>
+                                                    <li class="list-inline-item"><i class="mdi mdi-wallet"></i>
+                                                        ${{ $item->price }}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
+                                                <span
+                                                    class="badge bg-soft-secondary fs-14 mt-1">{{ $item->category->name }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
+                                                <a class="btn btn-warning" href="#"><i class="uil uil-filter"></i>
+                                                    Sửa
+                                                </a>
+                                                <a class="btn btn-danger" href="#"><i class="uil uil-filter"></i>
+                                                    Xóa
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5">
-                                        <div class="candidate-list-content mt-3 mt-lg-0">
-                                            <h5 class="fs-19 mb-0">
-                                                <a class="primary-link" href="#">{{ $item->name }}</a>
-                                            </h5>
-                                            <p class="text-muted mb-2">{{ $item->description }}</p>
-                                            <ul class="list-inline mb-0 text-muted">
-                                                <li class="list-inline-item"><i
-                                                        class="mdi mdi-map-marker"></i>{{ $item->id }}
-                                                </li>
-                                                <li class="list-inline-item"><i
-                                                        class="mdi mdi-wallet"></i>{{ $item->price }}</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
-                                            <span
-                                                class="badge bg-soft-secondary fs-14 mt-1">{{ $item->category->name }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
-                                            <a class="btn btn-warning" href="#"><i class="uil uil-filter"></i>
-                                                Sửa
-                                            </a>
-                                            <a class="btn btn-danger" href="#"><i class="uil uil-filter"></i>
-                                                Xóa
-                                            </a>
-                                        </div>
-                                    </div>
-                                @endforeach
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
+                        @endforeach
+                    @elseif (isset($results) && $results->count() == 0)
+                        <p>Không tìm thấy sản phẩm nào.</p>
+                    @elseif (!(isset($results) && $results->count() >= 0))
+                        @foreach ($products as $item)
+                            <div class="candidate-list-box card mt-4">
+                                <div class="p-4 card-body">
+                                    <div class="align-items-center row">
+                                        <div class="col-auto">
+                                            <div class="candidate-list-images">
+                                                <a href="#"><img
+                                                        src="{{ asset('storage/uploads/' . $item->image) }}"
+                                                        alt="Product Image"
+                                                        class="avatar-md img-thumbnail rounded-circle" /></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="candidate-list-content mt-3 mt-lg-0">
+                                                <h5 class="fs-19 mb-0">
+                                                    <a class="primary-link" href="#">{{ $item->name }}</a>
+                                                </h5>
+                                                <p class="text-muted mb-2"></p>
+                                                <ul class="list-inline mb-0 text-muted">
+                                                    <li class="list-inline-item"><i
+                                                            class="mdi mdi-map-marker"></i>{{ $item->id }}
+                                                    </li>
+                                                    <li class="list-inline-item"><i class="mdi mdi-wallet"></i>
+                                                        ${{ $item->price }}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
+                                                <span
+                                                    class="badge bg-soft-secondary fs-14 mt-1">{{ $item->category->name }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
+                                                <a class="btn btn-warning" href="#"><i class="uil uil-filter"></i>
+                                                    Sửa
+                                                </a>
+                                                <a class="btn btn-danger" href="#"><i class="uil uil-filter"></i>
+                                                    Xóa
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>

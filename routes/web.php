@@ -30,4 +30,5 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::post('add-product', [CrudProductController::class, 'add_product'])->name('add_product');
+    Route::post('/search', [CrudProductController::class, 'search'])->name('search');
 });

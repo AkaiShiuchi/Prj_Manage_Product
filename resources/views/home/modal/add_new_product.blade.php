@@ -58,18 +58,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="category">Category:</label>
-                        <select class="form-control" id="category" name="category">
-                            <option value="category1">Đồ gia dụng</option>
-                            <option value="category2">Máy tính</option>
-                            <option value="category3">Phụ kiện</option>
-                        </select>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="total">Total:</label>
+                                <input type="number" class="form-control" id="total" name="total">
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label for="category">Category:</label>
+                                <select class="form-control" id="category" name="category_id">
+                                    <option value="1">Đồ gia dụng</option>
+                                    <option value="2">Máy tính</option>
+                                    <option value="3">Phụ kiện</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="image">Image:</label>
                         <input type="file" class="form-control" id="image" name="image">
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="modal-footer">

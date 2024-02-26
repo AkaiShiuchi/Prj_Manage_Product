@@ -19,6 +19,12 @@ class HomeController extends Controller
         return view('home.home');
     }
 
+    /**
+     *Hàm điều hướng đến trang quản lý sản phẩm 
+     *
+     * @param Product $products
+     * @return void
+     */
     public function product_manage(Product $products)
     {
         $products = Product::all();
