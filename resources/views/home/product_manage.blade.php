@@ -5,6 +5,7 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/product_manage.css') }}">
     <link rel="stylesheet" href="{{ asset('css/add_modal.css') }}">
+    <script src="{{ asset('js/product_manage.js') }}"></script>
 @endsection
 
 @section('content')
@@ -36,7 +37,7 @@
         <div class="justify-content-center row">
             <div class="col-lg-8">
                 <div class="candidate-list-widgets mb-4">
-                    <form action="{{ route('search') }}" method="POST">
+                    <form action="{{ route('search') }}" method="POST" id="searchForm">
                         @csrf
                         <div class="g-2 row">
                             <div class="col-lg-5">
@@ -61,7 +62,8 @@
                             </div>
                             <div class="col-lg-2">
                                 <div>
-                                    <button class="btn btn-primary" type="submit"><i class="uil uil-filter"></i>
+                                    <button class="btn btn-primary" type="submit" id="search_button"><i
+                                            class="uil uil-filter"></i>
                                         Filter
                                     </button>
                                 </div>
@@ -176,7 +178,7 @@
                         @endforeach
                     @elseif (isset($results) && $results->count() == 0)
                         <p>Không tìm thấy sản phẩm nào.</p>
-                    @elseif (!(isset($results) && $results->count() >= 0))
+                    @else
                         @foreach ($products as $item)
                             <div class="candidate-list-box card mt-4">
                                 <div class="p-4 card-body">

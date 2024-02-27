@@ -10,11 +10,17 @@ use Illuminate\Support\Facades\DB;
 class CrudProductController extends Controller
 {
 
+    /**
+     * Hàm tìm kiếm sản phẩm
+     *
+     * @param Request $request
+     * @return void
+     */
     public function search(Request $request)
     {
         if ($request->has('product_name') || $request->has('category_id')) {
             $pro = $request->input('product_name');
-            $cat = $request->input('categories');
+            $cat = $request->input('category_id');
 
             // Trường hợp: Tìm kiếm theo cả tên và thể loại
             if ($pro && $cat) {
@@ -51,20 +57,28 @@ class CrudProductController extends Controller
     public function add_product(Request $request)
     {
         $input = DB::table('products')->where('id', $request->id)->first();
-
+        dd($request);
         if (empty($input)) {
             $product = new Product();
-            $product->fill([
-                'id' => $request->id,
-                'name' => $request->name,
-                'describe' => $request->description,
-                'price' => $request->price,
-                'total' => $request->total,
-                'category_id' => $request->category_id,
-            ])->save();
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $path = $file->store('public/uploads');
 
-            toastr()->success('Thêm sản phẩm mới thành công');
-            return redirect()->route('product_manage');
+                $product->fill([
+                    'id' => $request->id,
+                    'name' => $request->name,
+                    'describe' => $request->description,
+                    'price' => $request->price,
+                    'total' => $request->total,
+                    'category_id' => $request->category_id,
+                    'image' => basename($path),
+                ])->save();
+
+                toastr()->success('Thêm sản phẩm mới thành công');
+                return redirect()->route('product_manage');
+            }
+            toastr()->warning('Vui lòng chọn ảnh cho sản phẩm');
+            return redirect()->back();
         }
 
         return redirect()->back()->with('error', 'Sản phẩm này đã tồn tại');
