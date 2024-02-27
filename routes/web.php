@@ -29,6 +29,12 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::post('add-product', [CrudProductController::class, 'add_product'])->name('add_product');
     Route::post('/search', [CrudProductController::class, 'search'])->name('search');
+
+    Route::post('/add-product', [CrudProductController::class, 'add_product'])->name('add_product');
+
+    Route::get('/product-manage/view-detail/{id}', [CrudProductController::class, 'view_detail'])->name('view_detail');
+
+    Route::get('/product-manage/edit-product/{id}', [CrudProductController::class, 'edit_product'])->name('edit_product');
+    Route::post('/handle-edit/{id}', [CrudProductController::class, 'handle_edit'])->name('handle_edit');
 });

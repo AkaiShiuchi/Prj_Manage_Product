@@ -1,4 +1,4 @@
-document.getElementById('searchForm').addEventListener('submit', function(event) {
+document.getElementById('search_button').addEventListener('click', function(event) {
     // Lấy các trường nhập liệu và dropdown
     var productNameInput = document.getElementById('product_name');
     var categoryIdSelect = document.getElementById('category_id');

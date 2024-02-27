@@ -5,7 +5,6 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/product_manage.css') }}">
     <link rel="stylesheet" href="{{ asset('css/add_modal.css') }}">
-    <script src="{{ asset('js/product_manage.js') }}"></script>
 @endsection
 
 @section('content')
@@ -135,7 +134,7 @@
                                     <div class="align-items-center row">
                                         <div class="col-auto">
                                             <div class="candidate-list-images">
-                                                <a href="#"><img
+                                                <a href="{{ route('view_detail', ['id' => $item->id]) }}"><img
                                                         src="{{ asset('storage/uploads/' . $item->image) }}"
                                                         alt="Product Image"
                                                         class="avatar-md img-thumbnail rounded-circle" /></a>
@@ -144,7 +143,8 @@
                                         <div class="col-lg-5">
                                             <div class="candidate-list-content mt-3 mt-lg-0">
                                                 <h5 class="fs-19 mb-0">
-                                                    <a class="primary-link" href="#">{{ $item->name }}</a>
+                                                    <a class="primary-link"
+                                                        href="{{ route('view_detail', ['id' => $item->id]) }}">{{ $item->name }}</a>
                                                 </h5>
                                                 <p class="text-muted mb-2"></p>
                                                 <ul class="list-inline mb-0 text-muted">
@@ -164,7 +164,9 @@
                                         </div>
                                         <div class="col-lg-2">
                                             <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
-                                                <a class="btn btn-warning" href="#"><i class="uil uil-filter"></i>
+                                                <a class="btn btn-warning"
+                                                    href="{{ route('edit_product', ['id' => $item->id]) }}"><i
+                                                        class="uil uil-filter"></i>
                                                     Sửa
                                                 </a>
                                                 <a class="btn btn-danger" href="#"><i class="uil uil-filter"></i>
@@ -185,7 +187,7 @@
                                     <div class="align-items-center row">
                                         <div class="col-auto">
                                             <div class="candidate-list-images">
-                                                <a href="#"><img
+                                                <a href="{{ route('view_detail', ['id' => $item->id]) }}"><img
                                                         src="{{ asset('storage/uploads/' . $item->image) }}"
                                                         alt="Product Image"
                                                         class="avatar-md img-thumbnail rounded-circle" /></a>
@@ -194,7 +196,8 @@
                                         <div class="col-lg-5">
                                             <div class="candidate-list-content mt-3 mt-lg-0">
                                                 <h5 class="fs-19 mb-0">
-                                                    <a class="primary-link" href="#">{{ $item->name }}</a>
+                                                    <a class="primary-link"
+                                                        href="{{ route('view_detail', ['id' => $item->id]) }}">{{ $item->name }}</a>
                                                 </h5>
                                                 <p class="text-muted mb-2"></p>
                                                 <ul class="list-inline mb-0 text-muted">
@@ -214,7 +217,9 @@
                                         </div>
                                         <div class="col-lg-2">
                                             <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
-                                                <a class="btn btn-warning" href="#"><i class="uil uil-filter"></i>
+                                                <a class="btn btn-warning"
+                                                    href="{{ route('edit_product', ['id' => $item->id]) }}"><i
+                                                        class="uil uil-filter"></i>
                                                     Sửa
                                                 </a>
                                                 <a class="btn btn-danger" href="#"><i class="uil uil-filter"></i>
@@ -252,4 +257,5 @@
     </div>
 
     @include('home.modal.add_new_product')
+    <script src="{{ asset('js/product_manage.js') }}"></script>
 @endsection
