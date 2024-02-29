@@ -2,13 +2,13 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="addNewModalLabel">Confirm</h5>
+                <h5 class="modal-title" id="deleteModalLabel">Confirm</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             @if (isset($item))
-                <form action="{{ route('delete_product', ['id' => $item->id]) }}" method="POST">
+                <form action="{{ route('delete_product', ['id' => $item->id]) }}" method="POST" id="deleteForm">
                     <div class="modal-body">
                         @csrf
                         @method('DELETE')
@@ -23,3 +23,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#deleteModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var deleteUrl = button.data('delete-url');
+        var modal = $(this);
+        modal.find('#deleteForm').attr('action', deleteUrl);
+    });
+</script>

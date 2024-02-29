@@ -5,6 +5,7 @@ use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FileCsvController;
 
 
 Route::get('/register', [RegistrationController::class, 'display'])->name('authentication.register');
@@ -38,5 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/product-manage/edit-product/{id}', [CrudProductController::class, 'edit_product'])->name('edit_product');
     Route::post('/handle-edit/{id}', [CrudProductController::class, 'handle_edit'])->name('handle_edit');
 
-    Route::post('/delete/{id}', [CrudProductController::class, 'delete_product'])->name('delete_product');
+    Route::delete('/delete/{id}', [CrudProductController::class, 'delete_product'])->name('delete_product');
+
+    Route::get('/export-products', [FileCsvController::class, 'export_products'])->name('export_products');
+    Route::post('import-products', [FileCsvController::class, 'import_products'])->name('import_products');
 });

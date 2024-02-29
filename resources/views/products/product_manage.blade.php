@@ -72,12 +72,16 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <a class="btn btn-success ms-5" href="#"><i class="uil uil-cog"></i>
-                    Import
-                </a>
-                <a class="btn btn-success ms-2" href="#"><i class="uil uil-cog"></i>
-                    Export
-                </a>
+                <form action="{{ route('import_products') }}" method="POST" enctype="multipart/form-data" class="d-flex">
+                    @csrf
+                    <input id="import_file" type="file" name="import">
+                    <button class="btn btn-success ms-5"><i class="uil uil-cog"></i>
+                        Import
+                    </button>
+                    <a class="btn btn-success ms-2" href="{{ route('export_products') }}"><i class="uil uil-cog"></i>
+                        Export
+                    </a>
+                </form>
             </div>
         </div>
         <div class="row">
@@ -180,6 +184,7 @@
                                                     Sửa
                                                 </a>
                                                 <button type="button" class="btn btn-danger" title="delete"
+                                                    data-delete-url="{{ route('delete_product', ['id' => $item->id]) }}"
                                                     data-toggle="modal" data-target="#deleteModal">
                                                     Xóa
                                                 </button>
@@ -234,6 +239,7 @@
                                                     Sửa
                                                 </a>
                                                 <button type="button" class="btn btn-danger" title="delete"
+                                                    data-delete-url="{{ route('delete_product', ['id' => $item->id]) }}"
                                                     data-toggle="modal" data-target="#deleteModal">
                                                     Xóa
                                                 </button>
