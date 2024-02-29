@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function product_manage(Product $products)
     {
-        $products = Product::all();
+        $products = Product::paginate(6);
         return view('products.product_manage')->with('products', $products);
     }
 

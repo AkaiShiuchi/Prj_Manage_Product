@@ -37,4 +37,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/product-manage/edit-product/{id}', [CrudProductController::class, 'edit_product'])->name('edit_product');
     Route::post('/handle-edit/{id}', [CrudProductController::class, 'handle_edit'])->name('handle_edit');
+
+    Route::post('/delete/{id}', [CrudProductController::class, 'delete_product'])->name('delete_product');
 });

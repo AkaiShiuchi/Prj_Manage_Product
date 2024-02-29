@@ -4,6 +4,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/edit_product.css') }}">
+    <script src="{{ asset('js/edit_product.js') }}"></script>
 @endsection
 
 @section('content')
@@ -13,29 +14,32 @@
             <a class="nav-link active ms-0">Edit</a>
         </nav>
         <hr class="mt-0 mb-4">
-        <div class="row">
-            <div class="col-xl-4">
-                <!-- Product picture card-->
-                <div class="card mb-4 mb-xl-0">
-                    <div class="card-header">Product Picture</div>
-                    <div class="card-body text-center">
-                        <!-- Product picture image-->
-                        <img class="img-account-profile rounded-circle mb-2"
-                            src="{{ asset('storage/uploads/' . $product->image) }}" alt="Product Image">
-                        <!-- Product picture help block-->
-                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                        <!-- Product picture upload button-->
-                        <label for="fileInput" class="btn btn-primary">Upload New Image</label>
-                        <input id="fileInput" type="file" style="display: none;">
+        <form action="{{ route('handle_edit', ['id' => $product->id]) }}", method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-xl-4">
+                    <!-- Product picture card-->
+                    <div class="card mb-4 mb-xl-0">
+                        <div class="card-header">Product Picture</div>
+                        <div class="card-body text-center">
+                            <!-- Product picture image-->
+                            <img class="img-account-profile rounded-circle mb-2"
+                                src="{{ asset('storage/uploads/' . $product->image) }}" id="productImage"
+                                alt="Product Image">
+                            <!-- Product picture help block-->
+                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                            <!-- Product picture upload button-->
+                            <label for="fileInput" class="btn btn-primary">Upload New Image</label>
+                            <input id="fileInput" type="file" name="image" style="display: none;"
+                                onchange="previewImage(event)">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-8">
-                <!-- Account details card-->
-                <div class="card mb-4">
-                    <div class="card-header">Product Details</div>
-                    <div class="card-body">
-                        <form action="{{ route('handle_edit', ['id' => $product->id]) }}", method="POST">
+                <div class="col-xl-8">
+                    <!-- Account details card-->
+                    <div class="card mb-4">
+                        <div class="card-header">Product Details</div>
+                        <div class="card-body">
+                            {{-- <form action="{{ route('handle_edit', ['id' => $product->id]) }}", method="POST"> --}}
                             @csrf
                             <!-- Form Group (product_name)-->
                             <div class="mb-3">
@@ -79,10 +83,11 @@
                             <!-- Save changes button-->
                             <a href="{{ route('product_manage') }}" class="btn btn-secondary">Cancel</a>
                             <button class="btn btn-primary" type="submit">Save changes</button>
-                        </form>
+                            {{-- </form> --}}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 @endsection

@@ -84,9 +84,20 @@
             <div class="col-lg-12">
                 <div class="align-items-center row">
                     <div class="col-lg-7">
-                        <div class="mb-3 mb-lg-0">
-                            <h6 class="fs-16 mb-0">Showing 1 – 8 of 11 results</h6>
-                        </div>
+                        @if (isset($products))
+                            <div class="mb-3 mb-lg-0">
+                                @if ($products->total() > 0)
+                                    @php
+                                        $from = ($products->currentPage() - 1) * $products->perPage() + 1;
+                                        $to = $from + $products->count() - 1;
+                                    @endphp
+                                    <h6 class="fs-16 mb-0">Showing {{ $from }} – {{ $to }} of
+                                        {{ $products->total() }} results</h6>
+                                @else
+                                    <h6 class="fs-16 mb-0">No results found</h6>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                     <div class="col-lg-1">
                         <div class="mt-2 mt-lg-0 text-center">
@@ -99,7 +110,6 @@
                     <div class="col-lg-4">
                         <div class="candidate-list-widgets">
                             <div class="row">
-
                                 <div class="col-lg-6">
                                     <div class="selection-widget">
                                         <select class="form-select" data-trigger="true" name="choices-single-filter-orderby"
@@ -169,9 +179,10 @@
                                                         class="uil uil-filter"></i>
                                                     Sửa
                                                 </a>
-                                                <a class="btn btn-danger" href="#"><i class="uil uil-filter"></i>
+                                                <button type="button" class="btn btn-danger" title="delete"
+                                                    data-toggle="modal" data-target="#deleteModal">
                                                     Xóa
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -222,9 +233,10 @@
                                                         class="uil uil-filter"></i>
                                                     Sửa
                                                 </a>
-                                                <a class="btn btn-danger" href="#"><i class="uil uil-filter"></i>
+                                                <button type="button" class="btn btn-danger" title="delete"
+                                                    data-toggle="modal" data-target="#deleteModal">
                                                     Xóa
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -237,25 +249,32 @@
         </div>
         <div class="row">
             <div class="mt-4 pt-2 col-lg-12">
-                <nav aria-label="Page navigation example">
-                    <div class="pagination job-pagination mb-0 justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" tabindex="-1" href="#"><i
-                                    class="mdi mdi-chevron-double-left fs-15"></i></a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="mdi mdi-chevron-double-right fs-15"></i></a>
-                        </li>
-                    </div>
-                </nav>
+                @if (isset($products))
+                    <nav aria-label="Page navigation example">
+                        <div class="pagination job-pagination mb-0 justify-content-center">
+                            <ul class="pagination">
+                                <li class="page-item disabled">
+                                    <a class="page-link" tabindex="-1" href="#"><i
+                                            class="mdi mdi-chevron-double-left fs-15"></i></a>
+                                </li>
+                                @for ($i = 1; $i <= $products->lastPage(); $i++)
+                                    <li class="page-item {{ $i === $products->currentPage() ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $products->url($i) }}">{{ $i }}</a>
+                                    </li>
+                                @endfor
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $products->nextPageUrl() }}"><i
+                                            class="mdi mdi-chevron-double-right fs-15"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                @endif
             </div>
         </div>
     </div>
 
-    @include('home.modal.add_new_product')
+    @include('products.modal.add_new_product')
+    @include('products.modal.delete_product')
     <script src="{{ asset('js/product_manage.js') }}"></script>
 @endsection

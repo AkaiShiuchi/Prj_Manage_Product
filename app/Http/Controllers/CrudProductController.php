@@ -61,7 +61,7 @@ class CrudProductController extends Controller
 
         if (empty($input)) {
             $product = new Product();
-            if ($request->has('image')) {
+            if ($request->hasFile('image')) {
 
                 $file = $request->image;
                 $path = $file->store('public/uploads');
@@ -88,29 +88,57 @@ class CrudProductController extends Controller
         return redirect()->back()->with('error', 'Sản phẩm này đã tồn tại');
     }
 
+    /**
+     * Function product detail
+     */
     public function view_detail($id)
     {
         $products = Product::findOrFail($id);
         return view('products.view_detail', compact('products'));
     }
 
+    /**
+     * function edit product
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function edit_product($id)
     {
         $product = Product::find($id);
         return view('products.edit', compact('product'));
     }
 
+    /**
+     * function handle edit product
+     *
+     * @param Request $request
+     * @param [type] $id
+     * @return void
+     */
     public function handle_edit(Request $request, $id)
     {
         $product = Product::find($id);
         if ($product) {
             $product->update([
-                'name' => $request->name,
+                'name' => $request->product_name,
                 'total' => $request->total,
                 'price' => $request->price,
                 'describe' => $request->describe,
                 'category_id' => $request->category_id,
             ]);
+
+            if ($request->hasFile('image')) {
+
+                $old_image = $product->image;
+
+                $image_path = $request->file('image')->store('public/uploads');
+                $product->update(['image' => basename($image_path)]);
+
+                if ($old_image && $old_image != $request->image) {
+                    Storage::delete('public/uploads/' . $old_image);
+                }
+            }
 
             toastr()->success('Product update successfully');
             return redirect()->route('product_manage');
@@ -118,5 +146,19 @@ class CrudProductController extends Controller
             toastr()->error('Product update failded!');
             return redirect()->back();
         }
+    }
+
+    /**
+     * funciton delete product
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function delete_product($id)
+    {
+        $product = Product::find($id);
+        $product->delete();
+        toastr()->success('Product deleted');
+        return redirect()->back();
     }
 }
