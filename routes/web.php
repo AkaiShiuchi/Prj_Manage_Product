@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CrudProductController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
@@ -43,4 +44,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/export-products', [FileCsvController::class, 'export_products'])->name('export_products');
     Route::post('import-products', [FileCsvController::class, 'import_products'])->name('import_products');
+
+    Route::get('/print-barcode/{id}', [BarcodeController::class, 'print_barcode'])->name('print_barcode');
 });

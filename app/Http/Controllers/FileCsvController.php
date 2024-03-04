@@ -27,6 +27,11 @@ class FileCsvController extends Controller
      */
     public function import_products(Request $request)
     {
+        if (!$request->hasFile('import')) {
+            toastr()->error('Please select a file before importing.');
+            return redirect()->back();
+        }
+
         Excel::import(new ImportProduct, $request->file('import'));
         toastr()->success('Import file csv successfully');
         return redirect()->back();

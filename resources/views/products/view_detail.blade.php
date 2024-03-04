@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="back">
                     <button class="btn">
-                        <a href="{{ route('product_manage') }}"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                        <a href="{{ route('product_manage') }}"><span class="glyphicon glyphicon-chevron-left">Back</span></a>
                     </button>
                 </div>
                 <div class="col-md-5 col-sm-12 col-xs-12">
@@ -180,10 +180,12 @@
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="btn-group pull-right">
-                                <button class="btn btn-white btn-default"><i class="fa fa-star"></i> Add to
-                                    wishlist</button>
-                                <button class="btn btn-white btn-default"><i class="fa fa-envelope"></i> Contact
-                                    Seller</button>
+                                <form action="{{ route('print_barcode', ['id' => $products->id]) }}" method="GET">
+                                    <button type="submit" class="btn btn-white btn-default"><i class="fa fa-print"></i>
+                                        Print Barcode
+                                    </button>
+                                </form>
+                                <div>{!! isset($qrCode) ? $qrCode : '' !!}</div>
                             </div>
                         </div>
                     </div>
