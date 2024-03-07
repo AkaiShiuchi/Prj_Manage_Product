@@ -48,3 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/print-barcode/{id}', [BarcodeController::class, 'print_barcode'])->name('print_barcode');
 });
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/purchase-manage/view-detail/{id}', [CrudProductController::class, 'view_detail'])->name('view_detail_1');
+});

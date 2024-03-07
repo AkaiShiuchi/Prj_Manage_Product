@@ -47,7 +47,10 @@ class HomeController extends Controller
 
     public function purchase_manage()
     {
-        return view('purchases.purchase_manage');
+        $user = User::all();
+        $product = Product::all();
+        $purchase = Purchase::all();
+        return view('purchases.purchase_manage', compact('user', 'product', 'purchase'));
     }
 
     /**

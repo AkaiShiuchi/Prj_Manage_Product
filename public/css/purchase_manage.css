@@ -16,3 +16,87 @@ a {
     display: block;
     background-size: 100%;
 }
+
+@media (max-width: 767.98px) { .border-sm-start-none { border-left: none !important; } }
+
+.card {
+    margin-bottom: 10px;
+}
+
+.row{
+    margin-right: -5px;
+    margin-left: -5px;
+}
+
+.col-12.col-lg-8 {
+    padding-right: 0px;
+}
+
+.card-header {
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+.be-wrapper {
+    min-height: 100%;
+    padding-top: 73px;
+}
+
+.card-body.table-responsive {
+    height: 301px;
+    background-color: white;
+}
+
+/* .col-md-12.col-lg-3.mb-4.mb-lg-0 {
+    background-color: gainsboro;
+} */
+
+.col-md-6.col-lg-3.mb-4.mb-md-0 {
+    background-color: gainsboro;
+}
+
+.below.card-body {
+    padding: 5px;
+    margin: 5px;
+}
+
+.name.d-flex.justify-content-between {
+    font-size: 22px;
+}
+
+.card-img-top {
+    height: 130px;
+}
+
+.bn {
+    background: none; 
+    border: none; 
+    outline: none;
+    display: inline-block;
+    border: none;
+    background: none;
+    outline: none;
+    padding: 0; 
+}
+
+.modal-trigger-btn {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer; /* Biến con trỏ thành dấu nhấp chuột khi di chuột qua */
+    padding: 0;
+}
+
+.modal-trigger-btn span {
+    display: inline-block;
+}
+
+.modal-content {
+    border-radius: 15px;
+}
+
+.container.py-0 {
+    padding-right: 0;
+    padding-left: 0;
+    border-radius: 15px;
+}
