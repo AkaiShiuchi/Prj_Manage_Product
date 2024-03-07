@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
 
     Route::get('/product-manage', [HomeController::class, 'product_manage'])->name('product_manage');
+    Route::get('/purchase-manage', [HomeController::class, 'purchase_manage'])->name('purchase_manage');
 });
 
 Route::group(['middleware' => 'auth'], function () {

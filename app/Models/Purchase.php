@@ -16,7 +16,7 @@ class Purchase extends Model
 
     protected $table = 'purchases';
 
-    public function purchases()
+    public function products()
     {
         return $this->belongsToMany(Product::class, 'product_purchase', 'product_id', 'purchase_id')
             ->withPivot('quantity', 'total_amount');

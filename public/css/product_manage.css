@@ -64,6 +64,25 @@ a {
     margin-top: 0.25rem!important;
 }
 
-.navbar{
+/* .navbar{
     margin-bottom: 15px;
+} */
+
+.container1 {
+    min-width: 100px;
+    max-width: 1800px;
+    padding: 25px;
+}
+
+.img {
+    line-height: 60px;
+    height: 60px;
+    width: 120px;
+    background-image: url(../img/logo-chu-p-dep-01.jpg);
+    background-repeat: no-repeat;
+    background-position: 20px center;
+    padding: 20px;
+    margin: 0;
+    display: block;
+    background-size: 100%;
 }
