@@ -100,3 +100,21 @@ a {
     padding-left: 0;
     border-radius: 15px;
 }
+
+input.for.form-check-input {
+    margin-left: 0;
+    position: relative;
+}
+
+input.for.dt-checkboxes.form-check-input {
+    margin-left: 0;
+    position: relative;
+}
+
+.m-0 {
+    font-size: 17px;
+}
+
+h6.mb-0.w-px-100.text-warning {
+    margin-top: 0;
+}

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FileCsvController;
-
+use App\Http\Controllers\PurcharseManage;
 
 Route::get('/register', [RegistrationController::class, 'display'])->name('authentication.register');
 Route::post('/handle-register', [RegistrationController::class, 'store'])->name('handle_register');
@@ -50,5 +50,6 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/purchase-manage/view-detail/{id}', [CrudProductController::class, 'view_detail'])->name('view_detail_1');
+    Route::get('/purchase-manage/view-detail/{id}', [PurcharseManage::class, 'view_detail'])->name('view_detail_1');
+    Route::get('/get-category/{id}', [PurcharseManage::class, 'get_category']);
 });

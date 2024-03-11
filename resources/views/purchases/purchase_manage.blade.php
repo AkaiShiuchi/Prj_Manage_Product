@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/purchase_manage.css') }}">
     <script src="{{ asset('js/purchase_manage.js') }}"></script>
+    <script src="{{ asset('js/view_modal.js') }}"></script>
+    <script src="{{ asset('css/view_modal.css') }}"></script>
 @endsection
 
 @section('content')
@@ -37,37 +39,82 @@
         <div class="row">
             <div class="col-12 col-lg-8">
                 <div class="card card-table">
-                    <div class="card-header">Danh mục đơn hàng</div>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Danh mục đơn hàng</span>
+                        <button class="btn btn-info ml-auto">Tạo</button>
+                    </div>
                     <div class="card-body" style="height: 260px">
-                        <table class="table">
+                        <table id="data_table" class="table">
                             <thead>
                                 <tr>
+                                    <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1"
+                                        style="width: 0px; display: none;" aria-label=""></th>
+                                    <th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1"
+                                        colspan="1" style="width: 5%;" data-col="1" aria-label=""><input
+                                            type="checkbox" class="for form-check-input"></th>
                                     <th style="width: 5%;">STT</th>
-                                    <th style="width: 20%;">Mã Sản Phẩm</th>
-                                    <th style="width: 35%;">Tên Sản Phẩm</th>
+                                    <th style="width: 15%;">Mã Đơn Hàng</th>
+                                    <th style="width: 35%;">Khách Hàng</th>
                                     <th class="number">Số Lượng</th>
-                                    <th style="width: 15%;">Đơn Giá</th>
-                                    <th class="action"></th>
+                                    <th style="width: 15%;">Trạng Thái</th>
+                                    <th class="action">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="action">
-                                        <a class="icon" href="#">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @foreach ($purchase as $pur)
+                                    <tr class="odd">
+                                        <td class="control" tabindex="0" style="display: none;"></td>
+                                        <td class="dt-checkboxes-cell"><input type="checkbox"
+                                                class="for dt-checkboxes form-check-input">
+                                        </td>
+                                        <td><span class="fw-medium"></span></td>
+                                        <td class="sorting_1"><span class="text-nowrap">{{ $pur->id }}</span></td>
+                                        <td>
+                                            <div
+                                                class="d-flex justify-content-start align-items-center order-name text-nowrap">
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="m-0">
+                                                        <a href="pages-profile-user.html" class="text-body">
+                                                            {{ $pur->user->name }}
+                                                        </a>
+                                                    </h6>
+                                                    <small class="text-muted">{{ $pur->user->email }}</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @if (isset($pur->products->quantity))
+                                                {{ $pur->products->quantity }}
+                                            @else
+                                                0
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <h6 class="mb-0 w-px-100 text-warning">
+                                                <i class="bx bxs-circle fs-tiny me-2"></i>{{ $pur->status }}
+                                            </h6>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-sm-center align-items-sm-center"><button
+                                                    class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
+                                                    data-bs-toggle="dropdown" aria-expanded="false"><i
+                                                        class="bx bx-dots-vertical-rounded"></i></button>
+                                                <div class="dropdown-menu dropdown-menu-end m-0" style=""><a
+                                                        href="app-ecommerce-order-details.html"
+                                                        class="dropdown-item">View</a><a href="javascript:0;"
+                                                        class="dropdown-item delete-record">Delete</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
+
             <div class="col-12 col-lg-4">
                 <div class="card">
                     <div class="card-header card-header-divider pb-2">Khách hàng</div>
@@ -101,12 +148,14 @@
                                                     <p class="text-white mb-0 small">x4</p>
                                                 </div>
                                             </div>
-                                            <img src="{{ asset('storage/uploads/' . $prod->image) }}" class="card-img-top"
-                                                alt="Laptop" />
+                                            <img src="{{ asset('storage/uploads/' . $prod->image) }}"
+                                                class="card-img-top" alt="Laptop" />
                                             <div class="below card-body">
                                                 <div class="d-flex justify-content-between mb-1">
                                                     <h5 class="mb-0">
-                                                        <button class="modal-trigger-btn">
+                                                        <button type="button" class="modal-trigger-btn"
+                                                            data-toggle="modal" data-target="#viewModal"
+                                                            data-product-id="{{ $prod->id }}">
                                                             <span>{{ $prod->category->name }}</span>
                                                         </button>
                                                     </h5>
