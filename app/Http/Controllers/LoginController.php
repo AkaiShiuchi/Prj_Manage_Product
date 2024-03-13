@@ -35,6 +35,9 @@ class LoginController extends Controller
 
         if (Auth::attempt($check)) {
             if (Auth::user()->status === 1) {
+                session(['user_id' => $user->id]);
+                session(['user_name' => $user->name]);
+                session(['user_email' => $user->email]);
                 return redirect()->route('home');
             }
             return redirect()->back()->with('mess', 'Tài khoản của bạn chưa được kích hoạt, 

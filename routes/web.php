@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CrudProductController;
+use App\Http\Controllers\CrudPurchaseController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -52,4 +53,8 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/purchase-manage/view-detail/{id}', [PurcharseManage::class, 'view_detail'])->name('view_detail_1');
     Route::get('/get-category/{id}', [PurcharseManage::class, 'get_category']);
+
+    Route::post('/add-purchase', [CrudPurchaseController::class, 'add_purchase'])->name('add_purchase');
+    Route::get('/detail-purchase', [CrudPurchaseController::class, 'detail_purchase'])->name('detail_purchase');
+    Route::delete('/delete-purchase/{id}', [CrudPurchaseController::class, 'delete_purchase'])->name('delete_purchase');
 });

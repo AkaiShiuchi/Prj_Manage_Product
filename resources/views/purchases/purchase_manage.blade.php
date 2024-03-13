@@ -5,9 +5,10 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/purchase_manage.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/view_modal.css') }}">
     <script src="{{ asset('js/purchase_manage.js') }}"></script>
     <script src="{{ asset('js/view_modal.js') }}"></script>
-    <script src="{{ asset('css/view_modal.css') }}"></script>
+    <script src="{{ asset('js/delete_purchase.js') }}"></script>
 @endsection
 
 @section('content')
@@ -41,17 +42,18 @@
                 <div class="card card-table">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span>Danh mục đơn hàng</span>
-                        <button class="btn btn-info ml-auto">Tạo</button>
+                        <button class="btn btn-info ml-auto" data-toggle="modal" data-target="#addNewModal">Tạo</button>
                     </div>
-                    <div class="card-body" style="height: 260px">
+                    <div class="card-body table-responsive" style="height: 260px">
                         <table id="data_table" class="table">
                             <thead>
                                 <tr>
                                     <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1"
                                         style="width: 0px; display: none;" aria-label=""></th>
                                     <th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1"
-                                        colspan="1" style="width: 5%;" data-col="1" aria-label=""><input
-                                            type="checkbox" class="for form-check-input"></th>
+                                        colspan="1" style="width: 5%;" data-col="1" aria-label="">
+                                        <input type="checkbox" id="select-all-checkbox" class="for form-check-input">
+                                    </th>
                                     <th style="width: 5%;">STT</th>
                                     <th style="width: 15%;">Mã Đơn Hàng</th>
                                     <th style="width: 35%;">Khách Hàng</th>
@@ -90,19 +92,25 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <h6 class="mb-0 w-px-100 text-warning">
+                                            <h6
+                                                class="mb-0 w-px-100 {{ $pur->status === 'pending' ? 'text-warning' : 'text-success' }}">
                                                 <i class="bx bxs-circle fs-tiny me-2"></i>{{ $pur->status }}
                                             </h6>
                                         </td>
                                         <td>
-                                            <div class="d-flex justify-content-sm-center align-items-sm-center"><button
-                                                    class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                                                    data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                        class="bx bx-dots-vertical-rounded"></i></button>
-                                                <div class="dropdown-menu dropdown-menu-end m-0" style=""><a
-                                                        href="app-ecommerce-order-details.html"
-                                                        class="dropdown-item">View</a><a href="javascript:0;"
-                                                        class="dropdown-item delete-record">Delete</a>
+                                            <div class="d-flex justify-content-sm-center align-items-sm-center">
+                                                <button class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-end m-0" style="">
+                                                    <a href="/detail-purchase" class="dropdown-item">
+                                                        View
+                                                    </a>
+                                                    <button type="button" data-toggle="modal" data-target="#deletePurchase"
+                                                        data-delete-id="{{ $pur->id }}"
+                                                        class="dropdown-item delete-record">Delete
+                                                    </button>
                                                 </div>
                                             </div>
                                         </td>
@@ -121,11 +129,11 @@
                     <div class="card-body pt-4" style="height: 246px">
                         <div class="row user-progress user-progress-small">
                             <div class="col-lg-5"><span class="title">Tên</span></div>
-                            <div class="col-lg-7 text-end">aaaaa</div>
+                            <div class="col-lg-7 text-end">{{ session('user_name') }}</div>
                         </div>
                         <div class="row user-progress user-progress-small">
                             <div class="col-lg-5"><span class="title">Email</span></div>
-                            <div class="col-lg-7 text-end">aaaaaaaaa</div>
+                            <div class="col-lg-7 text-end">{{ session('user_email') }}</div>
                         </div>
                     </div>
                 </div>
@@ -222,4 +230,6 @@
     </div>
 
     @include('purchases.modal.view_modal')
+    @include('purchases.modal.add_purchase')
+    @include('purchases.modal.delete_purchase')
 @endsection
