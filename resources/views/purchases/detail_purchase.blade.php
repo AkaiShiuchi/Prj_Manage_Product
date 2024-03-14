@@ -3,6 +3,14 @@
 @section('title', 'View Detail Purchase')
 
 @section('style')
+    <link rel="stysheet" href="{{ asset('css/detail_layout/theme-default.css') }}">
+    <link rel="stysheet" href="{{ asset('css/detail_layout/databases.checkboxes.css') }}">
+    <script src="{{ asset('js/detail_layout/bootstrap5.js') }}"></script>
+    <script src="{{ asset('js/detail_layout/bootstrap.js') }}"></script>
+    <script src="{{ asset('js/detail_layout/jquery.js') }}"></script>
+    <script src="{{ asset('js/detail_layout/popper.js') }}"></script>
+    <script src="{{ asset('js/detail_layout/detail_layout.js') }}"></script>
+    <script src="{{ asset('js/detail_layout/add_product_purchase.js') }}"></script>
 @endsection
 
 @section('content')
@@ -11,12 +19,15 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
 
             <div class="d-flex flex-column justify-content-center">
-                <h5 class="mb-1 mt-3">Order #32543 <span class="badge bg-label-success me-2 ms-2">Paid</span> <span
-                        class="badge bg-label-info">Ready to Pickup</span></h5>
-                <p class="text-body">Aug 17, <span id="orderYear">2024</span>, 5:48 (ET)</p>
+                @if ($purchase)
+                    <h5 class="mb-1 mt-3">Order {{ $purchase->id }}
+                        <span class="badge bg-label-success me-2 ms-2">{{ $purchase->status }}</span>
+                        <span class="badge bg-label-info">Ready to Pickup</span>
+                    </h5>
+                @endif
             </div>
             <div class="d-flex align-content-center flex-wrap gap-2">
-                <button class="btn btn-label-danger delete-order" fdprocessedid="wppj9">Delete Order</button>
+                <a href="{{ route('purchase_manage') }}" class="btn btn-label-info">Back</a>
             </div>
         </div>
 
@@ -27,7 +38,8 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="card-title m-0">Order details</h5>
-                        <h6 class="m-0"><a href=" javascript:void(0)">Edit</a></h6>
+                        <h6 class="m-0"><button type="button" class="btn btn-link add-product-btn"
+                                data-product="{{ json_encode($prod) }}">Add</button></h6>
                     </div>
                     <div class="card-datatable table-responsive">
                         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -39,7 +51,9 @@
                                             style="width: 0px; display: none;" aria-label=""></th>
                                         <th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all"
                                             rowspan="1" colspan="1" style="width: 18px;" data-col="1"
-                                            aria-label=""><input type="checkbox" class="form-check-input"></th>
+                                            aria-label=""><input type="checkbox" class="form-check-input"
+                                                id="select-all-checkbox">
+                                        </th>
                                         <th class="w-50 sorting_disabled" rowspan="1" colspan="1"
                                             style="width: 295px;" aria-label="products">products</th>
                                         <th class="w-25 sorting_disabled" rowspan="1" colspan="1"
@@ -51,125 +65,85 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="odd">
-                                        <td class="  control" tabindex="0" style="display: none;"></td>
-                                        <td class="  dt-checkboxes-cell"><input type="checkbox"
-                                                class="dt-checkboxes form-check-input"></td>
-                                        <td class="sorting_1">
-                                            <div class="d-flex justify-content-start align-items-center text-nowrap">
-                                                <div class="avatar-wrapper">
-                                                    <div class="avatar me-2"><img
-                                                            src="../../assets/img/products/woodenchair.png"
-                                                            alt="product-Wooden Chair" class="rounded-2"></div>
+                                    @foreach ($products as $product)
+                                        <tr class="odd">
+                                            <td class="control" tabindex="0" style="display: none;"></td>
+                                            <td class="dt-checkboxes-cell">
+                                                <input type="checkbox" class="dt-checkboxes form-check-input"
+                                                    name="selected_products[]" value="{{ $product->id }}">
+                                            </td>
+                                            <td class="sorting_1">
+                                                <div class="d-flex justify-content-start align-items-center text-nowrap">
+                                                    <div class="avatar-wrapper">
+                                                        <div class="avatar me-2"><img
+                                                                src="{{ asset('storage/uploads/' . $product->image) }}"
+                                                                alt="Product Image" class="rounded-2"></div>
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <h6 class="text-body mb-0">{{ $product->name }}</h6>
+                                                        <small class="text-muted">{{ $product->category->name }}</small>
+                                                    </div>
                                                 </div>
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="text-body mb-0">Wooden Chair</h6><small
-                                                        class="text-muted">Material: Wooden</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><span>$841</span></td>
-                                        <td><span class="text-body">2</span></td>
-                                        <td>
-                                            <h6 class="mb-0">$1682</h6>
-                                        </td>
-                                    </tr>
-                                    <tr class="even">
-                                        <td class="  control" tabindex="0" style="display: none;"></td>
-                                        <td class="  dt-checkboxes-cell"><input type="checkbox"
-                                                class="dt-checkboxes form-check-input"></td>
-                                        <td class="sorting_1">
-                                            <div class="d-flex justify-content-start align-items-center text-nowrap">
-                                                <div class="avatar-wrapper">
-                                                    <div class="avatar me-2"><img
-                                                            src="../../assets/img/products/oneplus.png"
-                                                            alt="product-Oneplus 10" class="rounded-2"></div>
-                                                </div>
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="text-body mb-0">Oneplus 10</h6><small
-                                                        class="text-muted">Storage:128gb</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><span>$896</span></td>
-                                        <td><span class="text-body">3</span></td>
-                                        <td>
-                                            <h6 class="mb-0">$2688</h6>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd">
-                                        <td class="  control" tabindex="0" style="display: none;"></td>
-                                        <td class="  dt-checkboxes-cell"><input type="checkbox"
-                                                class="dt-checkboxes form-check-input"></td>
-                                        <td class="sorting_1">
-                                            <div class="d-flex justify-content-start align-items-center text-nowrap">
-                                                <div class="avatar-wrapper">
-                                                    <div class="avatar me-2"><img
-                                                            src="../../assets/img/products/nikejordan.png"
-                                                            alt="product-Nike Jordan" class="rounded-2"></div>
-                                                </div>
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="text-body mb-0">Nike Jordan</h6><small
-                                                        class="text-muted">Size:8UK</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><span>$392</span></td>
-                                        <td><span class="text-body">1</span></td>
-                                        <td>
-                                            <h6 class="mb-0">$392</h6>
-                                        </td>
-                                    </tr>
-                                    <tr class="even">
-                                        <td class="  control" tabindex="0" style="display: none;"></td>
-                                        <td class="  dt-checkboxes-cell"><input type="checkbox"
-                                                class="dt-checkboxes form-check-input"></td>
-                                        <td class="sorting_1">
-                                            <div class="d-flex justify-content-start align-items-center text-nowrap">
-                                                <div class="avatar-wrapper">
-                                                    <div class="avatar me-2"><img
-                                                            src="../../assets/img/products/facecream.png"
-                                                            alt="product-Face cream" class="rounded-2"></div>
-                                                </div>
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="text-body mb-0">Face cream</h6><small
-                                                        class="text-muted">Gender:Women</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><span>$813</span></td>
-                                        <td><span class="text-body">2</span></td>
-                                        <td>
-                                            <h6 class="mb-0">$1626</h6>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td><span>${{ $product->price }}</span></td>
+                                            <td>
+                                                <span class="text-body">{{ $product->pivot->quantity }}</span>
+                                            </td>
+                                            <td>
+                                                <h6 class="mb-0">${{ $product->pivot->total_amount }}</h6>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <div style="width: 1%;"></div>
                         </div>
-                        <div class="d-flex justify-content-end align-items-center m-3 mb-2 p-1">
+                        <div class="d-flex justify-content-between align-items-center m-3 mb-2 p-1">
+                            <div class="order-first">
+                                <button type="button" class="btn btn-link delete-product-btn"
+                                    id="delete_proPur">Delete</button>
+                            </div>
                             <div class="order-calculations">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="w-px-100">Subtotal:</span>
-                                    <span class="text-heading">$6398</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="w-px-100">Discount:</span>
-                                    <span class="text-heading mb-0">$22</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="w-px-100">Tax:</span>
-                                    <span class="text-heading">$30</span>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="w-px-100 mb-0">Total:</h6>
-                                    <h6 class="mb-0">$6450</h6>
-                                </div>
+                                @if ($sum_total)
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="w-px-100">Subtotal:</span>
+                                        <span class="text-heading">${{ $sum_total }}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="w-px-100">Discount:</span>
+                                        <span class="text-heading mb-0">$22</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="w-px-100">Tax:</span>
+                                        <span class="text-heading">$30</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="w-px-100 mb-0">Total:</h6>
+                                        <h6 class="mb-0">${{ $sum_total + 22 + 30 }}</h6>
+                                    </div>
+                                @else
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="w-px-100">Subtotal:</span>
+                                        <span class="text-heading">0</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="w-px-100">Discount:</span>
+                                        <span class="text-heading mb-0">0</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="w-px-100">Tax:</span>
+                                        <span class="text-heading">0</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="w-px-100 mb-0">Total:</h6>
+                                        <h6 class="mb-0">0</h6>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card mb-4">
+                {{-- <div class="card mb-4">
                     <div class="card-header">
                         <h5 class="card-title m-0">Shipping activity</h5>
                     </div>
@@ -242,7 +216,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="col-12 col-lg-4">
                 <div class="card mb-4">
@@ -250,30 +224,33 @@
                         <h6 class="card-title m-0">Customer details</h6>
                     </div>
                     <div class="card-body">
-                        <div class="d-flex justify-content-start align-items-center mb-4">
-                            <div class="avatar me-2">
-                                <img src="../../assets/img/avatars/1.png" alt="Avatar" class="rounded-circle">
+                        @if ($purchase && $purchase->user)
+                            <div class="d-flex justify-content-start align-items-center mb-4">
+                                <div class="avatar me-2">
+                                    <img src="" alt="Avatar" class="rounded-circle">
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <a href="" class="text-body text-nowrap">
+                                        <h6 class="mb-0">{{ $purchase->user->name }}</h6>
+                                    </a>
+                                    <small class="text-muted">Customer ID: {{ $purchase->user->id }}</small>
+                                </div>
                             </div>
-                            <div class="d-flex flex-column">
-                                <a href="app-user-view-account.html" class="text-body text-nowrap">
-                                    <h6 class="mb-0">Shamus Tuttle</h6>
-                                </a>
-                                <small class="text-muted">Customer ID: #58909</small>
+                            <div class="d-flex justify-content-start align-items-center mb-4">
+                                <span
+                                    class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i
+                                        class="bx bx-cart-alt bx-sm lh-sm"></i></span>
+                                <h6 class="text-body text-nowrap mb-0">12 Orders</h6>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-start align-items-center mb-4">
-                            <span
-                                class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i
-                                    class="bx bx-cart-alt bx-sm lh-sm"></i></span>
-                            <h6 class="text-body text-nowrap mb-0">12 Orders</h6>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <h6>Contact info</h6>
-                            <h6><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#editUser">Edit</a>
-                            </h6>
-                        </div>
-                        <p class=" mb-1">Email: Shamus889@yahoo.com</p>
-                        <p class=" mb-0">Mobile: +1 (609) 972-22-22</p>
+                            <div class="d-flex justify-content-between">
+                                <h6>Contact info</h6>
+                                <h6><a href=" javascript:void(0)" data-bs-toggle="modal"
+                                        data-bs-target="#editUser">Edit</a>
+                                </h6>
+                            </div>
+                            <p class=" mb-1">Email: {{ $purchase->user->email }}</p>
+                            <p class=" mb-0">Mobile: +1 (609) 972-22-22</p>
+                        @endif
                     </div>
                 </div>
 
@@ -306,7 +283,7 @@
         </div>
 
         <!-- Edit User Modal -->
-        <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true">
+        {{-- <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-simple modal-edit-user">
                 <div class="modal-content p-3 p-md-5">
                     <div class="modal-body">
@@ -476,11 +453,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!--/ Edit User Modal -->
 
         <!-- Add New Address Modal -->
-        <div class="modal fade" id="addNewAddress" tabindex="-1" aria-hidden="true">
+        {{-- <div class="modal fade" id="addNewAddress" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
                 <div class="modal-content p-3 p-md-5">
                     <div class="modal-body">
@@ -637,7 +614,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!--/ Add New Address Modal -->
     </div>
+
+    @include('purchases.modal.add_product_purchase')
+    @include('purchases.modal.delete_product_purchase')
 @endsection

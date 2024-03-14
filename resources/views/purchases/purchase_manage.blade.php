@@ -64,11 +64,15 @@
                             </thead>
                             <tbody>
                                 @foreach ($purchase as $pur)
+                                    <?php $sum_quantity = 0; ?>
+                                    @foreach ($pur->products as $prod)
+                                        <?php $sum_quantity += $prod->pivot->quantity; ?>
+                                    @endforeach
+
                                     <tr class="odd">
                                         <td class="control" tabindex="0" style="display: none;"></td>
                                         <td class="dt-checkboxes-cell"><input type="checkbox"
-                                                class="for dt-checkboxes form-check-input">
-                                        </td>
+                                                class="for dt-checkboxes form-check-input"></td>
                                         <td><span class="fw-medium"></span></td>
                                         <td class="sorting_1"><span class="text-nowrap">{{ $pur->id }}</span></td>
                                         <td>
@@ -85,11 +89,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            @if (isset($pur->products->quantity))
-                                                {{ $pur->products->quantity }}
-                                            @else
-                                                0
-                                            @endif
+                                            {{ $sum_quantity }}
                                         </td>
                                         <td>
                                             <h6
@@ -104,13 +104,11 @@
                                                     <i class="bx bx-dots-vertical-rounded"></i>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-end m-0" style="">
-                                                    <a href="/detail-purchase" class="dropdown-item">
-                                                        View
-                                                    </a>
+                                                    <a href="{{ route('detail_purchase', ['id' => $pur->id]) }}"
+                                                        class="dropdown-item">View</a>
                                                     <button type="button" data-toggle="modal" data-target="#deletePurchase"
                                                         data-delete-id="{{ $pur->id }}"
-                                                        class="dropdown-item delete-record">Delete
-                                                    </button>
+                                                        class="dropdown-item delete-record">Delete</button>
                                                 </div>
                                             </div>
                                         </td>

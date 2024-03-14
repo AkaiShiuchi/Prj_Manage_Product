@@ -16,3 +16,7 @@ a {
     display: block;
     background-size: 100%;
 }
+
+span.alert.alert-info {
+    font-size: 18px;
+}

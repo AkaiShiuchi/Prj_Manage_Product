@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset('fonts/Material-Design-Iconic-Font.woff2') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <script src="{{ asset('js/home.js') }}"></script>
 @endsection
 
 @section('content')
@@ -182,34 +183,80 @@
                             </div>
                             <div class="card-body table-responsive" style="height: 301px;">
                                 <table class="table table-striped table-borderless">
-                                    @if ($purchases->isEmpty())
-                                        <div class="alert alert-info">Không có đơn hàng nào tồn tại.</div>
-                                    @else
-                                        @foreach ($purchases as $item)
+                                    @foreach ($purchase as $pur)
+                                        @if ($pur->status === 'pending')
+                                            <span class="alert alert-info">Không có đơn hàng nào được bán.</span>
+                                            <?php break; ?>
+                                        @else
                                             <thead>
                                                 <tr>
-                                                    <th style="width:40%;">Product</th>
-                                                    <th class="number">Total Amount</th>
-                                                    <th style="width:20%;">Date</th>
-                                                    <th style="width:20%;">State</th>
-                                                    <th class="actions" style="width:5%;"></th>
+                                                    <th style="width: 5%;">STT</th>
+                                                    <th style="width: 15%;">Mã Đơn Hàng</th>
+                                                    <th style="width: 35%;">Khách Hàng</th>
+                                                    <th class="number">Số Lượng</th>
+                                                    <th style="width: 15%;">Trạng Thái</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="no-border-x" style="overflow-y: auto;">
-                                                <tr>
-                                                    @foreach ($product_purchase[$item->id] as $product)
-                                                        <td>{{ $product->products ? $product->products->name : 'N/A' }}
-                                                        </td>
+                                            <tbody>
+                                                @foreach ($purchase as $pur)
+                                                    <?php $sum_quantity = 0; ?>
+                                                    @foreach ($pur->products as $prod)
+                                                        <?php $sum_quantity += $prod->pivot->quantity; ?>
                                                     @endforeach
-                                                    <td class="number">{{ $item->total_amount }}</td>
-                                                    <td>{{ $item->updated_at ? $item->updated_at : 'N/A' }}</td>
-                                                    <td class="text-success">{{ $item->status }}</td>
-                                                    <td class="actions"><a class="icon" href="#"><i
-                                                                class="mdi mdi-plus-circle-o"></i></a></td>
-                                                </tr>
+
+                                                    <tr class="odd">
+                                                        <td><span class="fw-medium"></span></td>
+                                                        <td class="sorting_1"><span
+                                                                class="text-nowrap">{{ $pur->id }}</span></td>
+                                                        <td>
+                                                            <div
+                                                                class="d-flex justify-content-start align-items-center order-name text-nowrap">
+                                                                <div class="d-flex flex-column">
+                                                                    <h6 class="m-0">
+                                                                        <a href="pages-profile-user.html"
+                                                                            class="text-body">
+                                                                            {{ $pur->user->name }}
+                                                                        </a>
+                                                                    </h6>
+                                                                    <small
+                                                                        class="text-muted">{{ $pur->user->email }}</small>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            {{ $sum_quantity }}
+                                                        </td>
+                                                        <td>
+                                                            <h6
+                                                                class="mb-0 w-px-100 {{ $pur->status === 'pending' ? 'text-warning' : 'text-success' }}">
+                                                                <i
+                                                                    class="bx bxs-circle fs-tiny me-2"></i>{{ $pur->status }}
+                                                            </h6>
+                                                        </td>
+                                                        <td>
+                                                            <div
+                                                                class="d-flex justify-content-sm-center align-items-sm-center">
+                                                                <button
+                                                                    class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
+                                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-end m-0"
+                                                                    style="">
+                                                                    <a href="{{ route('detail_purchase', ['id' => $pur->id]) }}"
+                                                                        class="dropdown-item">View</a>
+                                                                    <button type="button" data-toggle="modal"
+                                                                        data-target="#deletePurchase"
+                                                                        data-delete-id="{{ $pur->id }}"
+                                                                        class="dropdown-item delete-record">Delete</button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
-                                        @endforeach
-                                    @endif
+                                        @endif
+                                    @endforeach
                                 </table>
                             </div>
                         </div>
@@ -284,16 +331,16 @@
                                             <th class="actions" style="width:5%;"></th>
                                         </tr>
                                     </thead>
-                                    @if ($purchases->isEmpty())
+                                    @if ($purchase->isEmpty())
                                         <div class="alert alert-info">Không có sản phẩm nào bán chạy.</div>
                                     @else
                                         <tbody class="no-border-x" style="overflow-y: auto;">
-                                            @foreach ($products as $item)
+                                            @foreach ($product as $item)
                                                 @php
                                                     $existsInAnyPurchase = false;
                                                 @endphp
-                                                @foreach ($purchases as $purchase)
-                                                    @foreach ($purchase->products as $product)
+                                                @foreach ($purchase as $purchas)
+                                                    @foreach ($purchas->products as $product)
                                                         @if ($product->id === $item->id)
                                                             @php
                                                                 $existsInAnyPurchase = true;
