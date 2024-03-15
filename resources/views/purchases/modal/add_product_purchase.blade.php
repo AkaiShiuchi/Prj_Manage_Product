@@ -13,7 +13,9 @@
                         <select name="product_id" id="product_id" class="form-control">
                             @if ($prod)
                                 @foreach ($prod as $pro)
-                                    <option value="{{ $pro->id }}">{{ $pro->name }}</option>
+                                    <option value="{{ $pro->id }}" data-total="{{ $pro->total }}">
+                                        {{ $pro->name }}
+                                    </option>
                                 @endforeach
                             @endif
                         </select>
@@ -21,7 +23,7 @@
                     <div class="form-group">
                         <label for="quantity">Quantity:</label>
                         <input type="number" name="quantity" id="quantity" class="form-control" min="1"
-                            value="1">
+                            placeholder="Available: 0">
                     </div>
                 </div>
                 <div class="modal-footer">

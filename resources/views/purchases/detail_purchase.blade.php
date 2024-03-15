@@ -3,12 +3,6 @@
 @section('title', 'View Detail Purchase')
 
 @section('style')
-    <link rel="stysheet" href="{{ asset('css/detail_layout/theme-default.css') }}">
-    <link rel="stysheet" href="{{ asset('css/detail_layout/databases.checkboxes.css') }}">
-    <script src="{{ asset('js/detail_layout/bootstrap5.js') }}"></script>
-    <script src="{{ asset('js/detail_layout/bootstrap.js') }}"></script>
-    <script src="{{ asset('js/detail_layout/jquery.js') }}"></script>
-    <script src="{{ asset('js/detail_layout/popper.js') }}"></script>
     <script src="{{ asset('js/detail_layout/detail_layout.js') }}"></script>
     <script src="{{ asset('js/detail_layout/add_product_purchase.js') }}"></script>
 @endsection
@@ -38,8 +32,12 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="card-title m-0">Order details</h5>
-                        <h6 class="m-0"><button type="button" class="btn btn-link add-product-btn"
-                                data-product="{{ json_encode($prod) }}">Add</button></h6>
+                        <h6 class="m-0">
+                            <button type="button" class="btn btn-link add-product-btn"
+                                data-product="{{ json_encode($prod) }}" data-bs-toggle="modal"
+                                data-bs-target="#addProductModal">Add
+                            </button>
+                        </h6>
                     </div>
                     <div class="card-datatable table-responsive">
                         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -48,11 +46,12 @@
                                 <thead>
                                     <tr>
                                         <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1"
-                                            style="width: 0px; display: none;" aria-label=""></th>
+                                            style="width: 0px; display: none;" aria-label="">
+                                        </th>
                                         <th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all"
                                             rowspan="1" colspan="1" style="width: 18px;" data-col="1"
-                                            aria-label=""><input type="checkbox" class="form-check-input"
-                                                id="select-all-checkbox">
+                                            aria-label="">
+                                            <input type="checkbox" class="form-check-input" id="select-all-checkbox">
                                         </th>
                                         <th class="w-50 sorting_disabled" rowspan="1" colspan="1"
                                             style="width: 295px;" aria-label="products">products</th>
@@ -75,9 +74,10 @@
                                             <td class="sorting_1">
                                                 <div class="d-flex justify-content-start align-items-center text-nowrap">
                                                     <div class="avatar-wrapper">
-                                                        <div class="avatar me-2"><img
-                                                                src="{{ asset('storage/uploads/' . $product->image) }}"
-                                                                alt="Product Image" class="rounded-2"></div>
+                                                        <div class="avatar me-2">
+                                                            <img src="{{ asset('storage/uploads/' . $product->image) }}"
+                                                                alt="Product Image" class="rounded-2">
+                                                        </div>
                                                     </div>
                                                     <div class="d-flex flex-column">
                                                         <h6 class="text-body mb-0">{{ $product->name }}</h6>
@@ -100,8 +100,8 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center m-3 mb-2 p-1">
                             <div class="order-first">
-                                <button type="button" class="btn btn-link delete-product-btn"
-                                    id="delete_proPur">Delete</button>
+                                <button type="button" class="btn btn-link delete-product-btn" data-bs-toggle="modal"
+                                    data-bs-target="#delete_proPur">Delete</button>
                             </div>
                             <div class="order-calculations">
                                 @if ($sum_total)

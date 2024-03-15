@@ -36,28 +36,43 @@ class CrudPurchaseController extends Controller
         $prod = Product::all();
         $product_purc = ProductPurchase::where('purchase_id', $purchase->id)->get();
 
+        foreach ($products as $pro) {
+            $pro_total = $pro->total;
+        }
+
         $sum_total = 0;
         foreach ($products as $product) {
             $sum_total += $product->pivot->total_amount;
         }
-        return view('purchases.detail_purchase', compact('purchase', 'products', 'prod', 'sum_total', 'product_purc'));
+        return view('purchases.detail_purchase', compact('purchase', 'products', 'prod', 'sum_total', 'product_purc', 'pro_total'));
     }
 
     public function add_product_to_purchase(ValidateAddProductPurchase $request, $purchase_id)
     {
         $product = Product::findOrFail($request->product_id);
 
+        if ($product->total < $request->quantity) {
+            toastr()->warning('Not enough stock for this product!');
+            return redirect()->back();
+        }
+
         $exist_product = ProductPurchase::where('purchase_id', $purchase_id)
             ->where('product_id', $request->product_id)
             ->first();
 
         if ($exist_product) {
+            $total_quantity = $exist_product->quantity + $request->quantity;
+            if ($total_quantity > $product->total) {
+                toastr()->error('The total quantity exceeds the available stock!');
+                return redirect()->back();
+            }
+
             $exist_product->update([
                 'quantity' => $exist_product->quantity + $request->quantity,
                 'total_amount' => $exist_product->total_amount + ($product->price * $request->quantity),
             ]);
         } else {
-            $product_pur = new Purchase();
+            $product_pur = new ProductPurchase();
             $product_pur->fill([
                 'product_id' => $request->product_id,
                 'purchase_id' => $purchase_id,
@@ -73,22 +88,22 @@ class CrudPurchaseController extends Controller
     public function delete_purchase($id)
     {
         $purchase = Purchase::find($id);
-        dd($purchase);
-        $purchase->delete();
-        toastr()->success('Xóa đơn hàng thành công');
+
+        $pro_pur = ProductPurchase::where('purchase_id', $id)->get();
+        if (!$pro_pur) {
+            $purchase->delete();
+        } else {
+            toastr()->warning('Please leave your order blank');
+            return redirect()->back();
+        }
+
+        toastr()->success('Delete order successfully!');
         return redirect()->back();
     }
 
-    public function delete_product_to_purchase(Request $request, $id)
+    public function delete_product_to_purchase($id)
     {
-        $productIds = $request->input('product_ids');
 
-        if (!empty($productIds)) {
-            ProductPurchase::whereIn('product_id', $productIds)->delete();
-
-            toastr()->success('Deleted Product successfully!');
-            return redirect()->route('detail_purchase');
-        }
 
         toastr()->error('Deleted Product Failed.');
         return redirect()->back();

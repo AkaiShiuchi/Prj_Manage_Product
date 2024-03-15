@@ -108,7 +108,8 @@
                                                         class="dropdown-item">View</a>
                                                     <button type="button" data-toggle="modal" data-target="#deletePurchase"
                                                         data-delete-id="{{ $pur->id }}"
-                                                        class="dropdown-item delete-record">Delete</button>
+                                                        class="dropdown-item delete-record">Delete
+                                                    </button>
                                                 </div>
                                             </div>
                                         </td>
@@ -196,19 +197,19 @@
                         <div class="card-body pt-5">
                             <div class="row user-progress user-progress-small">
                                 <div class="col-lg-5"><span class="title">Tổng tiền</span></div>
-                                <div class="col-lg-7">
+                                <div class="col-lg-7" id="total-quantity">
                                     {{-- {{ $purchase->quantity }} --}}
                                 </div>
                             </div>
                             <div class="row user-progress user-progress-small">
                                 <div class="col-lg-5"><span class="title">Chiết khấu</span></div>
-                                <div class="col-lg-7">
+                                <div class="col-lg-7" id="total-discount">
 
                                 </div>
                             </div>
                             <div class="row user-progress user-progress-small">
                                 <div class="col-lg-5"><span class="title">Khách hàng phải trả</span></div>
-                                <div class="col-lg-7">
+                                <div class="col-lg-7" id="total-amount">
 
                                 </div>
                             </div>

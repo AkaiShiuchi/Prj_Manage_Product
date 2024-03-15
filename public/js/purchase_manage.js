@@ -21,3 +21,33 @@ $(document).ready(function() {
         $('#data_table tbody input[type="checkbox"]').prop('checked', isChecked);
     });
 });
+
+//checkbox thanh toán
+$(document).ready(function() {
+    $('input[type="checkbox"]').change(function() {
+        updatePaymentForm();
+    });
+
+    function updatePaymentForm() {
+        var totalQuantity = 0;
+        var totalDiscount = 0;
+        var totalAmount = 0;
+
+        $('input[type="checkbox"]').each(function() {
+            if ($(this).is(':checked')) {
+                var row = $(this).closest('tr');
+                var quantity = parseInt(row.find('.number').text());
+                var discount = parseFloat(row.find('.discount').text());
+                var amount = parseFloat(row.find('.amount').text());
+
+                totalQuantity += quantity;
+                totalDiscount += discount;
+                totalAmount += amount;
+            }
+        });
+
+        $('#total-quantity').text(totalQuantity);
+        $('#total-discount').text(totalDiscount);
+        $('#total-amount').text(totalAmount);
+    }
+});

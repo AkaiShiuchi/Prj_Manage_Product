@@ -15,6 +15,7 @@
                         @csrf
                         @method('DELETE')
                         <h5>Do you confirm the deletion of this purchase?</h5>
+                        <input type="hidden" id="deletePurchaseId" name="deletePurchaseId" value="">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
