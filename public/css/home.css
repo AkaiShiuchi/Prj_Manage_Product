@@ -20,3 +20,17 @@ a {
 span.alert.alert-info {
     font-size: 18px;
 }
+
+h6.mb-0.w-px-100.text-success {
+    font-size: 15px;
+    margin-top: 0;
+}
+
+h6.mb-0.w-px-100.text-warning {
+    font-size: 15px;
+    margin-top: 0;
+}
+
+h6.m-0 {
+    font-size: 15px;
+}

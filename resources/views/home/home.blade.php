@@ -183,80 +183,71 @@
                             </div>
                             <div class="card-body table-responsive" style="height: 301px;">
                                 <table class="table table-striped table-borderless">
-                                    @foreach ($purchase as $pur)
-                                        @if ($pur->status === 'pending')
-                                            <span class="alert alert-info">Không có đơn hàng nào được bán.</span>
-                                            <?php break; ?>
-                                        @else
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 5%;">STT</th>
-                                                    <th style="width: 15%;">Mã Đơn Hàng</th>
-                                                    <th style="width: 35%;">Khách Hàng</th>
-                                                    <th class="number">Số Lượng</th>
-                                                    <th style="width: 15%;">Trạng Thái</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($purchase as $pur)
-                                                    <?php $sum_quantity = 0; ?>
-                                                    @foreach ($pur->products as $prod)
-                                                        <?php $sum_quantity += $prod->pivot->quantity; ?>
-                                                    @endforeach
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 5%;">STT</th>
+                                            <th style="width: 35%;">Name Product</th>
+                                            <th style="width: 15%;">Customer</th>
+                                            <th style="width: 15%;">Quantity</th>
+                                            <th style="width: 15%;">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($purchases as $pur)
+                                            <?php $sum_quantity = 0; ?>
+                                            @foreach ($pur->products as $prod)
+                                                <?php $sum_quantity += $prod->pivot->quantity; ?>
+                                            @endforeach
 
-                                                    <tr class="odd">
-                                                        <td><span class="fw-medium"></span></td>
-                                                        <td class="sorting_1"><span
-                                                                class="text-nowrap">{{ $pur->id }}</span></td>
-                                                        <td>
-                                                            <div
-                                                                class="d-flex justify-content-start align-items-center order-name text-nowrap">
-                                                                <div class="d-flex flex-column">
-                                                                    <h6 class="m-0">
-                                                                        <a href="pages-profile-user.html"
-                                                                            class="text-body">
-                                                                            {{ $pur->user->name }}
-                                                                        </a>
-                                                                    </h6>
-                                                                    <small
-                                                                        class="text-muted">{{ $pur->user->email }}</small>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            {{ $sum_quantity }}
-                                                        </td>
-                                                        <td>
-                                                            <h6
-                                                                class="mb-0 w-px-100 {{ $pur->status === 'pending' ? 'text-warning' : 'text-success' }}">
-                                                                <i
-                                                                    class="bx bxs-circle fs-tiny me-2"></i>{{ $pur->status }}
+                                            <tr class="odd" id="tr">
+                                                <td><span class="fw-medium"></span></td>
+                                                <td class="sorting_1">
+                                                    @foreach ($pur->products as $key => $product)
+                                                        {{ $product->name }}
+                                                        @if ($key < count($pur->products) - 1)
+                                                            ,
+                                                        @endif
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    <div
+                                                        class="d-flex justify-content-start align-items-center order-name text-nowrap">
+                                                        <div class="d-flex flex-column">
+                                                            <h6 class="m-0">
+                                                                {{ $pur->user->name }}
                                                             </h6>
-                                                        </td>
-                                                        <td>
-                                                            <div
-                                                                class="d-flex justify-content-sm-center align-items-sm-center">
-                                                                <button
-                                                                    class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-end m-0"
-                                                                    style="">
-                                                                    <a href="{{ route('detail_purchase', ['id' => $pur->id]) }}"
-                                                                        class="dropdown-item">View</a>
-                                                                    <button type="button" data-toggle="modal"
-                                                                        data-target="#deletePurchase"
-                                                                        data-delete-id="{{ $pur->id }}"
-                                                                        class="dropdown-item delete-record">Delete</button>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        @endif
-                                    @endforeach
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {{ $sum_quantity }}
+                                                </td>
+                                                <td>
+                                                    <h6
+                                                        class="mb-0 w-px-100 {{ $pur->status === 'pending' ? 'text-warning' : 'text-success' }}">
+                                                        <i class="bx bxs-circle fs-tiny me-2"></i>{{ $pur->status }}
+                                                    </h6>
+                                                </td>
+                                                {{-- <td>
+                                                    <div class="d-flex justify-content-sm-center align-items-sm-center">
+                                                        <button class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-end m-0" style="">
+                                                            <a href="{{ route('detail_purchase', ['id' => $pur->id]) }}"
+                                                                class="dropdown-item">View</a>
+                                                            <button type="button" data-toggle="modal"
+                                                                data-target="#deletePurchase"
+                                                                data-delete-id="{{ $pur->id }}"
+                                                                class="dropdown-item delete-record">Delete
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td> --}}
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -320,164 +311,143 @@
                                 </div>
                                 <div class="title">Top Products</div>
                             </div>
-                            <div class="card-body table-responsive" style="max-height: 270px;">
+                            <div class="card-body table-responsive" style="height: 270px;">
                                 <table class="table table-striped table-borderless">
                                     <thead>
                                         <tr>
-                                            <th style="width:40%;">Name</th>
-                                            <th class="number">Price</th>
-                                            <th style="width:20%;">Total</th>
+                                            <th style="width:5;">STT</th>
+                                            <th style="width:20%;">Name</th>
+                                            <th style="width:30%;">Describe</th>
+                                            <th style="width:20%;">Quantity Sold</th>
                                             <th style="width:20%;">Category</th>
-                                            <th class="actions" style="width:5%;"></th>
                                         </tr>
                                     </thead>
-                                    @if ($purchase->isEmpty())
-                                        <div class="alert alert-info">Không có sản phẩm nào bán chạy.</div>
-                                    @else
-                                        <tbody class="no-border-x" style="overflow-y: auto;">
-                                            @foreach ($product as $item)
-                                                @php
-                                                    $existsInAnyPurchase = false;
-                                                @endphp
-                                                @foreach ($purchase as $purchas)
-                                                    @foreach ($purchas->products as $product)
-                                                        @if ($product->id === $item->id)
-                                                            @php
-                                                                $existsInAnyPurchase = true;
-                                                                break;
-                                                            @endphp
-                                                        @endif
-                                                    @endforeach
-                                                    @if ($existsInAnyPurchase)
-                                                        <tr>
-                                                            <td>{{ $item->name }}</td>
-                                                            <td class="number">{{ $item->price }}</td>
-                                                            <td>{{ $item->total }}</td>
-                                                            <td class="text-success">{{ $item->category->name }}</td>
-                                                            <td class="actions"><a class="icon" href="#"><i
-                                                                        class="mdi mdi-plus-circle-o"></i></a></td>
-                                                        </tr>
-                                                    @break
-                                                @endif
-                                            @endforeach
+                                    <tbody class="no-border-x" style="overflow-y: auto;">
+                                        @foreach ($top_products as $top)
+                                            <tr id="tr2">
+                                                <td><span class="fw-medium"></span></td>
+                                                <td>{{ $top->name }}</td>
+                                                <td class="number">{{ $top->describe }}</td>
+                                                <td>{{ $top->total }}</td>
+                                                <td class="text-success">{{ $top->category->name }}</td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
-                                @endif
-                            </table>
-                        </div>
-                        <div class="be-spinner">
-                            <svg width="40px" height="40px" viewbox="0 0 66 66"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle class="circle" fill="none" stroke-width="4" stroke-linecap="round"
-                                    cx="33" cy="33" r="30">
-                                </circle>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-4">
-                    <div class="widget widget-calendar">
-                        <div id="calendar-widget"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-lg-6">
-                    <div class="card">
-                        <div class="card-header">Latest Activity</div>
-                        <div class="card-body">
-                            <ul class="user-timeline user-timeline-compact">
-                                <li class="latest">
-                                    <div class="user-timeline-date">Just Now</div>
-                                    <div class="user-timeline-title">Create New Page</div>
-                                    <div class="user-timeline-description">Vestibulum lectus nulla, maximus in eros
-                                        non, tristique.
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="user-timeline-date">Today - 15:35</div>
-                                    <div class="user-timeline-title">Back Up Theme</div>
-                                    <div class="user-timeline-description">Vestibulum lectus nulla, maximus in eros
-                                        non, tristique.
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="user-timeline-date">Yesterday - 10:41</div>
-                                    <div class="user-timeline-title">Changes In The Structure</div>
-                                    <div class="user-timeline-description">Vestibulum lectus nulla, maximus in eros
-                                        non, tristique.
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="user-timeline-date">Yesterday - 3:02</div>
-                                    <div class="user-timeline-title">Fix the Sidebar</div>
-                                    <div class="user-timeline-description">Vestibulum lectus nulla, maximus in eros
-                                        non, tristique.
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div class="widget be-loading">
-                        <div class="widget-head">
-                            <div class="tools">
-                                <span class="icon mdi mdi-chevron-down"></span>
-                                <span class="icon mdi mdi-sync toggle-loading"></span>
-                                <span class="icon mdi mdi-close"></span>
+                                </table>
                             </div>
-                            <div class="title">Conversions</div>
-                        </div>
-                        <div class="widget-chart-container">
-                            <div class="widget-chart-info mb-4">
-                                <div class="indicator indicator-positive float-right">
-                                    <span class="icon mdi mdi-chevron-up"></span>
-                                    <span class="number">15%</span>
-                                </div>
-                                <div class="counter counter-inline">
-                                    <div class="value">156k</div>
-                                    <div class="desc">Impressions</div>
-                                </div>
+                            <div class="be-spinner">
+                                <svg width="40px" height="40px" viewbox="0 0 66 66"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle class="circle" fill="none" stroke-width="4" stroke-linecap="round"
+                                        cx="33" cy="33" r="30">
+                                    </circle>
+                                </svg>
                             </div>
-                            <div id="map-widget" style="height: 265px;"></div>
                         </div>
-                        <div class="be-spinner">
-                            <svg width="40px" height="40px" viewbox="0 0 66 66"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <circle class="circle" fill="none" stroke-width="4" stroke-linecap="round"
-                                    cx="33" cy="33" r="30">
-                                </circle>
-                            </svg>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <div class="widget widget-calendar">
+                            <div id="calendar-widget"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <div class="card">
+                            <div class="card-header">Latest Activity</div>
+                            <div class="card-body">
+                                <ul class="user-timeline user-timeline-compact">
+                                    <li class="latest">
+                                        <div class="user-timeline-date">Just Now</div>
+                                        <div class="user-timeline-title">Create New Page</div>
+                                        <div class="user-timeline-description">Vestibulum lectus nulla, maximus in eros
+                                            non, tristique.
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="user-timeline-date">Today - 15:35</div>
+                                        <div class="user-timeline-title">Back Up Theme</div>
+                                        <div class="user-timeline-description">Vestibulum lectus nulla, maximus in eros
+                                            non, tristique.
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="user-timeline-date">Yesterday - 10:41</div>
+                                        <div class="user-timeline-title">Changes In The Structure</div>
+                                        <div class="user-timeline-description">Vestibulum lectus nulla, maximus in eros
+                                            non, tristique.
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="user-timeline-date">Yesterday - 3:02</div>
+                                        <div class="user-timeline-title">Fix the Sidebar</div>
+                                        <div class="user-timeline-description">Vestibulum lectus nulla, maximus in eros
+                                            non, tristique.
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="widget be-loading">
+                            <div class="widget-head">
+                                <div class="tools">
+                                    <span class="icon mdi mdi-chevron-down"></span>
+                                    <span class="icon mdi mdi-sync toggle-loading"></span>
+                                    <span class="icon mdi mdi-close"></span>
+                                </div>
+                                <div class="title">Conversions</div>
+                            </div>
+                            <div class="widget-chart-container">
+                                <div class="widget-chart-info mb-4">
+                                    <div class="indicator indicator-positive float-right">
+                                        <span class="icon mdi mdi-chevron-up"></span>
+                                        <span class="number">15%</span>
+                                    </div>
+                                    <div class="counter counter-inline">
+                                        <div class="value">156k</div>
+                                        <div class="desc">Impressions</div>
+                                    </div>
+                                </div>
+                                <div id="map-widget" style="height: 265px;"></div>
+                            </div>
+                            <div class="be-spinner">
+                                <svg width="40px" height="40px" viewbox="0 0 66 66"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle class="circle" fill="none" stroke-width="4" stroke-linecap="round"
+                                        cx="33" cy="33" r="30">
+                                    </circle>
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script src="{{ asset('js/jquery.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/perfect-scrollbar.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/bootstrap.bundle.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/jquery.flot.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/jquery.flot.pie.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/jquery.flot.time.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/jquery.flot.resize.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/jquery.flot.orderBars.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/curvedLines.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/jquery.flot.tooltip.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/jquery.sparkline.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/countUp.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/jquery-ui.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/jquery.vmap.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/jquery.vmap.world.js') }}" type="text/javascript"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        //-initialize the javascript
-        App.init();
-        App.dashboard();
+    <script src="{{ asset('js/jquery.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/perfect-scrollbar.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.flot.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.flot.pie.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.flot.time.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.flot.resize.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.flot.orderBars.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/curvedLines.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.flot.tooltip.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.sparkline.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/countUp.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery-ui.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.vmap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.vmap.world.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //-initialize the javascript
+            App.init();
+            App.dashboard();
 
-    });
-</script>
+        });
+    </script>
 @endsection

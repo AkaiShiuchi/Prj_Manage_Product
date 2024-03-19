@@ -23,10 +23,37 @@ class HomeController extends Controller
         $purchase_count = Purchase::count();
 
         $user = User::all();
-        $product = Product::all();
-        $purchase = Purchase::all();
+        $products = Product::all();
+        $product_quantities = [];
 
-        return view('home.home', compact('user_count', 'user', 'product', 'purchase', 'purchase_count'));
+        $purchases = Purchase::where('status', 'paid')->get();
+        foreach ($purchases as $purchase) {
+            foreach ($purchase->products as $product) {
+                $product_id = $product->id;
+                $quantity = $product->pivot->quantity;
+                if (!isset($product_quantities[$product_id])) {
+                    $product_quantities[$product_id] = 0;
+                }
+                $product_quantities[$product_id] += $quantity;
+            }
+        }
+
+        $top_products = [];
+        foreach ($product_quantities as $product_id => $quantity) {
+            if ($quantity > 10) {
+                $product = Product::find($product_id);
+                if ($product) {
+                    $product->total = $quantity;
+                    $top_products[] = $product;
+                }
+            }
+        }
+
+        usort($top_products, function ($a, $b) {
+            return $b->total - $a->total;
+        });
+
+        return view('home.home', compact('user_count', 'user', 'purchases', 'purchase_count', 'top_products'));
     }
 
     /**
