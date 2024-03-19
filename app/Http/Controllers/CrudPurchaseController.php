@@ -36,15 +36,15 @@ class CrudPurchaseController extends Controller
         $prod = Product::all();
         $product_purc = ProductPurchase::where('purchase_id', $purchase->id)->get();
 
-        foreach ($products as $pro) {
-            $pro_total = $pro->total;
-        }
+        // foreach ($products as $pro) {
+        //     $pro_total = $pro->total;
+        // }
 
         $sum_total = 0;
         foreach ($products as $product) {
             $sum_total += $product->pivot->total_amount;
         }
-        return view('purchases.detail_purchase', compact('purchase', 'products', 'prod', 'sum_total', 'product_purc', 'pro_total'));
+        return view('purchases.detail_purchase', compact('purchase', 'products', 'prod', 'sum_total', 'product_purc'));
     }
 
     public function add_product_to_purchase(ValidateAddProductPurchase $request, $purchase_id)
@@ -89,23 +89,37 @@ class CrudPurchaseController extends Controller
     {
         $purchase = Purchase::find($id);
 
-        $pro_pur = ProductPurchase::where('purchase_id', $id)->get();
+        $pro_pur = ProductPurchase::where('purchase_id', $id)->first();
         if (!$pro_pur) {
             $purchase->delete();
+            toastr()->success('Delete order successfully!');
+            return redirect()->back();
         } else {
             toastr()->warning('Please leave your order blank');
             return redirect()->back();
         }
-
-        toastr()->success('Delete order successfully!');
-        return redirect()->back();
     }
 
-    public function delete_product_to_purchase($id)
+    public function delete_product_to_purchase(Request $request, $ids)
     {
+        try {
+            $purchaseId = $request->input('purchase_id');
+            $selectedIds = explode(',', $ids);
+            // $selectedIds = $request->input('selected_products');
 
+            $deleted = ProductPurchase::where('purchase_id', $purchaseId)
+                ->whereIn('product_id', $selectedIds)
+                ->delete();
 
-        toastr()->error('Deleted Product Failed.');
+            if ($deleted) {
+                toastr()->success('Products deleted successfully.');
+            } else {
+                toastr()->error('Failed to delete products.');
+            }
+        } catch (\Exception $e) {
+            toastr()->error('An error occurred while deleting the products.');
+        }
+
         return redirect()->back();
     }
 }
