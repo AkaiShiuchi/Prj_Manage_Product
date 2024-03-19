@@ -122,4 +122,44 @@ class CrudPurchaseController extends Controller
 
         return redirect()->back();
     }
+
+    public function payment($id)
+    {
+        $purchase = Purchase::find($id);
+        $products = $purchase->products;
+
+        if ($purchase->products()->count() === 0) {
+            toastr()->warning('This purchase is empty.');
+            return redirect()->back();
+        } else {
+            if ($purchase->status === 'paid') {
+                toastr()->warning('This purchase already has been paid.');
+                return redirect()->back();
+            }
+
+            foreach ($products as $product) {
+                $availableQuantity = $product->total;
+
+                $quantityInPurchase = ProductPurchase::where('purchase_id', $purchase->id)
+                    ->where('product_id', $product->id)
+                    ->sum('quantity');
+
+                if ($quantityInPurchase > $availableQuantity) {
+                    toastr()->warning('There is not enough stock for one or more products in this purchase.');
+                    return redirect()->back();
+                } else {
+                    $product->update([
+                        'total' => $availableQuantity - $quantityInPurchase
+                    ]);
+                }
+            }
+
+            $purchase->update([
+                'status' => 'paid'
+            ]);
+
+            toastr()->success('Payment successfully');
+            return redirect()->route('purchase_manage');
+        }
+    }
 }

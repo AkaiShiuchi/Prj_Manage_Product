@@ -15,7 +15,8 @@
             <div class="d-flex flex-column justify-content-center">
                 @if ($purchase)
                     <h5 class="mb-1 mt-3">Order {{ $purchase->id }}
-                        <span class="badge bg-label-success me-2 ms-2">{{ $purchase->status }}</span>
+                        <span
+                            class="badge {{ $purchase->status === 'pending' ? 'bg-label-warning' : 'bg-label-success' }} me-2 ms-2">{{ $purchase->status }}</span>
                         <span class="badge bg-label-info">Ready to Pickup</span>
                     </h5>
                 @endif
@@ -39,109 +40,120 @@
                             </button>
                         </h6>
                     </div>
-                    <div class="card-datatable table-responsive">
-                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                            <table class="datatables-order-details table dataTable no-footer dtr-column"
-                                id="DataTables_Table_0" style="width: 799px;">
-                                <thead>
-                                    <tr>
-                                        <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1"
-                                            style="width: 0px; display: none;" aria-label="">
-                                        </th>
-                                        <th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all"
-                                            rowspan="1" colspan="1" style="width: 18px;" data-col="1"
-                                            aria-label="">
-                                            <input type="checkbox" class="form-check-input" id="select-all-checkbox">
-                                        </th>
-                                        <th class="w-50 sorting_disabled" rowspan="1" colspan="1"
-                                            style="width: 295px;" aria-label="products">products</th>
-                                        <th class="w-25 sorting_disabled" rowspan="1" colspan="1"
-                                            style="width: 123px;" aria-label="price">price</th>
-                                        <th class="w-25 sorting_disabled" rowspan="1" colspan="1"
-                                            style="width: 114px;" aria-label="qty">qty</th>
-                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 53px;"
-                                            aria-label="total">total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($products as $product)
-                                        <tr class="odd">
-                                            <td class="control" tabindex="0" style="display: none;"></td>
-                                            <td class="dt-checkboxes-cell">
-                                                <input type="checkbox" class="dt-checkboxes form-check-input"
-                                                    name="selected_products[]" value="{{ $product->id }}">
-                                            </td>
-                                            <td class="sorting_1">
-                                                <div class="d-flex justify-content-start align-items-center text-nowrap">
-                                                    <div class="avatar-wrapper">
-                                                        <div class="avatar me-2">
-                                                            <img src="{{ asset('storage/uploads/' . $product->image) }}"
-                                                                alt="Product Image" class="rounded-2">
+                    <form action="{{ route('payment', ['id' => $purchase->id]) }}" method="POST">
+                        @csrf
+                        <div class="card-datatable table-responsive">
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                <table class="datatables-order-details table dataTable no-footer dtr-column"
+                                    id="DataTables_Table_0" style="width: 799px;">
+                                    <thead>
+                                        <tr>
+                                            <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1"
+                                                style="width: 0px; display: none;" aria-label="">
+                                            </th>
+                                            <th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all"
+                                                rowspan="1" colspan="1" style="width: 18px;" data-col="1"
+                                                aria-label="">
+                                                <input type="checkbox" class="form-check-input" id="select-all-checkbox">
+                                            </th>
+                                            <th class="w-50 sorting_disabled" rowspan="1" colspan="1"
+                                                style="width: 295px;" aria-label="products">products</th>
+                                            <th class="w-25 sorting_disabled" rowspan="1" colspan="1"
+                                                style="width: 123px;" aria-label="price">price</th>
+                                            <th class="w-25 sorting_disabled" rowspan="1" colspan="1"
+                                                style="width: 114px;" aria-label="qty">qty</th>
+                                            <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 53px;"
+                                                aria-label="total">total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($products as $product)
+                                            <tr class="odd">
+                                                <td class="control" tabindex="0" style="display: none;"></td>
+                                                <td class="dt-checkboxes-cell">
+                                                    <input type="checkbox" class="dt-checkboxes form-check-input"
+                                                        name="selected_products[]" value="{{ $product->id }}">
+                                                </td>
+                                                <td class="sorting_1">
+                                                    <div
+                                                        class="d-flex justify-content-start align-items-center text-nowrap">
+                                                        <div class="avatar-wrapper">
+                                                            <div class="avatar me-2">
+                                                                <img src="{{ asset('storage/uploads/' . $product->image) }}"
+                                                                    alt="Product Image" class="rounded-2">
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex flex-column">
+                                                            <h6 class="text-body mb-0">{{ $product->name }}</h6>
+                                                            <small
+                                                                class="text-muted">{{ $product->category->name }}</small>
                                                         </div>
                                                     </div>
-                                                    <div class="d-flex flex-column">
-                                                        <h6 class="text-body mb-0">{{ $product->name }}</h6>
-                                                        <small class="text-muted">{{ $product->category->name }}</small>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><span>${{ $product->price }}</span></td>
-                                            <td>
-                                                <span class="text-body">{{ $product->pivot->quantity }}</span>
-                                            </td>
-                                            <td>
-                                                <h6 class="mb-0">${{ $product->pivot->total_amount }}</h6>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <div style="width: 1%;"></div>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center m-3 mb-2 p-1">
-                            <div class="order-first">
-                                <button type="button" class="btn btn-link delete-product-btn" data-bs-toggle="modal"
-                                    data-bs-target="#delete_proPur">Delete</button>
+                                                </td>
+                                                <td><span>${{ $product->price }}</span></td>
+                                                <td>
+                                                    <span class="text-body">{{ $product->pivot->quantity }}</span>
+                                                </td>
+                                                <td>
+                                                    <h6 class="mb-0">${{ $product->pivot->total_amount }}</h6>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div style="width: 1%;"></div>
                             </div>
-                            <div class="order-calculations">
-                                @if ($sum_total)
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="w-px-100">Subtotal:</span>
-                                        <span class="text-heading">${{ $sum_total }}</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="w-px-100">Discount:</span>
-                                        <span class="text-heading mb-0">$22</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="w-px-100">Tax:</span>
-                                        <span class="text-heading">$30</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="w-px-100 mb-0">Total:</h6>
-                                        <h6 class="mb-0">${{ $sum_total + 22 + 30 }}</h6>
-                                    </div>
-                                @else
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="w-px-100">Subtotal:</span>
-                                        <span class="text-heading">0</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="w-px-100">Discount:</span>
-                                        <span class="text-heading mb-0">0</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="w-px-100">Tax:</span>
-                                        <span class="text-heading">0</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="w-px-100 mb-0">Total:</h6>
-                                        <h6 class="mb-0">0</h6>
-                                    </div>
-                                @endif
+                            <div class="d-flex justify-content-between align-items-center m-3 mb-2 p-1">
+                                <div class="order-first">
+                                    <button type="button" class="btn btn-link delete-product-btn" data-bs-toggle="modal"
+                                        data-bs-target="#delete_proPur">Delete</button>
+                                </div>
+                                <div class="order-calculations">
+                                    @if ($sum_total)
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="w-px-100">Subtotal:</span>
+                                            <span class="text-heading">${{ $sum_total }}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="w-px-100">Discount:</span>
+                                            <span class="text-heading mb-0">$22</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="w-px-100">Tax:</span>
+                                            <span class="text-heading">$30</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <h6 class="w-px-100 mb-0">Total:</h6>
+                                            <h6 class="mb-0">${{ $sum_total + 22 + 30 }}</h6>
+                                        </div>
+                                    @else
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="w-px-100">Subtotal:</span>
+                                            <span class="text-heading">0</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="w-px-100">Discount:</span>
+                                            <span class="text-heading mb-0">0</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="w-px-100">Tax:</span>
+                                            <span class="text-heading">0</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <h6 class="w-px-100 mb-0">Total:</h6>
+                                            <h6 class="mb-0">0</h6>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center m-3 mb-2 p-1">
+                                <div></div>
+                                <div class="order-calculations">
+                                    <button class="btn btn-info">Payment</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 {{-- <div class="card mb-4">
                     <div class="card-header">
