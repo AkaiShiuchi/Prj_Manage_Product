@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class CrudPurchaseController extends Controller
 {
+    /**
+     * Hàm thêm đơn hàng mới
+     *
+     * @param Request $request
+     * @return void
+     */
     public function add_purchase(Request $request)
     {
         $input = Purchase::where('id', $request->id)->first();
@@ -29,6 +35,12 @@ class CrudPurchaseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Hàm xem chi tiết đơn hàng
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function detail_purchase($id)
     {
         $purchase = Purchase::find($id);
@@ -47,44 +59,63 @@ class CrudPurchaseController extends Controller
         return view('purchases.detail_purchase', compact('purchase', 'products', 'prod', 'sum_total', 'product_purc'));
     }
 
+    /**
+     * Hàm thêm sản phẩm vào đơn hàng
+     *
+     * @param ValidateAddProductPurchase $request
+     * @param [type] $purchase_id
+     * @return void
+     */
     public function add_product_to_purchase(ValidateAddProductPurchase $request, $purchase_id)
     {
         $product = Product::findOrFail($request->product_id);
-
-        if ($product->total < $request->quantity) {
-            toastr()->warning('Not enough stock for this product!');
+        $purchas = Purchase::find($purchase_id);
+        if ($purchas->status === 'paid') {
+            toastr()->error('This purchase has been paid.');
             return redirect()->back();
-        }
-
-        $exist_product = ProductPurchase::where('purchase_id', $purchase_id)
-            ->where('product_id', $request->product_id)
-            ->first();
-
-        if ($exist_product) {
-            $total_quantity = $exist_product->quantity + $request->quantity;
-            if ($total_quantity > $product->total) {
-                toastr()->error('The total quantity exceeds the available stock!');
+        } else {
+            if ($product->total < $request->quantity) {
+                toastr()->warning('Not enough stock for this product!');
                 return redirect()->back();
             }
 
-            $exist_product->update([
-                'quantity' => $exist_product->quantity + $request->quantity,
-                'total_amount' => $exist_product->total_amount + ($product->price * $request->quantity),
-            ]);
-        } else {
-            $product_pur = new ProductPurchase();
-            $product_pur->fill([
-                'product_id' => $request->product_id,
-                'purchase_id' => $purchase_id,
-                'quantity' => $request->quantity,
-                'total_amount' => $product->price * $request->quantity,
-            ])->save();
-        }
+            $exist_product = ProductPurchase::where('purchase_id', $purchase_id)
+                ->where('product_id', $request->product_id)
+                ->first();
 
-        toastr()->success('Product added to purchase successfully!');
-        return redirect()->back();
+            if ($exist_product) {
+                $total_quantity = $exist_product->quantity + $request->quantity;
+                if ($total_quantity > $product->total) {
+                    toastr()->error('The total quantity exceeds the available stock!');
+                    return redirect()->back();
+                }
+
+                $exist_product->update([
+                    'quantity' => $exist_product->quantity + $request->quantity,
+                    'total_amount' => $exist_product->total_amount + ($product->price * $request->quantity),
+                ]);
+            } else {
+                $product_pur = new ProductPurchase();
+                $product_pur->fill([
+                    'product_id' => $request->product_id,
+                    'purchase_id' => $purchase_id,
+                    'quantity' => $request->quantity,
+                    'total_amount' => $product->price * $request->quantity,
+                ])->save();
+            }
+
+            toastr()->success('Product added to purchase successfully!');
+            return redirect()->back();
+            // return redirect()->route('detail_purchase', ['id' => $purchase_id]);
+        }
     }
 
+    /**
+     * Hàm xóa đơn hàng
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function delete_purchase($id)
     {
         $purchase = Purchase::find($id);
@@ -100,29 +131,40 @@ class CrudPurchaseController extends Controller
         }
     }
 
-    public function delete_product_to_purchase(Request $request, $ids)
+    /**
+     * Hàm xóa sản phẩm ra khỏi đơn hàng
+     *
+     * @param Request $request
+     * @param [type] $ids
+     * @return void
+     */
+    public function delete_product_to_purchase(Request $request, $purchase_id)
     {
-        try {
-            $purchaseId = $request->input('purchase_id');
-            $selectedIds = explode(',', $ids);
-            // $selectedIds = $request->input('selected_products');
+        $purcha_id = Purchase::find($purchase_id);
+        $selected_ids = $request->input('selected_products');
 
-            $deleted = ProductPurchase::where('purchase_id', $purchaseId)
-                ->whereIn('product_id', $selectedIds)
-                ->delete();
+        if ($purcha_id->status !== 'paid') {
+            if (isset($selected_ids)) {
+                $deleted = ProductPurchase::where('purchase_id', $purchase_id)->whereIn('product_id', $selected_ids);
+                $deleted->delete();
 
-            if ($deleted) {
                 toastr()->success('Products deleted successfully.');
+                return response()->json(['message' => 'Products deleted successfully.']);
             } else {
                 toastr()->error('Failed to delete products.');
+                return response()->json(['error' => 'Failed to delete products.']);
             }
-        } catch (\Exception $e) {
-            toastr()->error('An error occurred while deleting the products.');
         }
-
-        return redirect()->back();
+        toastr()->error('This purchase has been paid.');
+        return response()->json(['error' => 'This purchase has been paid.'], 404);
     }
 
+    /**
+     * Hàm thanh toán đơn hàng
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function payment($id)
     {
         $purchase = Purchase::find($id);

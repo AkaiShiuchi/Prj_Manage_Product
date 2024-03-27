@@ -5,6 +5,7 @@
 @section('style')
     <script src="{{ asset('js/detail_layout/detail_layout.js') }}"></script>
     <script src="{{ asset('js/detail_layout/add_product_purchase.js') }}"></script>
+    <script src="{{ asset('js/detail_layout/delete_product_purchase.js') }}"></script>
 @endsection
 
 @section('content')
@@ -22,7 +23,7 @@
                 @endif
             </div>
             <div class="d-flex align-content-center flex-wrap gap-2">
-                <a href="{{ route('purchase_manage') }}" class="btn btn-label-info">Back</a>
+                <a href="{{ route('purchase_manage') }}" class="btn btn-danger">Back</a>
             </div>
         </div>
 
@@ -104,9 +105,10 @@
                                 <div style="width: 1%;"></div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center m-3 mb-2 p-1">
-                                <div class="order-first">
-                                    <button type="button" class="btn btn-link delete-product-btn" data-bs-toggle="modal"
-                                        data-bs-target="#delete_proPur">Delete</button>
+                                <div class="order-first" style="height: 109px">
+                                    <button type="button" class="btn btn-danger" id="delete_product_purchase"
+                                        data-purchase="{{ $purchase->id }}">Delete
+                                    </button>
                                 </div>
                                 <div class="order-calculations">
                                     @if ($sum_total)
@@ -631,5 +633,5 @@
     </div>
 
     @include('purchases.modal.add_product_purchase')
-    @include('purchases.modal.delete_product_purchase')
+    {{-- @include('purchases.modal.delete_product_purchase') --}}
 @endsection

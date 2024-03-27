@@ -12,7 +12,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/detail_layout/theme-default.css') }}"
         class="template-customizer-theme-css">
     <link rel="stylesheet" href="{{ asset('css/detail_layout/databases.checkboxes.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <script src="{{ asset('js/detail_layout/jquery.js') }}"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> --}}
+
     <script src="{{ asset('js/detail_layout/popper.js') }}"></script>
     <script src="{{ asset('js/detail_layout/bootstrap.js') }}"></script>
     <script src="{{ asset('js/detail_layout/bootstrap5.js') }}"></script>
