@@ -26,7 +26,7 @@
                         <a class="nav-link" href="/product-manage">Product Manage</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/purchase-manage">Purchases Manage</a>
+                        <a class="nav-link" href="/purchase-manage"><span class="nabav">Purchases Manage</span></a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

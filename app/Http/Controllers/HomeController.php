@@ -20,13 +20,13 @@ class HomeController extends Controller
     public function display()
     {
         $user_count = User::count();
-        $purchase_count = Purchase::count();
+        $purchase_count = Purchase::where('status', 'paid')->count();
 
         $user = User::all();
         $products = Product::all();
         $product_quantities = [];
 
-        $purchases = Purchase::where('status', 'paid')->get();
+        $purchases = Purchase::where('status', 'paid')->paginate(6);
         foreach ($purchases as $purchase) {
             foreach ($purchase->products as $product) {
                 $product_id = $product->id;
@@ -38,20 +38,20 @@ class HomeController extends Controller
             }
         }
 
-        $top_products = [];
+        $top_product = [];
         foreach ($product_quantities as $product_id => $quantity) {
-            if ($quantity > 10) {
-                $product = Product::find($product_id);
-                if ($product) {
-                    $product->total = $quantity;
-                    $top_products[] = $product;
-                }
+            $product = Product::find($product_id);
+            if ($product) {
+                $product->total = $quantity;
+                $top_product[] = $product;
             }
         }
 
-        usort($top_products, function ($a, $b) {
+        usort($top_product, function ($a, $b) {
             return $b->total - $a->total;
         });
+
+        $top_products = array_slice($top_product, 0, 3);
 
         return view('home.home', compact('user_count', 'user', 'purchases', 'purchase_count', 'top_products'));
     }

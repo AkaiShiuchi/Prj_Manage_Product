@@ -20,7 +20,7 @@
                         <a class="nav-link" href="/home">DashBoard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/product-manage">Product Manage</a>
+                        <a class="nav-link" href="/product-manage"><span class="nabav">Product Manage</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/purchase-manage">Purchases Manage</a>

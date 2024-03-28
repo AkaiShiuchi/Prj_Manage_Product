@@ -26,7 +26,7 @@
                         <a class="img nav-link" href="/home"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/home">DashBoard</a>
+                        <a class="nav-link" href="/home"><span class="nabav">DashBoard</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/product-manage">Product Manage</a>
@@ -181,7 +181,7 @@
                                 </div>
                                 <div class="title">Purchases</div>
                             </div>
-                            <div class="card-body table-responsive" style="height: 301px;">
+                            <div class="card-body table-responsive" style="height: 309px;">
                                 <table class="table table-striped table-borderless">
                                     <thead>
                                         <tr>
@@ -228,74 +228,85 @@
                                                         <i class="bx bxs-circle fs-tiny me-2"></i>{{ $pur->status }}
                                                     </h6>
                                                 </td>
-                                                {{-- <td>
-                                                    <div class="d-flex justify-content-sm-center align-items-sm-center">
-                                                        <button class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu dropdown-menu-end m-0" style="">
-                                                            <a href="{{ route('detail_purchase', ['id' => $pur->id]) }}"
-                                                                class="dropdown-item">View</a>
-                                                            <button type="button" data-toggle="modal"
-                                                                data-target="#deletePurchase"
-                                                                data-delete-id="{{ $pur->id }}"
-                                                                class="dropdown-item delete-record">Delete
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </td> --}}
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="pagi pn">
+                                <ul class="pagination justify-content-center">
+                                    @if ($purchases->onFirstPage())
+                                        <li class="page-item disabled">
+                                            <span class="page-link">
+                                                <i class="mdi mdi-chevron-double-left fs-15"></i>
+                                            </span>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $purchases->previousPageUrl() }}">
+                                                <i class="mdi mdi-chevron-double-left fs-15"></i>
+                                            </a>
+                                        </li>
+                                    @endif
+
+                                    @for ($page = 1; $page <= $purchases->lastPage(); $page++)
+                                        @if ($page > 0 && $page <= $purchases->lastPage())
+                                            <li
+                                                class="page-item {{ $purchases->currentPage() == $page ? 'active' : '' }}">
+                                                <a class="page-link"
+                                                    href="{{ $purchases->url($page) }}">{{ $page }}</a>
+                                            </li>
+                                        @endif
+                                    @endfor
+
+                                    @if ($purchases->hasMorePages())
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $purchases->nextPageUrl() }}">
+                                                <i class="mdi mdi-chevron-double-right fs-15"></i>
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li class="page-item disabled">
+                                            <span class="page-link">
+                                                <i class="mdi mdi-chevron-double-right fs-15"></i>
+                                            </span>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </div>
                         </div>
                     </div>
+
                     <div class="col-12 col-lg-4">
-                        <div class="card">
-                            <div class="card-header card-header-divider pb-3">Current Progress</div>
-                            <div class="card-body pt-5">
-                                <div class="row user-progress user-progress-small">
-                                    <div class="col-lg-5"><span class="title">Bootstrap Admin</span></div>
-                                    <div class="col-lg-7">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-success" style="width: 40%;"></div>
-                                        </div>
+                        <div class="widget be-loading">
+                            <div class="widget-head">
+                                <div class="tools">
+                                    <span class="icon mdi mdi-chevron-down"></span>
+                                    <span class="icon mdi mdi-sync toggle-loading"></span>
+                                    <span class="icon mdi mdi-close"></span>
+                                </div>
+                                <div class="title">Orders Sold</div>
+                            </div>
+                            <div class="widget-chart-container">
+                                <div class="widget-chart-info mb-4">
+                                    <div class="indicator indicator-positive float-right">
+                                        <span class="icon mdi mdi-chevron-up"></span>
+                                        <span class="number">{{ $purchase_count }}</span>
+                                    </div>
+                                    <div class="counter counter-inline">
+                                        <div class="value">0k</div>
+                                        <div class="desc">Impressions</div>
                                     </div>
                                 </div>
-                                <div class="row user-progress user-progress-small">
-                                    <div class="col-lg-5"><span class="title">Custom Work</span></div>
-                                    <div class="col-lg-7">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-success" style="width: 65%;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row user-progress user-progress-small">
-                                    <div class="col-lg-5"><span class="title">Clients Module</span></div>
-                                    <div class="col-lg-7">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-success" style="width: 30%;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row user-progress user-progress-small">
-                                    <div class="col-lg-5"><span class="title">Email Templates</span></div>
-                                    <div class="col-lg-7">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-success" style="width: 80%;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row user-progress user-progress-small">
-                                    <div class="col-lg-5"><span class="title">Plans Module</span></div>
-                                    <div class="col-lg-7">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-success" style="width: 45%;"></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div id="map-widget" style="height: 265px;"></div>
+                            </div>
+                            <div class="be-spinner">
+                                <svg width="40px" height="40px" viewbox="0 0 66 66"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle class="circle" fill="none" stroke-width="4" stroke-linecap="round"
+                                        cx="33" cy="33" r="30">
+                                    </circle>
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -311,7 +322,7 @@
                                 </div>
                                 <div class="title">Top Products</div>
                             </div>
-                            <div class="card-body table-responsive" style="height: 270px;">
+                            <div class="card-body table-responsive" style="height: 271px;">
                                 <table class="table table-striped table-borderless">
                                     <thead>
                                         <tr>
@@ -345,84 +356,14 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-12 col-lg-4">
                         <div class="widget widget-calendar">
                             <div id="calendar-widget"></div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 col-lg-6">
-                        <div class="card">
-                            <div class="card-header">Latest Activity</div>
-                            <div class="card-body">
-                                <ul class="user-timeline user-timeline-compact">
-                                    <li class="latest">
-                                        <div class="user-timeline-date">Just Now</div>
-                                        <div class="user-timeline-title">Create New Page</div>
-                                        <div class="user-timeline-description">Vestibulum lectus nulla, maximus in eros
-                                            non, tristique.
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="user-timeline-date">Today - 15:35</div>
-                                        <div class="user-timeline-title">Back Up Theme</div>
-                                        <div class="user-timeline-description">Vestibulum lectus nulla, maximus in eros
-                                            non, tristique.
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="user-timeline-date">Yesterday - 10:41</div>
-                                        <div class="user-timeline-title">Changes In The Structure</div>
-                                        <div class="user-timeline-description">Vestibulum lectus nulla, maximus in eros
-                                            non, tristique.
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="user-timeline-date">Yesterday - 3:02</div>
-                                        <div class="user-timeline-title">Fix the Sidebar</div>
-                                        <div class="user-timeline-description">Vestibulum lectus nulla, maximus in eros
-                                            non, tristique.
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <div class="widget be-loading">
-                            <div class="widget-head">
-                                <div class="tools">
-                                    <span class="icon mdi mdi-chevron-down"></span>
-                                    <span class="icon mdi mdi-sync toggle-loading"></span>
-                                    <span class="icon mdi mdi-close"></span>
-                                </div>
-                                <div class="title">Conversions</div>
-                            </div>
-                            <div class="widget-chart-container">
-                                <div class="widget-chart-info mb-4">
-                                    <div class="indicator indicator-positive float-right">
-                                        <span class="icon mdi mdi-chevron-up"></span>
-                                        <span class="number">15%</span>
-                                    </div>
-                                    <div class="counter counter-inline">
-                                        <div class="value">156k</div>
-                                        <div class="desc">Impressions</div>
-                                    </div>
-                                </div>
-                                <div id="map-widget" style="height: 265px;"></div>
-                            </div>
-                            <div class="be-spinner">
-                                <svg width="40px" height="40px" viewbox="0 0 66 66"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <circle class="circle" fill="none" stroke-width="4" stroke-linecap="round"
-                                        cx="33" cy="33" r="30">
-                                    </circle>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="row"></div>
             </div>
         </div>
     </div>
