@@ -14,7 +14,8 @@
             <a class="nav-link active ms-0">Edit</a>
         </nav>
         <hr class="mt-0 mb-4">
-        <form action="{{ route('handle_edit', ['id' => $product->id]) }}", method="POST" enctype="multipart/form-data">
+        <form action="{{ route('handle_edit', ['id' => $product->id]) }}" method="POST" enctype="multipart/form-data"
+            id="editProductForm">
             <div class="row">
                 <div class="col-xl-4">
                     <!-- Product picture card-->
@@ -41,11 +42,14 @@
                         <div class="card-body">
                             {{-- <form action="{{ route('handle_edit', ['id' => $product->id]) }}", method="POST"> --}}
                             @csrf
-                            <!-- Form Group (product_name)-->
+                            <!-- Form Group (name)-->
                             <div class="mb-3">
-                                <label class="small mb-1" for="product_name">Product name</label>
-                                <input class="form-control" id="product_name" type="text" name="product_name"
+                                <label class="small mb-1" for="name">Product name</label>
+                                <input class="form-control" id="name" type="text" name="name"
                                     placeholder="Enter product name" value="{{ $product->name }}">
+                                @error('name')
+                                    <div class="text-danger">*{{ $message }}</div>
+                                @enderror
                             </div>
                             <!-- Form Row-->
                             <div class="row gx-3 mb-3">
@@ -54,12 +58,18 @@
                                     <label class="small mb-1" for="total">Total available</label>
                                     <input class="form-control" id="total" type="number" name="total"
                                         placeholder="Enter your total available" value="{{ $product->total }}">
+                                    @error('total')
+                                        <div class="text-danger">*{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <!-- Form Group (Price)-->
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="price">Price</label>
                                     <input class="form-control" id="price" type="text" placeholder="Enter your price"
                                         name="price" value="{{ $product->price }}">
+                                    @error('price')
+                                        <div class="text-danger">*{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <!-- Form Group (Describe)-->
@@ -67,8 +77,10 @@
                                 <label class="small mb-1" for="describe">Description</label>
                                 <input class="form-control" id="describe" type="text" placeholder="Enter your describe"
                                     name="describe" value="{{ $product->describe }}">
+                                @error('describe')
+                                    <div class="text-danger">*{{ $message }}</div>
+                                @enderror
                             </div>
-                            <!-- Form Row-->
                             <div class="row gx-3 mb-3">
                                 <!-- Form Group (Categories)-->
                                 <div class="col-md-6">
@@ -81,10 +93,13 @@
                                 </div>
                             </div>
                             <!-- Save changes button-->
-                            <a href="{{ route('product_manage') }}" class="btn btn-secondary">Cancel</a>
-                            <button class="btn btn-primary" type="submit">Save changes</button>
-                            {{-- </form> --}}
+                            <div class=" bot mb-3">
+                                <a href="{{ route('product_manage') }}" class="btn btn-secondary">Cancel</a>
+                                <button class="btn btn-primary" type="submit">Save changes</button>
+                            </div>
                         </div>
+                        <!-- Form Row-->
+                        {{-- </form> --}}
                     </div>
                 </div>
             </div>

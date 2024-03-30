@@ -44,7 +44,7 @@
                                 <div class="col-lg-5">
                                     <div class="filler-job-form">
                                         <i class="uil uil-briefcase-alt"></i><input id="product_name" name="product_name"
-                                            placeholder="Product name... " type="search"
+                                            placeholder="Product name... " type="search" value="{{ old('product_name') }}"
                                             class="form-control filler-job-input-box form-control" style="height: 30px" />
                                     </div>
                                 </div>
@@ -53,11 +53,13 @@
                                         <i class="uil uil-location-point"></i>
                                         <select class="form-select selectForm__inner" data-trigger="true" name="category_id"
                                             id="category_id" aria-label="Default select example">
-                                            <option value="0"></option>
-                                            <option value="1">Đồ gia dụng</option>
-                                            <option value="2">Máy tính</option>
-                                            <option value="3">Phụ kiện</option>
-
+                                            <option value="0">Chọn thể loại sản phẩm</option>
+                                            <option value="1" {{ old('category_id') == 1 ? 'selected' : '' }}>Đồ gia
+                                                dụng</option>
+                                            <option value="2" {{ old('category_id') == 2 ? 'selected' : '' }}>Máy tính
+                                            </option>
+                                            <option value="3" {{ old('category_id') == 3 ? 'selected' : '' }}>Phụ kiện
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -66,6 +68,10 @@
                                         <button class="btn btn-primary" type="submit" id="search_button"><i
                                                 class="uil uil-filter"></i>
                                             Filter
+                                        </button>
+                                        <button type="button" class="btn btn-info" title="Add New" data-toggle="modal"
+                                            data-target="#addNewModal">
+                                            Thêm
                                         </button>
                                     </div>
                                 </div>
@@ -105,42 +111,6 @@
                                     @endif
                                 </div>
                             @endif
-                        </div>
-                        <div class="col-lg-1">
-                            <div class="mt-2 mt-lg-0 text-center">
-                                <button type="button" class="btn btn-info" title="Add New" data-toggle="modal"
-                                    data-target="#addNewModal">
-                                    Thêm
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="candidate-list-widgets">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="selection-widget">
-                                            <select class="form-select" data-trigger="true"
-                                                name="choices-single-filter-orderby" id="choices-single-filter-orderby"
-                                                aria-label="Default select example">
-                                                <option value="df">Default</option>
-                                                <option value="ne">Newest</option>
-                                                <option value="od">Oldest</option>
-                                                <option value="rd">Random</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="selection-widget mt-2 mt-lg-0">
-                                            <select class="form-select" data-trigger="true" name="choices-candidate-page"
-                                                id="choices-candidate-page" aria-label="Default select example">
-                                                <option value="df">All</option>
-                                                <option value="ne">8 per Page</option>
-                                                <option value="ne">12 per Page</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
 

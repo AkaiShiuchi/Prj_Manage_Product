@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ValidateAddProduct;
+use App\Http\Requests\ValidateEditProduct;
 use App\Models\Categories;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -23,24 +25,19 @@ class CrudProductController extends Controller
             $pro = $request->input('product_name');
             $cat = $request->input('category_id');
 
-            // Trường hợp: Tìm kiếm theo cả tên và thể loại
+            $query = Product::query();
+
             if ($pro && $cat) {
-                $results = Product::where('name', $pro)
-                    ->where('category_id', $cat)
-                    ->get();
+                $query->where('name', 'LIKE', $pro . '%')
+                    ->where('category_id', $cat);
+            } elseif (!$pro && $cat) {
+                $query->where('category_id', $cat);
+            } elseif ($pro && !$cat) {
+                $query->where('name', 'LIKE', $pro . '%');
             }
-            // Trường hợp: Chỉ tìm kiếm theo thể loại
-            elseif (!$pro && $cat) {
-                $results = Product::where('category_id', $cat)->get();
-            }
-            // Trường hợp: Chỉ tìm kiếm theo tên
-            elseif ($pro && !$cat) {
-                $results = Product::where('name', $pro)->get();
-            }
-            // Trường hợp: Không có thông tin tìm kiếm
-            else {
-                $results = null;
-            }
+
+            $results = $query->get();
+            session()->flashInput($request->input());
             return view('products.product_manage', compact('results'));
         } else {
             $products = Product::all();
@@ -48,16 +45,15 @@ class CrudProductController extends Controller
         }
     }
 
-
     /**
      * Hàm thêm sản phẩm mới
      *
      * @param Request $request
      * @return void
      */
-    public function add_product(Request $request)
+    public function add_product(ValidateAddProduct $request)
     {
-        $input = DB::table('products')->where('id', $request->id)->first();
+        $input = DB::table('products')->where('name', $request->name)->first();
 
         if (empty($input)) {
             $product = new Product();
@@ -69,9 +65,8 @@ class CrudProductController extends Controller
                 // dd($url);
 
                 $product->fill([
-                    'id' => $request->id,
                     'name' => $request->name,
-                    'describe' => $request->description,
+                    'describe' => $request->describe,
                     'price' => $request->price,
                     'total' => $request->total,
                     'category_id' => $request->category_id,
@@ -81,10 +76,11 @@ class CrudProductController extends Controller
                 toastr()->success('Thêm sản phẩm mới thành công');
                 return redirect()->route('product_manage');
             }
+            session()->flashInput($request->input());
             toastr()->warning('Vui lòng chọn ảnh cho sản phẩm');
             return redirect()->back();
         }
-
+        session()->flashInput($request->input());
         return redirect()->back()->with('error', 'Sản phẩm này đã tồn tại');
     }
 
@@ -116,12 +112,12 @@ class CrudProductController extends Controller
      * @param [type] $id
      * @return void
      */
-    public function handle_edit(Request $request, $id)
+    public function handle_edit(ValidateEditProduct $request, $id)
     {
         $product = Product::find($id);
         if ($product) {
             $product->update([
-                'name' => $request->product_name,
+                'name' => $request->name,
                 'total' => $request->total,
                 'price' => $request->price,
                 'describe' => $request->describe,

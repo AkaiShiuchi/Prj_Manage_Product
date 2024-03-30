@@ -7,65 +7,56 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('add_product') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('add_product') }}" method="POST" enctype="multipart/form-data" id="addProductForm">
                 <div class="modal-body">
                     @csrf
-                    @if (session('message'))
-                        <div class="alert alert-danger" role="alert">
-                            <strong>{{ session('message') }}</strong>
-                        </div>
-                    @endif
-
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    @if (session('error'))
-                        <div class="alert alert-danger"><small>{{ session('error') }}</small></div>
-                    @endif
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label for="id">Product ID:</label>
-                                <input type="text" class="form-control" id="id" name="id">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="description">Description:</label>
-                                <input type="text" class="form-control" id="description" name="description">
+                                <label for="name">Product Name:</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    value="{{ old('name') }}">
+                                @error('name')
+                                    <div class="text-danger">*{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Product Name:</label>
-                                <input type="text" class="form-control" id="name" name="name">
+                                <label for="describe">Description:</label>
+                                <input type="text" class="form-control" id="describe" name="describe"
+                                    value="{{ old('describe') }}">
+                                @error('describe')
+                                    <div class="text-danger">*{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="price">Price:</label>
-                                <input type="text" class="form-control" id="price" name="price">
+                                <input type="text" class="form-control" id="price" name="price"
+                                    value="{{ old('price') }}">
+                                @error('price')
+                                    <div class="text-danger">*{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="total">Total:</label>
-                                <input type="number" class="form-control" id="total" name="total">
+                                <input type="text" class="form-control" id="total" name="total"
+                                    value="{{ old('total') }}">
+                                @error('total')
+                                    <div class="text-danger">*{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <label for="category">Category:</label>
                                 <select class="form-control" id="category" name="category_id">
@@ -80,11 +71,14 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="image">Image:</label>
-                                <input type="file" class="form-control" id="image" name="image">
+                                <input type="file" class="form-control" id="image" name="image"
+                                    value="{{ old('image') }}">
+                                @error('image')
+                                    <div class="text-danger">*{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="modal-footer">

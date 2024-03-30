@@ -26,8 +26,9 @@ class HomeController extends Controller
         $products = Product::all();
         $product_quantities = [];
 
+        $purchas = Purchase::where('status', 'paid')->get();
         $purchases = Purchase::where('status', 'paid')->paginate(6);
-        foreach ($purchases as $purchase) {
+        foreach ($purchas as $purchase) {
             foreach ($purchase->products as $product) {
                 $product_id = $product->id;
                 $quantity = $product->pivot->quantity;
