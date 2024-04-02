@@ -1,7 +1,41 @@
-.img {
-    border-radius: 15px;
+button.close {
+    border: none;
+    height: 25px;
+    width: 25px;
+    margin-bottom: 8px;
 }
 
-.view {
-    font-size: 20px;
+button.close:hover {
+    background-color: #f44336;
+    color: white;
+}
+
+h5#addNewModalLabel {
+    color: white;
+    margin-bottom: 5px;
+}
+
+.content {
+    padding-bottom: 15px;
+}
+
+.modal-dialog.modal-lg.modal-dialog-centered {
+    width: 40rem;
+}
+
+button.dropdown-item.delete-record {
+    font-size: 16px;
+}
+
+i.fas.fa-circle {
+    font-size: 10px;
+}
+
+h5#deletePurchaseLabel {
+    color: white;
+}
+
+.modal-header.bg-primary.text-white {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }

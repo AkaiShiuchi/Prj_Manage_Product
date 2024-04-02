@@ -74,8 +74,9 @@ class HomeController extends Controller
         $user = User::all();
         $product = Product::all();
         $purchase = Purchase::all();
+        $purchases = Purchase::latest()->paginate(10);
 
-        return view('purchases.purchase_manage', compact('user', 'product', 'purchase'));
+        return view('purchases.purchase_manage', compact('user', 'product', 'purchase', 'purchases'));
     }
 
     /**

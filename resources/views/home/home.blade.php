@@ -199,8 +199,14 @@
                                                 <?php $sum_quantity += $prod->pivot->quantity; ?>
                                             @endforeach
 
+                                            @php
+                                                $stt =
+                                                    ($purchases->currentPage() - 1) * $purchases->perPage() +
+                                                    $loop->index +
+                                                    1;
+                                            @endphp
                                             <tr class="odd" id="tr">
-                                                <td><span class="fw-medium"></span></td>
+                                                <td><span class="fw-medium">{{ $stt }}</span></td>
                                                 <td class="sorting_1">
                                                     @foreach ($pur->products as $key => $product)
                                                         {{ $product->name }}

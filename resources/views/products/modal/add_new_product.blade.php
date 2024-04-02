@@ -72,7 +72,9 @@
                             <div class="form-group">
                                 <label for="image">Image:</label>
                                 <input type="file" class="form-control" id="image" name="image"
-                                    value="{{ old('image') }}">
+                                    value="{{ old('image') }}" onchange="previewFile()">
+                                <img id="img" src="" height="150" alt="Image preview..."
+                                    style="display:none;">
                                 @error('image')
                                     <div class="text-danger">*{{ $message }}</div>
                                 @enderror

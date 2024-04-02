@@ -4,26 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ asset('css/purchase_manage/demo.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/purchase_manage/perfect-scrollbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/purchase_manage/typeahead.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/detail_layout/datatables.bootstrap5.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/detail_layout/responsive.bootstrap5.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/purchase_manage/buttons.bootstrap5.css') }}">
+    <script src="{{ asset('js/purchase_manage/helpers.js') }}"></script>
+
+    <script src="{{ asset('js/purchase_manage/config.js') }}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/detail_layout/core.css') }}"
+        class="template-customizer-core-css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/detail_layout/theme-default.css') }}"
+        class="template-customizer-theme-css">
+    <link rel="stylesheet" href="{{ asset('css/detail_layout/databases.checkboxes.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/purchase_manage/api.min.css') }}">
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css"
-        integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
-    <!-- Latest compiled and minified CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        href="https://fonts.googleapis.com/css2?family=Poppins%3Aital%2Cwght%400%2C400%3B0%2C500%3B0%2C700&amp;display=swap">
 
-    <!-- Latest compiled JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <script src="{{ asset('js/detail_layout/jquery.js') }}"></script>
 
-    <!-- Bootstrap modal -->
+    <script src="{{ asset('js/detail_layout/popper.js') }}"></script>
+    <script src="{{ asset('js/detail_layout/bootstrap.js') }}"></script>
+    <script src="{{ asset('js/purchase_manage/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('js/detail_layout/bootstrap5.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> --}}
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.0/css/boxicons.min.css">
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>@yield('title')</title>
     @yield('style')
 </head>

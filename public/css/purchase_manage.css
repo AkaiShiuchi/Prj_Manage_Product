@@ -128,3 +128,12 @@ h6.mb-0.w-px-100.text-success {
 .nabav {
     color: blue;
 }
+
+.borde {
+    padding-right: 10px;
+    border-right: 1px solid #d9dee3 !important;
+}
+
+.bord {
+    margin-right: 10px;
+}

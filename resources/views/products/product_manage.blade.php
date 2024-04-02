@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/product_manage.css') }}">
     <link rel="stylesheet" href="{{ asset('css/add_modal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" type="text/css">
+    <script src="{{ asset('js/product_manage/add_product_modal.js') }}"></script>
 @endsection
 
 @section('content')

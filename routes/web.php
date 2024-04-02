@@ -53,6 +53,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/purchase-manage/view-detail/{id}', [PurcharseManage::class, 'view_detail'])->name('view_detail_1');
     Route::get('/get-category/{id}', [PurcharseManage::class, 'get_category']);
+    Route::post('/search-purchase', [CrudPurchaseController::class, 'search_purchase'])->name('search_purchase');
 
     Route::post('/add-purchase', [CrudPurchaseController::class, 'add_purchase'])->name('add_purchase');
     Route::get('/detail-purchase/{id}', [CrudPurchaseController::class, 'detail_purchase'])->name('detail_purchase');

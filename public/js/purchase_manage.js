@@ -7,12 +7,12 @@ $(document).ready(function() {
 });
 
 //đánh STT đơn hàng
-$(document).ready(function() {
-    $('#data_table tr:gt(0)').each(function(index) {
-        var sttCell = $(this).find('td:eq(2)');
-        sttCell.text(index + 1);
-    });
-});
+// $(document).ready(function() {
+//     $('#data_table tr:gt(0)').each(function(index) {
+//         var sttCell = $(this).find('td:eq(0)');
+//         sttCell.text(index + 1);
+//     });
+// });
 
 //checkbox
 $(document).ready(function() {
@@ -22,32 +22,21 @@ $(document).ready(function() {
     });
 });
 
-//checkbox thanh toán
+//search 
 $(document).ready(function() {
-    $('input[type="checkbox"]').change(function() {
-        updatePaymentForm();
-    });
+    $('#search_purchase_form').on('submit', function(event) {
+        event.preventDefault();
 
-    function updatePaymentForm() {
-        var totalQuantity = 0;
-        var totalDiscount = 0;
-        var totalAmount = 0;
-
-        $('input[type="checkbox"]').each(function() {
-            if ($(this).is(':checked')) {
-                var row = $(this).closest('tr');
-                var quantity = parseInt(row.find('.number').text());
-                var discount = parseFloat(row.find('.discount').text());
-                var amount = parseFloat(row.find('.amount').text());
-
-                totalQuantity += quantity;
-                totalDiscount += discount;
-                totalAmount += amount;
+        $.ajax({
+            url: $(this).attr('action'),
+            method: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: function(response) {
+                $('#data_table').html(response);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
             }
         });
-
-        $('#total-quantity').text(totalQuantity);
-        $('#total-discount').text(totalDiscount);
-        $('#total-amount').text(totalAmount);
-    }
+    });
 });

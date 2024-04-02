@@ -11,6 +11,41 @@ use Illuminate\Http\Request;
 class CrudPurchaseController extends Controller
 {
     /**
+     * Hàm tìm kiếm theo mã đơn hàng, tên khách hàng
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function search_purchase(Request $request)
+    {
+        if ($request->has('purchase_code') || $request->has('purchase_customer')) {
+            $code = $request->input('purchase_code');
+            $customer = $request->input('purchase_customer');
+
+            $query = Purchase::query();
+
+            if ($code && $customer) {
+                $query->where('id', $code)
+                    ->whereHas('user', function ($q) use ($customer) {
+                        $q->where('name', 'LIKE', '%' . $customer . '%');
+                    });
+            } elseif (!$code && $customer) {
+                $query->whereHas('user', function ($q) use ($customer) {
+                    $q->where('name', 'LIKE', '%' . $customer . '%');
+                });
+            } elseif ($code && !$customer) {
+                $query->where('id', $code);
+            }
+
+            $results = $query->paginate(10);
+            session()->flashInput($request->input());
+            return view('purchases.purchase_table', compact('results'))->render();
+        } else {
+            return redirect()->back();
+        }
+    }
+
+    /**
      * Hàm thêm đơn hàng mới
      *
      * @param Request $request
@@ -18,7 +53,7 @@ class CrudPurchaseController extends Controller
      */
     public function add_purchase(Request $request)
     {
-        $input = Purchase::where('id', $request->id)->first();
+        // $input = Purchase::where('id', $request->id)->first();
 
         if (empty($input)) {
             $purchase = new Purchase();

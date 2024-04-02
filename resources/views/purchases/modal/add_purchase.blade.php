@@ -10,34 +10,39 @@
             <form action="{{ route('add_purchase') }}" method="POST">
                 <div class="modal-body">
                     @csrf
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="id">Purchase ID:</label>
-                                <input type="text" class="form-control" id="id" name="id">
+                    <div class="content">
+                        <div class="row">
+                            {{-- <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="id">Purchase ID:</label>
+                                    <input type="text" class="form-control" id="id" name="id">
+                                </div>
+                            </div> --}}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">User Name:</label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ session('user_name') }}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="name">User Name:</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    value="{{ session('user_name') }}">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input type="text" class="form-control" id="email" name="email"
+                                        value="{{ session('user_email') }}">
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                    value="{{ session('user_email') }}">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="status">Status:</label>
+                                    <input type="text" class="form-control" id="status" name="status"
+                                        value="pending">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="status">Status:</label>
-                            <input type="text" class="form-control" id="status" name="status">
                         </div>
                     </div>
                 </div>
