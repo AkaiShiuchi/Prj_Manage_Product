@@ -38,10 +38,9 @@ class CrudProductController extends Controller
 
             $results = $query->get();
             session()->flashInput($request->input());
-            return view('products.product_manage', compact('results'));
+            return view('products.products_table', compact('results'))->render();
         } else {
-            $products = Product::all();
-            return view('products.product_manage', compact('products'));
+            return redirect()->back();
         }
     }
 

@@ -735,13 +735,18 @@
     <script src="{{ asset('js/detail_layout/popper.js') }}"></script>
     <script src="{{ asset('js/detail_layout/bootstrap.js') }}"></script>
     <script src="{{ asset('js/purchase_manage/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('js/detail_layout/bootstrap5.js') }}"></script>
     <script src="{{ asset('js/dashboard/hammer.js') }}"></script>
     <script src="{{ asset('js/dashboard/i18n.js') }}"></script>
     <script src="{{ asset('js/dashboard/typeahead.js') }}"></script>
     <script src="{{ asset('js/dashboard/menu.js') }}"></script>
     <script src="{{ asset('js/dashboard/apexcharts.js') }}"></script>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
     @yield('style')

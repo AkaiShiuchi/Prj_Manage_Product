@@ -4,14 +4,12 @@ a {
     padding-right: 7px;
 }
 
-.img {
+img.imagess {
     line-height: 60px;
     height: 60px;
-    width: 120px;
-    background-image: url(../img/logo-chu-p-dep-01.jpg);
+    width: 70px;
     background-repeat: no-repeat;
     background-position: 20px center;
-    padding: 20px;
     margin: 0;
     display: block;
     background-size: 100%;
@@ -41,4 +39,16 @@ h6.m-0 {
 
 .pagi.pn {
     padding-bottom: 1px;
+}
+
+.card2.card-body {
+    margin-bottom: 8px;
+}
+
+i.bx.bxs-wallet {
+    font-size: 40px;
+}
+
+i.bx.bxl-paypal {
+    font-size: 40px;
 }
