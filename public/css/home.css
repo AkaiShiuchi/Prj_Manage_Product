@@ -52,3 +52,29 @@ i.bx.bxs-wallet {
 i.bx.bxl-paypal {
     font-size: 40px;
 }
+
+nav#layout-navbar {
+    position: fixed;
+    top: 0;
+    width: 79.5%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    transition: align-items .2s;
+    margin-left: 26px;
+}
+
+.content-wrapper {
+    padding-top: 75px;
+}
+
+.layout-page {
+    padding-left: 100px;
+    margin-left: 160px;
+}
+
+aside#layout-menu {
+    position: fixed;
+    height: 1005;
+    display: flex;
+}
