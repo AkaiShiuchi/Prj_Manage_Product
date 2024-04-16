@@ -1,5 +1,5 @@
 body{
-    margin-top:20px;
+    margin-top:30px;
     background:#eee;
 }
 
@@ -196,7 +196,8 @@ body{
 }
 
 .product-deatil {
-    padding: 30px 30px 50px
+    padding: 30px 30px 50px;
+    border-radius: 10px;
 }
 
 .product-deatil hr+.description-tabs {
@@ -209,7 +210,8 @@ body{
 }
 
 .product-deatil .glyphicon {
-    color: #3276b1
+    margin-left: 35px;
+    font-size: 25px;
 }
 
 .product-deatil .product-image {
@@ -352,4 +354,28 @@ body{
     font-size: 28px; /* Kích thước của biểu tượng */
     padding: 0; /* Xóa phần padding mặc định */
     background: white;
+}
+
+.container {
+    max-width: 1140px;
+}
+
+img.img-responsive {
+    border-radius: 15px;
+}
+
+strong.detail {
+    font-size: 15px;
+}
+
+p.ppp {
+    font-size: 15px;
+}
+
+a.btn.btn-success.btn-lg {
+    height: 40px;
+}
+
+i.fa.fa-print {
+    padding-right: 4px;
 }

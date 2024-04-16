@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -20,8 +21,16 @@ class BarcodeController extends Controller
         if (!$products) {
             abort(404);
         }
-        // $barcode = DNS1D::getBarcodeHTML($product->id, 'C128', 1.4, 22);
+        $total_sold = 0;
+        $purchases = Purchase::where('status', 'paid')->get();
+        foreach ($purchases as $purchase) {
+            foreach ($purchase->products as $product_item) {
+                if ($product_item->id == $id) {
+                    $total_sold += $product_item->pivot->quantity;
+                }
+            }
+        }
         $qrCode = QrCode::size(150)->generate($products->id);
-        return view('products.view_detail', compact('products', 'qrCode'));
+        return view('products.view_detail', compact('products', 'total_sold', 'qrCode'));
     }
 }

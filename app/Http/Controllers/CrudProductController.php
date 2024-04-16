@@ -6,6 +6,7 @@ use App\Http\Requests\ValidateAddProduct;
 use App\Http\Requests\ValidateEditProduct;
 use App\Models\Categories;
 use App\Models\Product;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -89,7 +90,17 @@ class CrudProductController extends Controller
     public function view_detail($id)
     {
         $products = Product::findOrFail($id);
-        return view('products.view_detail', compact('products'));
+        $total_sold = 0;
+        $purchases = Purchase::where('status', 'paid')->get();
+        foreach ($purchases as $purchase) {
+            foreach ($purchase->products as $product_item) {
+                if ($product_item->id == $id) {
+                    $total_sold += $product_item->pivot->quantity;
+                }
+            }
+        }
+
+        return view('products.view_detail', compact('products', 'total_sold'));
     }
 
     /**
