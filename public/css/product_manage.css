@@ -75,3 +75,19 @@ aside#layout-menu {
     height: 1005;
     display: flex;
 }
+
+.pp {
+    position: absolute;
+    left: 20px;
+    top: 82%;
+}
+
+div#data_table {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+button.btn.bn.btn-outline-warning {
+    height: 40px;
+    margin-top: 10px;
+}

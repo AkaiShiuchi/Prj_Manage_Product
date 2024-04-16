@@ -68,7 +68,8 @@
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="" alt="Image User" class="w-px-40 h-auto rounded-circle">
+                                        <img src="https://thumbs.dreamstime.com/b/cute-cat-avatar-vector-illustration-solid-icon-style-152373470.jpg"
+                                            alt="Image User" class="w-px-40 h-auto rounded-circle">
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -77,8 +78,8 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="" alt=""
-                                                            class="w-px-40 h-auto rounded-circle">
+                                                        <img src="https://thumbs.dreamstime.com/b/cute-cat-avatar-vector-illustration-solid-icon-style-152373470.jpg"
+                                                            alt="" class="w-px-40 h-auto rounded-circle">
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -817,7 +818,7 @@
                                         </div>
                                     </div>
                                     <!-- </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <div class="row"> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <div class="row"> -->
                                     <div class="col-12 mb-4">
                                         <div class="card">
 

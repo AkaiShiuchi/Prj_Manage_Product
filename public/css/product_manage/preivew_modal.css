@@ -1,0 +1,74 @@
+.article-listing li {
+    width: 247px;
+    /* height: 250px; */
+    margin: 20px auto;
+    list-style: none;
+}
+.image-column {
+    /* background: #cecece; */
+    width: 300px;
+    height: 160px;
+    overflow: hidden;
+    
+}
+.image-column a img {
+    position:relative;
+    left: 50%;
+    top: 50%;
+    min-height: 100%;
+    min-width: 100%;
+    border-radius: 10px;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.preivew.modal-header.text-white {
+    background-color: white;
+}
+
+button.preview.close {
+    position: absolute;
+    top: 0px;
+    right: 0;
+    border: none;
+    border-radius: 5px;
+}
+
+.preview.modal-content {
+    /* position: absolute; */
+    width: 41%;
+    /* height: 25%; */
+    left: 30%;
+    /* top: 6%; */
+}
+
+.preivew.modal-header .button.preview.close:hover {
+    background-color: white;
+}
+
+ul.article-listing {
+    padding-left: 0px;
+    margin-left: -10px;
+    margin-top: -16px;
+    margin-bottom: -7px;
+}
+
+h5#addNewModalLabel {
+    color: white;
+    margin-bottom: 5px;
+}
+
+button.close {
+    border: none;
+    height: 25px;
+    width: 25px;
+    margin-bottom: 8px;
+}
+
+h5#deleteModalLabel {
+    color: white;
+    margin-bottom: 5px;
+}

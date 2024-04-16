@@ -92,3 +92,16 @@ $(document).ready(function() {
         });
     });
 });
+
+//search product category
+$(function() {
+	$('select[multiple].multise').multiselect({
+	  columns: 3,
+	  placeholder: 'Select Product Categories',
+	  search: true,
+	  searchOptions: {
+	      'default': 'Search Category'
+	  },
+	  selectAll: true
+	});
+});

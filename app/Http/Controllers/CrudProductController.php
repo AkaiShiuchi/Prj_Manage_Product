@@ -29,9 +29,9 @@ class CrudProductController extends Controller
 
             if ($pro && $cat) {
                 $query->where('name', 'LIKE', $pro . '%')
-                    ->where('category_id', $cat);
+                    ->whereIn('category_id', $cat);
             } elseif (!$pro && $cat) {
-                $query->where('category_id', $cat);
+                $query->whereIn('category_id', $cat);
             } elseif ($pro && !$cat) {
                 $query->where('name', 'LIKE', $pro . '%');
             }

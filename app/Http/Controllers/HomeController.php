@@ -52,7 +52,7 @@ class HomeController extends Controller
             return $b->total - $a->total;
         });
 
-        $top_products = array_slice($top_product, 0, 3);
+        $top_products = array_slice($top_product, 0, 4);
 
         return view('home.home', compact('user_count', 'user', 'purchases', 'purchase_count', 'top_products'));
     }

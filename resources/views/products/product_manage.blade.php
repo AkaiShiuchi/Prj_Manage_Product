@@ -4,8 +4,12 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/product_manage.css') }}">
+    {{-- button search toggle --}}
+    <link rel="stylesheet" href="{{ asset('css/product_manage/multiselect.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/product_manage/preivew_modal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/add_modal.css') }}">
     <script src="{{ asset('js/product_manage/add_product_modal.js') }}"></script>
+    <script src="{{ asset('js/product_manage/multiselect.js') }}"></script>
 @endsection
 
 @section('content')
@@ -69,7 +73,8 @@
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="" alt="Image User" class="w-px-40 h-auto rounded-circle">
+                                        <img src="https://thumbs.dreamstime.com/b/cute-cat-avatar-vector-illustration-solid-icon-style-152373470.jpg"
+                                            alt="Image User" class="w-px-40 h-auto rounded-circle">
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -78,8 +83,8 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="" alt=""
-                                                            class="w-px-40 h-auto rounded-circle">
+                                                        <img src="https://thumbs.dreamstime.com/b/cute-cat-avatar-vector-illustration-solid-icon-style-152373470.jpg"
+                                                            alt="" class="w-px-40 h-auto rounded-circle">
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -128,9 +133,10 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4 product_category">
-                                            <select id="ProductCategory" class="form-select text-capitalize"
-                                                name="category_id" id="category_id">
-                                                <option value="0">Chọn thể loại sản phẩm</option>
+                                            <select id="ProductCategory" class="multise form-select text-capitalize"
+                                                name="category_id[]" id="category_id" multiple="multiple"
+                                                style="display:none;">
+                                                {{-- <option value="0">Chọn thể loại sản phẩm</option> --}}
                                                 <option value="1" {{ old('category_id') == 1 ? 'selected' : '' }}>Đồ
                                                     gia dụng
                                                 </option>
@@ -141,6 +147,33 @@
                                                     kiện
                                                 </option>
                                             </select>
+                                            {{-- <div id="ms-list-1" class="ms-options-wrap">
+                                                <button type="button">
+                                                    <span>Select Product Categories</span>
+                                                </button>
+                                                <div class="ms-options" style="min-height: 100px; max-height: 200px;">
+                                                    <div class="ms-search">
+                                                        <input type="text" value=""
+                                                            placeholder="Search Category">
+                                                    </div>
+                                                    <a href="#" class="ms-selectall global">Select all</a>
+                                                    <ul style="column-count: 3; column-gap: 0px;">
+                                                        <li data-search-term="alabama" class="">
+                                                            <label for="ms-opt-1" class="">
+                                                                <input type="checkbox" title="Alabama" id="ms-opt-1"
+                                                                    value="AL">Đồ gia dụng
+                                                            </label>
+                                                        </li>
+                                                        <li data-search-term="alaska" class=""><label
+                                                                for="ms-opt-2" class=""><input type="checkbox"
+                                                                    title="Alaska" id="ms-opt-2" value="AK">Máy
+                                                                tính</label></li>
+                                                        <li data-search-term="arizona" class=""><label
+                                                                for="ms-opt-3"><input type="checkbox" title="Arizona"
+                                                                    id="ms-opt-3" value="AZ">Phụ kiện</label></li>
+                                                    </ul>
+                                                </div>
+                                            </div> --}}
                                         </div>
                                         <div class="col-md-2">
                                             <button class="btn btn-primary" type="submit" id="search_button">
@@ -153,7 +186,11 @@
                             <div class="card-datatable table-responsive">
                                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                                     <div
-                                        class="card-header d-flex border-top rounded-0 flex-wrap py-md-2 justify-content-end">
+                                        class="card-header d-flex border-top rounded-0 flex-wrap py-md-2 justify-content-between">
+                                        <button class="btn bn btn-outline-warning" type="button" title="Preview"
+                                            data-toggle="modal" data-target="#preview">
+                                            <span>Preview</span>
+                                        </button>
                                         <div
                                             class="d-flex justify-content-start justify-content-md-end align-items-baseline">
                                             <div
@@ -162,7 +199,8 @@
                                                     <form action="{{ route('import_products') }}" method="POST"
                                                         enctype="multipart/form-data" class="for d-flex">
                                                         @csrf
-                                                        <input id="import_file" type="file" name="import">
+                                                        <input id="import_file" type="file" name="import"
+                                                            style="padding-top: 5px;">
                                                         <button class="btn btn-label-secondary me-3">
                                                             <i class='bx bx-import me-1'></i>Import
                                                         </button>
@@ -182,137 +220,146 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <table
-                                        class="datatables-products table border-top dataTable no-footer dtr-column collapsed"
-                                        id="products_table" aria-describedby="DataTables_Table_0_info"
-                                        style="width: 1211px;">
-                                        <thead>
-                                            <tr>
-                                                <th class="control sorting_disabled" rowspan="1" colspan="1"
-                                                    style="width: 3px;" aria-label="">stt</th>
-                                                <th class="sorting" style="width: 30px; ">id</th>
-                                                <th class="sorting sorting_asc" tabindex="0"
-                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                                    style="width: 370px;"
-                                                    aria-label="product: activate to sort column descending"
-                                                    aria-sort="ascending">product</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" style="width: 130px;"
-                                                    aria-label="category: activate to sort column ascending">category</th>
-                                                <th class="sorting_disabled" rowspan="1" colspan="1"
-                                                    style="width: 80px;" aria-label="stock">total</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" style="width: 80px;"
-                                                    aria-label="price: activate to sort column ascending">price</th>
-                                                <th class="sorting_disabled dtr-hidden" rowspan="1" colspan="1"
-                                                    style="width: 80px;" aria-label="Actions">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($products as $item)
-                                                <tr class="odd parent">
-                                                    @php
-                                                        $stt =
-                                                            ($products->currentPage() - 1) * $products->perPage() +
-                                                            $loop->index +
-                                                            1;
-                                                    @endphp
-                                                    <td class="control">{{ $stt }}</td>
-                                                    <td>{{ $item->id }}</td>
-                                                    <td class="sorting_1">
-                                                        <div
-                                                            class="d-flex justify-content-start align-items-center product-name">
-                                                            <div class="avatar-wrapper">
-                                                                <div class="avatar avatar me-2 rounded-2">
-                                                                    <img src="{{ asset('storage/uploads/' . $item->image) }}"
-                                                                        alt="Product Image"
-                                                                        class="avatar-md img-thumbnail rounded-circle" />
+                                    <div id="products_table">
+                                        <table
+                                            class="datatables-products table border-top dataTable no-footer dtr-column collapsed"
+                                            aria-describedby="DataTables_Table_0_info" style="width: 1211px;">
+                                            <thead>
+                                                <tr>
+                                                    <th class="control sorting_disabled" rowspan="1" colspan="1"
+                                                        style="width: 3px;" aria-label="">stt</th>
+                                                    <th class="sorting" style="width: 30px; ">id</th>
+                                                    <th class="sorting sorting_asc" tabindex="0"
+                                                        aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                        style="width: 370px;"
+                                                        aria-label="product: activate to sort column descending"
+                                                        aria-sort="ascending">product</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                        rowspan="1" colspan="1" style="width: 130px;"
+                                                        aria-label="category: activate to sort column ascending">category
+                                                    </th>
+                                                    <th class="sorting_disabled" rowspan="1" colspan="1"
+                                                        style="width: 80px;" aria-label="stock">total</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                        rowspan="1" colspan="1" style="width: 80px;"
+                                                        aria-label="price: activate to sort column ascending">price</th>
+                                                    <th class="sorting_disabled dtr-hidden" rowspan="1" colspan="1"
+                                                        style="width: 80px;" aria-label="Actions">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($products as $item)
+                                                    <tr class="odd parent">
+                                                        @php
+                                                            $stt =
+                                                                ($products->currentPage() - 1) * $products->perPage() +
+                                                                $loop->index +
+                                                                1;
+                                                        @endphp
+                                                        <td class="control">{{ $stt }}</td>
+                                                        <td>{{ $item->id }}</td>
+                                                        <td class="sorting_1">
+                                                            <div
+                                                                class="d-flex justify-content-start align-items-center product-name">
+                                                                <div class="avatar-wrapper">
+                                                                    <div class="avatar avatar me-2 rounded-2">
+                                                                        <a data-lightbox="display-image"
+                                                                            href="{{ asset('storage/uploads/' . $item->image) }}"
+                                                                            data-fancybox="gallery">
+                                                                            <img src="{{ asset('storage/uploads/' . $item->image) }}"
+                                                                                alt="Product Image"
+                                                                                class="avatar-md img-thumbnail rounded-circle" />
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex flex-column">
+                                                                    <h6 class="text-body text-nowrap mb-0">
+                                                                        {{ $item->name }}</h6>
+                                                                    <small
+                                                                        class="text-muted text-truncate d-none d-sm-block">{{ $item->describe }}</small>
                                                                 </div>
                                                             </div>
-                                                            <div class="d-flex flex-column">
-                                                                <h6 class="text-body text-nowrap mb-0">
-                                                                    {{ $item->name }}</h6>
-                                                                <small
-                                                                    class="text-muted text-truncate d-none d-sm-block">{{ $item->describe }}</small>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span class="text-truncate d-flex align-items-center">
-                                                            <span
-                                                                class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-info me-2">
-                                                                <i class='bx bx-laptop'></i>
-                                                            </span>{{ $item->category->name }}
-                                                        </span>
-                                                    </td>
-                                                    <td><span>{{ $item->total }}</span></td>
-                                                    <td><span>${{ $item->price }}</span></td>
-                                                    <td class="dtr-hidden">
-                                                        <div class="d-inline-block text-nowrap">
-                                                            <a class="btn btn-sm btn-icon"
-                                                                href="{{ route('edit_product', ['id' => $item->id]) }}">
-                                                                <i class="bx bx-edit"></i>
-                                                            </a>
-                                                            <button class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                                                                data-bs-toggle="dropdown">
-                                                                <i class="bx bx-dots-vertical-rounded me-2"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-end m-0">
-                                                                <a href="{{ route('view_detail', ['id' => $item->id]) }}"
-                                                                    class="dropdown-item">View</a>
-                                                                <button type="button" class="dropdown-item"
-                                                                    title="delete"
-                                                                    data-delete-url="{{ route('delete_product', ['id' => $item->id]) }}"
-                                                                    data-toggle="modal" data-target="#deleteModal">
-                                                                    Delete
+                                                        </td>
+                                                        <td>
+                                                            <span class="text-truncate d-flex align-items-center">
+                                                                <span
+                                                                    class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-info me-2">
+                                                                    <i class='bx bx-laptop'></i>
+                                                                </span>{{ $item->category->name }}
+                                                            </span>
+                                                        </td>
+                                                        <td><span>{{ $item->total }}</span></td>
+                                                        <td><span>${{ $item->price }}</span></td>
+                                                        <td class="dtr-hidden">
+                                                            <div class="d-inline-block text-nowrap">
+                                                                <a class="btn btn-sm btn-icon"
+                                                                    href="{{ route('edit_product', ['id' => $item->id]) }}">
+                                                                    <i class="bx bx-edit"></i>
+                                                                </a>
+                                                                <button
+                                                                    class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
+                                                                    data-bs-toggle="dropdown">
+                                                                    <i class="bx bx-dots-vertical-rounded me-2"></i>
                                                                 </button>
+                                                                <div class="dropdown-menu dropdown-menu-end m-0">
+                                                                    <a href="{{ route('view_detail', ['id' => $item->id]) }}"
+                                                                        class="dropdown-item">View Detail</a>
+                                                                    <button type="button" class="dropdown-item"
+                                                                        title="delete"
+                                                                        data-delete-url="{{ route('delete_product', ['id' => $item->id]) }}"
+                                                                        data-toggle="modal" data-target="#deleteModal">
+                                                                        Delete
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="row mx-2">
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
-                                                aria-live="polite">Displaying {{ $products->firstItem() }} to
-                                                {{ $products->lastItem() }} of {{ $products->total() }} entries</div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_paginate paging_simple_numbers"
-                                                id="DataTables_Table_0_paginate">
-                                                <ul class="pagination justify-content-end">
-                                                    @if ($products->currentPage() == 1)
-                                                        <li class="page-item disabled">
-                                                            <a class="page-link">Previous</a>
-                                                        </li>
-                                                    @else
-                                                        <li class="page-item">
-                                                            <a class="page-link"
-                                                                href="{{ $products->previousPageUrl() }}">Previous</a>
-                                                        </li>
-                                                    @endif
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        <div class="row mx-2">
+                                            <div class="col-sm-12 col-md-6">
+                                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
+                                                    aria-live="polite">Displaying
+                                                    {{ $products->firstItem() }} to
+                                                    {{ $products->lastItem() }} of {{ $products->total() }} products
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6">
+                                                <div class="dataTables_paginate paging_simple_numbers"
+                                                    id="DataTables_Table_0_paginate">
+                                                    <ul class="pagination justify-content-end">
+                                                        @if ($products->currentPage() == 1)
+                                                            <li class="page-item disabled">
+                                                                <a class="page-link">Previous</a>
+                                                            </li>
+                                                        @else
+                                                            <li class="page-item">
+                                                                <a class="page-link"
+                                                                    href="{{ $products->previousPageUrl() }}">Previous</a>
+                                                            </li>
+                                                        @endif
 
-                                                    @for ($page = 1; $page <= $products->lastPage(); $page++)
-                                                        <li
-                                                            class="paginate_button page-item {{ $products->currentPage() == $page ? 'active' : '' }}">
-                                                            <a href="{{ $products->url($page) }}"
-                                                                class="page-link">{{ $page }}</a>
-                                                        </li>
-                                                    @endfor
+                                                        @for ($page = 1; $page <= $products->lastPage(); $page++)
+                                                            <li
+                                                                class="paginate_button page-item {{ $products->currentPage() == $page ? 'active' : '' }}">
+                                                                <a href="{{ $products->url($page) }}"
+                                                                    class="page-link">{{ $page }}</a>
+                                                            </li>
+                                                        @endfor
 
-                                                    @if ($products->currentPage() == $products->lastPage())
-                                                        <li class="page-item disabled">
-                                                            <a class="page-link">Next</a>
-                                                        </li>
-                                                    @else
-                                                        <li class="page-item">
-                                                            <a href="{{ $products->nextPageUrl() }}"
-                                                                class="page-link">Next</a>
-                                                        </li>
-                                                    @endif
-                                                </ul>
+                                                        @if ($products->currentPage() == $products->lastPage())
+                                                            <li class="page-item disabled">
+                                                                <a class="page-link">Next</a>
+                                                            </li>
+                                                        @else
+                                                            <li class="page-item">
+                                                                <a href="{{ $products->nextPageUrl() }}"
+                                                                    class="page-link">Next</a>
+                                                            </li>
+                                                        @endif
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -332,5 +379,6 @@
     </div>
     @include('products.modal.add_new_product')
     @include('products.modal.delete_product')
+    @include('products.modal.preview')
     <script src="{{ asset('js/product_manage.js') }}"></script>
 @endsection
