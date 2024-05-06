@@ -73,9 +73,9 @@ class LoginController extends Controller
             'email.exists' => 'Email này không tồn tại'
         ]);
 
-        $token = Str::random(10);
+        $remember_token = Str::random(10);
         $user = User::where('email', $request->email)->first();
-        $user->update(['token' => $token]);
+        $user->update(['remember_token' => $remember_token]);
 
         Mail::send('authentication.check_email', compact('user'), function ($email) use ($user) {
             $email->subject('Lấy lại mật khẩu');
@@ -88,13 +88,13 @@ class LoginController extends Controller
      * display form get password
      *
      * @param User $user
-     * @param [type] $token
+     * @param [type] $remember_token
      * @return void
      */
-    public function get_pass(User $user, $token)
+    public function get_pass(User $user, $remember_token)
     {
-        if ($user->token === $token) {
-            return view('authentication.get_password', compact('user', 'token'));
+        if ($user->remember_token === $remember_token) {
+            return view('authentication.get_password', compact('user', 'remember_token'));
         }
 
         return abort(404);
@@ -104,21 +104,21 @@ class LoginController extends Controller
      * handle form get password
      *
      * @param User $user
-     * @param [type] $token
+     * @param [type] $remember_token
      * @param Request $request
      * @return void
      */
-    public function handle_get(User $user, $token, Request $request)
+    public function handle_get(User $user, $remember_token, Request $request)
     {
         $request->validate([
             'password' => 'required',
             'confirm_password' => 'required|same:password'
         ]);
 
-        if ($user->token === $token) {
+        if ($user->remember_token === $remember_token) {
             $user->update([
                 'password' => bcrypt($request->password),
-                'token' => null
+                'remember_token' => null
             ]);
             return redirect()->route('authentication.login')->with('message', 'Đặt lại mật khẩu thành công, bạn có thể đăng nhập');
         }

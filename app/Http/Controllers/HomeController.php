@@ -75,8 +75,12 @@ class HomeController extends Controller
         $product = Product::all();
         $purchase = Purchase::all();
         $purchases = Purchase::latest()->paginate(10);
+        $user_view = User::where('id', session('user_id'))->first();
+        $cus_purchase = Purchase::where('user_created_id', session('user_id'))->latest()->paginate(6);
+        $customer_purchase = Purchase::where('user_created_id', session('user_id'))
+            ->where('status', 'paid')->latest()->paginate(6);
 
-        return view('purchases.purchase_manage', compact('user', 'product', 'purchase', 'purchases'));
+        return view('purchases.purchase_manage', compact('user', 'product', 'purchase', 'purchases', 'user_view', 'cus_purchase', 'customer_purchase'));
     }
 
     /**

@@ -1,5 +1,5 @@
 @extends('products.layouts')
-
+{{-- @extends('purchases.purchase_layout') --}}
 @section('title', 'Home')
 
 @section('style')
@@ -49,6 +49,13 @@
                                     <div class="text-truncate" data-i18n="Purchase Manage">Purchase Manage</div>
                                 </a>
                             </li>
+                            @if (auth()->user()->role_id === 1)
+                                <li class="menu-item">
+                                    <a href="/user-manage" class="menu-link">
+                                        <div class="text-truncate" data-i18n="User Manage">User Manage</div>
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                 </ul>
@@ -89,7 +96,11 @@
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <span class="fw-medium d-block">{{ session('user_name') }}</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    @if (auth()->user()->role_id === 1)
+                                                        <small class="text-muted">Admin</small>
+                                                    @else
+                                                        <small class="text-muted">User</small>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </a>
@@ -199,23 +210,28 @@
                                                     <form action="{{ route('import_products') }}" method="POST"
                                                         enctype="multipart/form-data" class="for d-flex">
                                                         @csrf
-                                                        <input id="import_file" type="file" name="import"
-                                                            style="padding-top: 5px;">
-                                                        <button class="btn btn-label-secondary me-3">
-                                                            <i class='bx bx-import me-1'></i>Import
-                                                        </button>
+                                                        @if (auth()->user()->role_id === 1)
+                                                            <input id="import_file" type="file" name="import"
+                                                                style="padding-top: 5px;">
+                                                            <button class="btn btn-label-secondary me-3">
+                                                                <i class='bx bx-import me-1'></i>Import
+                                                            </button>
+                                                        @endif
                                                         <a class="btn btn-label-secondary me-3"
                                                             href="{{ route('export_products') }}">
                                                             <span><i class="bx bx-export me-1"></i>Export</span>
                                                         </a>
                                                     </form>
-                                                    <button class="btn btn-secondary add-new btn-primary" type="button"
-                                                        title="Add New" data-toggle="modal" data-target="#addNewModal">
-                                                        <span>
-                                                            <i class="bx bx-plus me-0 me-sm-1"></i>
-                                                            <span class="d-none d-sm-inline-block">Add Product</span>
-                                                        </span>
-                                                    </button>
+                                                    @if (auth()->user()->role_id === 1)
+                                                        <button class="btn btn-secondary add-new btn-primary"
+                                                            type="button" title="Add New" data-toggle="modal"
+                                                            data-target="#addNewModal">
+                                                            <span>
+                                                                <i class="bx bx-plus me-0 me-sm-1"></i>
+                                                                <span class="d-none d-sm-inline-block">Add Product</span>
+                                                            </span>
+                                                        </button>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -292,10 +308,12 @@
                                                         <td><span>${{ $item->price }}</span></td>
                                                         <td class="dtr-hidden">
                                                             <div class="d-inline-block text-nowrap">
-                                                                <a class="btn btn-sm btn-icon"
-                                                                    href="{{ route('edit_product', ['id' => $item->id]) }}">
-                                                                    <i class="bx bx-edit"></i>
-                                                                </a>
+                                                                @if (auth()->user()->role_id === 1)
+                                                                    <a class="btn btn-sm btn-icon"
+                                                                        href="{{ route('edit_product', ['id' => $item->id]) }}">
+                                                                        <i class="bx bx-edit"></i>
+                                                                    </a>
+                                                                @endif
                                                                 <button
                                                                     class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
                                                                     data-bs-toggle="dropdown">
@@ -304,12 +322,15 @@
                                                                 <div class="dropdown-menu dropdown-menu-end m-0">
                                                                     <a href="{{ route('view_detail', ['id' => $item->id]) }}"
                                                                         class="dropdown-item">View Detail</a>
-                                                                    <button type="button" class="dropdown-item"
-                                                                        title="delete"
-                                                                        data-delete-url="{{ route('delete_product', ['id' => $item->id]) }}"
-                                                                        data-toggle="modal" data-target="#deleteModal">
-                                                                        Delete
-                                                                    </button>
+                                                                    @if (auth()->user()->role_id === 1)
+                                                                        <button type="button" class="dropdown-item"
+                                                                            title="delete"
+                                                                            data-delete-url="{{ route('delete_product', ['id' => $item->id]) }}"
+                                                                            data-toggle="modal"
+                                                                            data-target="#deleteModal">
+                                                                            Delete
+                                                                        </button>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </td>

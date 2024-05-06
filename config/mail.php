@@ -41,7 +41,7 @@ return [
             'port' => 587,
             'encryption' => 'tls',
             'username' => 'kza10303@gmail.com',
-            'password' => 'myks hbmi odrt pqjr',
+            'password' => 'bjub flcf lmsc psnk',
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],

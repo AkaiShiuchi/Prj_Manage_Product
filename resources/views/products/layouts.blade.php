@@ -734,6 +734,7 @@
 
     <script src="{{ asset('js/detail_layout/popper.js') }}"></script>
     <script src="{{ asset('js/detail_layout/bootstrap.js') }}"></script>
+
     <script src="{{ asset('js/purchase_manage/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('js/detail_layout/bootstrap5.js') }}"></script>
     <script src="{{ asset('js/dashboard/hammer.js') }}"></script>

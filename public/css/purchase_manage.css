@@ -161,3 +161,12 @@ aside#layout-menu {
     height: 1005;
     display: flex;
 }
+
+.container-xxl.flex-grow-1.container-p-y {
+    padding-right: 18px;
+    padding-left: 18px;
+}
+
+div#add_button_purchase {
+    margin: 7px 0 7px 0;
+}

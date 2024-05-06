@@ -48,29 +48,29 @@ $(document).ready(function() {
             }
         }
  
-        if ($('#addProductForm').find('.is-invalid').length === 0) {
-            event.preventDefault();
-            $('.is-invalid').removeClass('is-invalid');
-            $('.invalid-feedback').remove();
+        // if ($('#addProductForm').find('.is-invalid').length === 0) {
+        //     event.preventDefault();
+        //     $('.is-invalid').removeClass('is-invalid');
+        //     $('.invalid-feedback').remove();
 
-            $.ajax({
-                url: $(this).attr('action'),
-                method: $(this).attr('method'),
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    $('#addNewModal').modal('hide');
-                    location.reload();
-                },
-                error: function(xhr, status, error) {
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        $('#addNewModal').find('#' + key).addClass('is-invalid').after('<div class="invalid-feedback">' + value + '</div>');
-                    });
-                }
-            });
-        }
+        //     $.ajax({
+        //         url: $(this).attr('action'),
+        //         method: $(this).attr('method'),
+        //         data: new FormData(this),
+        //         processData: false,
+        //         contentType: false,
+        //         success: function(response) {
+        //             $('#addNewModal').modal('hide');
+        //             location.reload();
+        //         },
+        //         error: function(xhr, status, error) {
+        //             var errors = xhr.responseJSON.errors;
+        //             $.each(errors, function(key, value) {
+        //                 $('#addNewModal').find('#' + key).addClass('is-invalid').after('<div class="invalid-feedback">' + value + '</div>');
+        //             });
+        //         }
+        //     });
+        // }
     });
 });
 

@@ -254,7 +254,7 @@
                                 <span
                                     class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i
                                         class="bx bx-cart-alt bx-sm lh-sm"></i></span>
-                                <h6 class="text-body text-nowrap mb-0">12 Orders</h6>
+                                <h6 class="text-body text-nowrap mb-0"></h6>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <h6>Contact info</h6>
@@ -263,12 +263,12 @@
                                 </h6>
                             </div>
                             <p class=" mb-1">Email: {{ $purchase->user->email }}</p>
-                            <p class=" mb-0">Mobile: +1 (609) 972-22-22</p>
+                            <p class=" mb-0">Mobile: </p>
                         @endif
                     </div>
                 </div>
 
-                <div class="card mb-4">
+                {{-- <div class="card mb-4">
 
                     <div class="card-header d-flex justify-content-between">
                         <h6 class="card-title m-0">Shipping address</h6>
@@ -292,7 +292,7 @@
                         <p class="mb-0">Card Number: ******4291</p>
                     </div>
 
-                </div>
+                </div> --}}
             </div>
         </div>
 

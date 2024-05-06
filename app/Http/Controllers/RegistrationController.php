@@ -39,7 +39,7 @@ class RegistrationController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                'token' => Str::random('10'),
+                'remember_token' => Str::random('10'),
             ])->save();
 
             if ($user) {
@@ -60,13 +60,13 @@ class RegistrationController extends Controller
      * function button in message check account gmail
      *
      * @param User $user
-     * @param [type] $token
+     * @param [type] $remember_token
      * @return void
      */
-    public function actived(User $user, $token)
+    public function actived(User $user, $remember_token)
     {
-        if ($user->token === $token) {
-            $user->update(['status' => 1, 'token' => null]);
+        if ($user->remember_token === $remember_token) {
+            $user->update(['status' => 1, 'remember_token' => null]);
 
             toastr()->success('Xác nhận tài khoản thành công');
             return redirect()->route('authentication.login');
@@ -100,9 +100,9 @@ class RegistrationController extends Controller
             'email.exists' => 'Email này không tồn tại'
         ]);
 
-        $token = Str::random(10);
+        $remember_token = Str::random(10);
         $user = User::where('email', $request->email)->first();
-        $user->update(['token' => $token]);
+        $user->update(['remember_token' => $remember_token]);
 
         Mail::send('authentication.active_account', compact('user'), function ($email) use ($user) {
             $email->subject('xác nhận tài khoản');

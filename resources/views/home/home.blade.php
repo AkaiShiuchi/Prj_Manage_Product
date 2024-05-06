@@ -44,6 +44,13 @@
                                     <div class="text-truncate" data-i18n="Purchase Manage">Purchase Manage</div>
                                 </a>
                             </li>
+                            @if (auth()->user()->role_id === 1)
+                                <li class="menu-item">
+                                    <a href="/user-manage" class="menu-link">
+                                        <div class="text-truncate" data-i18n="User Manage">User Manage</div>
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                 </ul>
@@ -84,7 +91,11 @@
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <span class="fw-medium d-block">{{ session('user_name') }}</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    @if (auth()->user()->role_id === 1)
+                                                        <small class="text-muted">Admin</small>
+                                                    @else
+                                                        <small class="text-muted">User</small>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </a>
@@ -818,7 +829,7 @@
                                         </div>
                                     </div>
                                     <!-- </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <div class="row"> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <div class="row"> -->
                                     <div class="col-12 mb-4">
                                         <div class="card">
 

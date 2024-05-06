@@ -1,0 +1,90 @@
+img.imagess {
+    line-height: 60px;
+    height: 60px;
+    width: 70px;
+    background-repeat: no-repeat;
+    background-position: 20px center;
+    margin: 0;
+    display: block;
+    background-size: 100%;
+}
+
+nav#layout-navbar {
+    position: fixed;
+    top: 0;
+    width: 79.5%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    transition: align-items .2s;
+    margin-left: 26px;
+}
+
+.content-wrapper {
+    padding-top: 75px;
+}
+
+.layout-page {
+    padding-left: 100px;
+    margin-left: 160px;
+}
+
+aside#layout-menu {
+    position: fixed;
+    height: 1005;
+    display: flex;
+}
+
+.card-datatable.table-responsive {
+    overflow-x: clip;
+}
+
+i.bx {
+    font-size: 17px;
+}
+
+button.btn.btn-secondary.add-new.btn-primary {
+    border-radius: 7px;
+}
+
+button.close {
+    border: none; /* Bỏ viền */
+    color: black; /* Màu chữ */
+    opacity: 1; /* Độ trong suốt */
+}
+
+.modal-header .close:hover {
+    color: black; /* Màu chữ khi di chuột qua */
+    background-color: red;
+    opacity: 0.75; /* Độ trong suốt khi di chuột qua */
+}
+
+.modal-header.bg-primary.text-white {
+    padding-bottom: 10px;
+}
+
+h5.modal-title {
+    color: white;
+}
+
+.modal-body label {
+    margin-top: 13px;
+    margin-bottom: 8px; /* Tăng khoảng cách giữa label và input */
+}
+
+.mdal.modal-dialog.modal-lg.modal-dialog-centered {
+    --bs-modal-width: 35rem;
+}
+
+div#add_button_purchase {
+    margin: 7px 0 7px 0;
+}
+
+a.bb.btn.btn-danger {
+    margin-left: 38px;
+    color: white;
+}
+
+li.nav.nav-item {
+    padding-left: 11px;
+}
