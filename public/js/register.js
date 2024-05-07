@@ -1,5 +1,11 @@
 $(document).ready(function() {
     $('#register_form').submit(function(e) {
+        // Reset thông báo lỗi
+        $('#error-name').text('');
+        $('#error-email').text('');
+        $('#error-password').text('');
+        $('#error-confirm_password').text('');
+
         // Kiểm tra các trường input
         var name = $('#name').val();
         var email = $('#email').val();
@@ -8,39 +14,37 @@ $(document).ready(function() {
 
         // Kiểm tra tên người dùng
         if (name == '') {
-            alert('Vui lòng nhập tên người dùng');
+            $('#error-name').text('Vui lòng nhập tên người dùng').show();
             e.preventDefault();
         } else if (name.length < 6) {
-            alert('Tên người dùng phải có ít nhất 6 ký tự');
+            $('#error-name').text('Tên người dùng phải có ít nhất 6 ký tự').show();
             e.preventDefault();
         }
 
         // Kiểm tra email
         if (email == '') {
-            alert('Vui lòng nhập địa chỉ email');
+            $('#error-email').text('Vui lòng nhập địa chỉ email').show();
             e.preventDefault();
         } else if (!validateEmail(email)) {
-            alert('Vui lòng nhập đúng địa chỉ email');
+            $('#error-email').text('Vui lòng nhập đúng địa chỉ email').show();
             e.preventDefault();
         }
 
         // Kiểm tra mật khẩu
         if (password == '') {
-            alert('Vui lòng nhập mật khẩu');
+            $('#error-password').text('Vui lòng nhập mật khẩu').show();
             e.preventDefault();
         } else if (!validatePassword(password)) {
-            alert(
-                'Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một kí tự số và một kí tự đặc biệt, có ít nhất 6 ký tự'
-            );
+            $('#error-password').text('Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một kí tự số và một kí tự đặc biệt, có ít nhất 6 ký tự').show();
             e.preventDefault();
         }
 
         // Kiểm tra mật khẩu xác nhận
         if (confirm_password == '') {
-            alert('Vui lòng nhập mật khẩu xác nhận');
+            $('#error-confirm_password').text('Vui lòng nhập mật khẩu xác nhận').show();
             e.preventDefault();
         } else if (confirm_password !== password) {
-            alert('Mật khẩu xác nhận không khớp');
+            $('#error-confirm_password').text('Mật khẩu xác nhận không khớp').show();
             e.preventDefault();
         }
     });

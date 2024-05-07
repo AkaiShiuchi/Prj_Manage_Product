@@ -1,24 +1,28 @@
 $(document).ready(function() {
     $('#login_form').submit(function(e) {
+        // Reset thông báo lỗi
+        $('#error-email').text('');
+        $('#error-password').text('');
+
         // Kiểm tra các trường input
         var email = $('#email').val();
         var password = $('#password').val();
 
         // Kiểm tra email
         if (email == '') {
-            alert('Vui lòng nhập địa chỉ email');
+            $('#error-email').text('Vui lòng nhập địa chỉ email').show();
             e.preventDefault();
         } else if (!validateEmail(email)) {
-            alert('Vui lòng nhập đúng địa chỉ email');
+            $('#error-email').text('Địa chỉ email không đúng định dạng').show();
             e.preventDefault();
         }
 
         // Kiểm tra mật khẩu
         if (password == '') {
-            alert('Vui lòng nhập mật khẩu');
+            $('#error-password').text('Vui lòng nhập mật khẩu').show();
             e.preventDefault();
         } else if (!validatePassword(password)) {
-            alert('Mật khẩu không chính xác');
+            $('#error-password').text('Mật khẩu không chính xác').show();
             e.preventDefault();
         }
     });

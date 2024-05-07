@@ -15,7 +15,7 @@ align-content: center;
 }
 
 .card{
-height: 450px;
+height: auto;
 margin-top: auto;
 margin-bottom: auto;
 width: 400px;

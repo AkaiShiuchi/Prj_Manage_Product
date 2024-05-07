@@ -5,6 +5,7 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/user_manage/user_manage.css') }}">
     <script src="{{ asset('js/user_manage/update_role.js') }}"></script>
+    <script src="{{ asset('js/user_manage/user_manage.js') }}"></script>
 @endsection
 
 @section('content')
@@ -310,17 +311,19 @@
                                                 placeholder="John Doe" name="name">
                                             <div
                                                 class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                                <span id="error-name" class="text-danger"></span>
                                                 @error('name')
                                                     <div class="text-danger">*{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="mb-3 fv-plugins-icon-container">
-                                            <label class="form-label" for="add-user-email">Email</label>
-                                            <input type="text" id="add-user-email" class="form-control"
+                                            <label class="form-label" for="email">Email</label>
+                                            <input type="text" id="email" class="form-control"
                                                 placeholder="john.doe@example.com" name="email">
                                             <div
                                                 class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                                <span id="error-email" class="text-danger"></span>
                                                 @error('email')
                                                     <div class="text-danger">*{{ $message }}</div>
                                                 @enderror
@@ -332,6 +335,7 @@
                                                 placeholder="password" name="password">
                                             <div
                                                 class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                                <span id="error-password" class="text-danger"></span>
                                                 @error('password')
                                                     <div class="text-danger">*{{ $message }}</div>
                                                 @enderror
@@ -343,6 +347,7 @@
                                                 placeholder="confirm password" name="confirm_password">
                                             <div
                                                 class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                                <span id="error-confirm_password" class="text-danger"></span>
                                                 @error('confirm_password')
                                                     <div class="text-danger">*{{ $message }}</div>
                                                 @enderror
@@ -357,6 +362,7 @@
                                             </select>
                                             <div
                                                 class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                                                <span id="error-role" class="text-danger"></span>
                                                 @error('user_role')
                                                     <div class="text-danger">*{{ $message }}</div>
                                                 @enderror

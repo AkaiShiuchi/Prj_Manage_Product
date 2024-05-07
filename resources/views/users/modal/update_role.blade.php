@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="update_roleLabel">Update Role</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -16,7 +16,7 @@
                                 <div class="form-group">
                                     <label for="name">User Name:</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        value="">
+                                        value="" disabled>
                                 </div>
                             </div>
                         </div>
@@ -25,7 +25,7 @@
                                 <div class="form-group">
                                     <label for="email">Email:</label>
                                     <input type="text" class="form-control" id="email" name="email"
-                                        value="">
+                                        value="" disabled>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-success" id="updateBtn">Update</button>
                     </div>
                 </form>

@@ -1,6 +1,14 @@
 //Validate thêm sản phẩm
 $(document).ready(function() {
     $('#addProductForm').on('submit', function(event) {
+        // Reset thông báo lỗi
+        $('#error-name').text('');
+        $('#error-describe').text('');
+        $('#error-total').text('');
+        $('#error-price').text('');
+        $('#error-image').text('');
+
+        //Kiểm tra các trường input
         let name = $('#name').val();
         let describe = $('#describe').val();
         let price = $('#price').val();
@@ -8,42 +16,41 @@ $(document).ready(function() {
         let image = $('#image').val();
 
         if(name == ''){
-            // $('#error-name').text('Vui lòng nhập tên sản phẩm').show();
-            alert('Vui lòng nhập tên sản phẩm');
+            $('#error-name').text('Vui lòng nhập tên sản phẩm').show();
             event.preventDefault();
         }
 
         if(describe == ''){
-            alert('Vui lòng nhập mô tả sản phẩm');
+            $('#error-describe').text('Vui lòng nhập mô tả sản phẩm').show();
             event.preventDefault();
         }
 
         if(price ==''){
-            alert('Vui lòng nhập giá sản phẩm');
+            $('#error-price').text('Vui lòng nhập giá sản phẩm').show();
             event.preventDefault();
         } else if(isNaN(price)){
-            alert('Giá sản phẩm phải là số');
+            $('#error-price').text('Giá sản phẩm phải là ký tự số').show();
             event.preventDefault();
         }
 
         if(total == ''){
-            alert('Vui lòng nhập số lượng sản phẩm');
+            $('#error-total').text('Vui lòng nhập số lượng sản phẩm').show();
             event.preventDefault();
         } else if(isNaN(total)){
-            alert('Số lượng sản phẩm phải là ký tự số');
+            $('#error-total').text('Số lượng sản phẩm phải là ký tự số').show();
             event.preventDefault();
         } else if(parseInt(total) < 1){
-            alert('Số lượng sản phẩm phải lớn hơn hoặc bằng 1');
+            $('#error-total').text('Số lượng sản phẩm phải lớn hơn hoặc bằng 1').show();
             event.preventDefault();
         }
 
         if (image == '') {
-            alert('File ảnh không được để trống');
+            $('#error-image').text('File ảnh không được để trống').show();
             event.preventDefault();
         } else {
             let allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
             if (!allowedExtensions.exec(image)) {
-                alert('File ảnh phải có định dạng jpg, jpeg, png hoặc gif');
+                $('#error-image').text('File ảnh phải có định dạng jpg, jpeg, png hoặc gif').show();
                 event.preventDefault();
             }
         }

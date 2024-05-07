@@ -9,12 +9,12 @@
 
 @section('content')
     <div class="container">
-        @if (session('mess'))
+        {{-- @if (session('mess'))
             <div class="alert alert-info"><small>{!! html_entity_decode(session('mess')) !!}</small></div>
         @endif
         @if (session('message'))
             <div class="alert alert-info"><small>{{ session('message') }}</small></div>
-        @endif
+        @endif --}}
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
@@ -28,32 +28,30 @@
                 <div class="card-body">
                     <form id="login_form" action="/handle-login" method="POST">
                         @csrf
-                        @if (session('err'))
-                            <div class="alert alert-danger"><small>{{ session('err') }}</small></div>
-                        @endif
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </div>
-                        @endif
 
-                        <div class="input-group form-group">
+                        <div class="input-group form-group mb-0">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                             </div>
                             <input type="text" class="form-control" placeholder="email" name="email" id="email"
                                 required>
                         </div>
-                        <div class="input-group form-group">
+                        <span id="error-email" class="text-danger"></span>
+                        @error('email')
+                            <div class="text-danger">*{{ $message }}</div>
+                        @enderror
+                        <div class="input-group form-group mb-0 mt-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
                             </div>
                             <input type="password" class="form-control" placeholder="password" name="password"
                                 id="password" required>
                         </div>
-                        <div class="row align-items-center remember">
+                        <span id="error-password" class="text-danger"></span>
+                        @error('password')
+                            <div class="text-danger">*{{ $message }}</div>
+                        @enderror
+                        <div class="row align-items-center remember mt-4">
                             <input type="checkbox">Remember Me
                         </div>
                         <div class="form-group">

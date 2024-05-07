@@ -17,6 +17,7 @@
                                 <label for="name">Product Name:</label>
                                 <input type="text" class="form-control" id="name" name="name"
                                     value="{{ old('name') }}">
+                                <span id="error-name" class="text-danger"></span>
                                 @error('name')
                                     <div class="text-danger">*{{ $message }}</div>
                                 @enderror
@@ -29,6 +30,7 @@
                                 <label for="describe">Description:</label>
                                 <input type="text" class="form-control" id="describe" name="describe"
                                     value="{{ old('describe') }}">
+                                <span id="error-describe" class="text-danger"></span>
                                 @error('describe')
                                     <div class="text-danger">*{{ $message }}</div>
                                 @enderror
@@ -39,6 +41,7 @@
                                 <label for="price">Price:</label>
                                 <input type="text" class="form-control" id="price" name="price"
                                     value="{{ old('price') }}">
+                                <span id="error-price" class="text-danger"></span>
                                 @error('price')
                                     <div class="text-danger">*{{ $message }}</div>
                                 @enderror
@@ -51,6 +54,7 @@
                                 <label for="total">Total:</label>
                                 <input type="text" class="form-control" id="total" name="total"
                                     value="{{ old('total') }}">
+                                <span id="error-total" class="text-danger"></span>
                                 @error('total')
                                     <div class="text-danger">*{{ $message }}</div>
                                 @enderror
@@ -75,6 +79,7 @@
                                     value="{{ old('image') }}" onchange="previewFile()">
                                 <img id="img" src="" height="150" alt="Image preview..."
                                     style="display:none;">
+                                <span id="error-image" class="text-danger"></span>
                                 @error('image')
                                     <div class="text-danger">*{{ $message }}</div>
                                 @enderror

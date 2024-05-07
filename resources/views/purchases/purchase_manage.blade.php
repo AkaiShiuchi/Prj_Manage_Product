@@ -415,7 +415,8 @@
                             </div>
                         </div>
                     @else
-                        <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="container-xxl flex-grow-1 container-p-y"
+                            style="padding-right: 18px; padding-left: 18px;">
                             <div class="row">
                                 <!-- Customer-detail Sidebar -->
                                 <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
