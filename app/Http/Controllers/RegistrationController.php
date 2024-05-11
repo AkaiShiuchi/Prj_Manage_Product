@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ValidateRegister;
+use App\Jobs\SendEmailJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
@@ -47,6 +48,9 @@ class RegistrationController extends Controller
                     $email->subject('xác nhận tài khoản');
                     $email->to($user->email, $user->name);
                 });
+                // dispatch(new SendEmailJob($user));
+                // Queue::push(new SendEmailJob($user));
+                // dd(dispatch(new SendEmailJob($user)));
                 toastr()->success('You create account successful');
                 return redirect()->route('authentication.login')->with('message', 'Đăng kí thành công, vui lòng kiểm tra email để xác nhận tài khoản');
             }
@@ -63,10 +67,16 @@ class RegistrationController extends Controller
      * @param [type] $remember_token
      * @return void
      */
-    public function actived(User $user, $remember_token)
+    public function actived($id)
     {
-        if ($user->remember_token === $remember_token) {
-            $user->update(['status' => 1, 'remember_token' => null]);
+        // dd($id);
+        $user = User::find($id);
+        // $user = User::where('remember_token', $remember_token)->first();
+        if ($user) {
+            $user->update([
+                'status' => 1,
+                'remember_token' => null
+            ]);
 
             toastr()->success('Xác nhận tài khoản thành công');
             return redirect()->route('authentication.login');

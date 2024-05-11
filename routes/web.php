@@ -13,7 +13,7 @@ use App\Http\Controllers\UserController;
 
 Route::get('/register', [RegistrationController::class, 'display'])->name('authentication.register');
 Route::post('/handle-register', [RegistrationController::class, 'store'])->name('handle_register');
-Route::get('/actived/{user}/{remember_token}', [RegistrationController::class, 'actived'])->name('actived');
+Route::get('/actived/{id}', [RegistrationController::class, 'actived'])->name('actived');
 Route::get('/get-actived', [RegistrationController::class, 'get_actived'])->name('get_actived');
 Route::post('/post-get', [RegistrationController::class, 'post_get']);
 

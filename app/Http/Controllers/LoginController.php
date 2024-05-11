@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ValidateLogin;
+use App\Jobs\ForgetPassWork;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +82,9 @@ class LoginController extends Controller
             $email->subject('Lấy lại mật khẩu');
             $email->to($user->email, $user->name);
         });
-        return redirect()->back()->with('message', 'Vui lòng kiểm tra email để đặt lại mật khẩu');
+        // ForgetPassWork::dispatch($user);
+        toastr()->info('Vui lòng kiểm tra email để đặt lại mật khẩu');
+        return redirect()->back();
     }
 
     /**
@@ -111,8 +114,11 @@ class LoginController extends Controller
     public function handle_get(User $user, $remember_token, Request $request)
     {
         $request->validate([
-            'password' => 'required',
+            'password' => 'required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
             'confirm_password' => 'required|same:password'
+        ], [
+            'password' => 'Mật khẩu bạn nhập không đúng định dạng',
+            'confirm_password' => 'Mật khẩu xác nhận không khớp',
         ]);
 
         if ($user->remember_token === $remember_token) {
@@ -120,7 +126,8 @@ class LoginController extends Controller
                 'password' => bcrypt($request->password),
                 'remember_token' => null
             ]);
-            return redirect()->route('authentication.login')->with('message', 'Đặt lại mật khẩu thành công, bạn có thể đăng nhập');
+            toastr()->success('Đặt lại mật khẩu thành công, bạn có thể đăng nhập');
+            return redirect()->route('authentication.login');
         }
 
         return redirect()->back();
