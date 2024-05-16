@@ -111,8 +111,9 @@ class CrudProductController extends Controller
      */
     public function edit_product($id)
     {
+        $categories = Categories::all();
         $product = Product::find($id);
-        return view('products.edit', compact('product'));
+        return view('products.edit', compact('product', 'categories'));
     }
 
     /**

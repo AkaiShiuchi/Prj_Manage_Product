@@ -86,9 +86,9 @@
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="category">Categories</label>
                                     <select class="form-control" id="category" name="category_id">
-                                        <option value="1">Đồ gia dụng</option>
-                                        <option value="2">Máy tính</option>
-                                        <option value="3">Phụ kiện</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

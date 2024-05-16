@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
 use App\Models\Product;
 use App\Models\ProductPurchase;
 use App\Models\Purchase;
@@ -65,8 +66,9 @@ class HomeController extends Controller
      */
     public function product_manage(Product $products)
     {
+        $categories = Categories::all();
         $products = Product::paginate(6);
-        return view('products.product_manage')->with('products', $products);
+        return view('products.product_manage', compact('categories'))->with('products', $products);
     }
 
     public function purchase_manage()

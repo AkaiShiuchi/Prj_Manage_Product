@@ -3,6 +3,7 @@
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CrudProductController;
 use App\Http\Controllers\CrudPurchaseController;
+use App\Http\Controllers\CustomerInterface;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\FileCsvController;
 use App\Http\Controllers\PurcharseManage;
 use App\Http\Controllers\UserController;
 
+//admin interface
 Route::get('/register', [RegistrationController::class, 'display'])->name('authentication.register');
 Route::post('/handle-register', [RegistrationController::class, 'store'])->name('handle_register');
 Route::get('/actived/{id}', [RegistrationController::class, 'actived'])->name('actived');
@@ -71,3 +73,34 @@ Route::middleware(['auth', 'checkRole'])->group(function () {
     Route::post('/update-role/{id}', [UserController::class, 'update_role'])->name('update_role');
     Route::delete('/delete-user/{id}', [UserController::class, 'delete_user'])->name('delete_user');
 });
+
+//customer interface
+Route::get('/home-customer', [CustomerInterface::class, 'view_home'])->name('view_home');
+Route::get('/search', [CustomerInterface::class, 'search'])->name('search');
+Route::get('/search-category/{id}', [CustomerInterface::class, 'search_category'])->name('search_category');
+
+Route::middleware(['checkLogin'])->group(function () {
+    Route::get('/user/signin', [CustomerInterface::class, 'view_signin'])->name('view_signin');
+    Route::post('/handle-signin', [CustomerInterface::class, 'handle_signin'])->name('handle_signin');
+
+
+    Route::get('/user/signup', [CustomerInterface::class, 'view_signup'])->name('view_signup');
+    Route::post('/handle-signup', [CustomerInterface::class, 'handle_signup'])->name('handle_signup');
+
+    Route::get('/user/getpassword', [CustomerInterface::class, 'getpassword'])->name('getpassword');
+    Route::post('/handle-getpassword', [CustomerInterface::class, 'handle_getpassword'])->name('handle_getpassword');
+    Route::get('/reset-password/{user}/{remember_token}', [CustomerInterface::class, 'reset_password'])->name('reset_password');
+    Route::post('/handle-reset/{user}/{remember_token}', [CustomerInterface::class, 'handle_reset']);
+});
+
+Route::get('/profile', [CustomerInterface::class, 'profile'])->name('profile');
+Route::get('/profile/changepassword', [CustomerInterface::class, 'change_password'])->name('change_password');
+Route::post('/handle-changePass', [CustomerInterface::class, 'handle_changePass'])->name('handle_changePass');
+
+Route::get('/user/signout', [CustomerInterface::class, 'signout'])->name('signout');
+
+Route::get('/product-all', [CustomerInterface::class, 'view_product'])->name('view_product');
+Route::get('/product-detail/{id}', [CustomerInterface::class, 'product_detail'])->name('product_detail');
+
+Route::get('/cart', [CustomerInterface::class, 'view_cart'])->name('view_cart');
+Route::get('/cart/checkout', [CustomerInterface::class, 'order'])->name('order');
