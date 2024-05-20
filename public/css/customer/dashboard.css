@@ -1,0 +1,11 @@
+.description-content {
+    display: none;
+}
+
+.description-content.open {
+    display: block;
+}
+
+.icon-open.active {
+    transform: rotate(180deg);
+}

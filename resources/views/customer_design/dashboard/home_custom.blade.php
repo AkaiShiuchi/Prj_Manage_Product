@@ -3,13 +3,11 @@
 @section('title', 'LAVASHOP')
 
 @section('style')
-
+    <script src="{{ asset('js/customer/dashboard.js') }}"></script>
 @endsection
 
 @section('content')
-    <input type="hidden" value="157317" id="storeId">
-
-
+    <input type="hidden" value="" id="storeId">
     <style>
         .box-pro-prices {
             display: none;
@@ -20,8 +18,6 @@
         }
     </style>
     <div id="root"><!--<body id="Nhanh-template" class="index">-->
-
-
         <!--display in product/view page-->
         <div class="fixed_scroll">
             <div id="topbar" class="clearfix hidden-xs tp_header">
@@ -46,8 +42,9 @@
                                         <a aria-label="cart" href="/cart" class="count-holder">
                                             <span class="iconTop icon-5-top"></span>
                                             <span class="title-info-top">
-                                                <span class="gh">Giỏ hàng</span> <span>(<span
-                                                        class="count">0</span>)</span>
+                                                <span class="gh">Giỏ hàng</span>
+                                                <span>(<span
+                                                        class="count">{{ session('cart') ? session('cart')->products->sum('quantity') : 0 }}</span>)</span>
                                             </span>
                                         </a>
                                     </span>
@@ -401,14 +398,14 @@
                                                 </h3>
                                                 <div class="box-pro-prices-seccond">
                                                     <p class="pro-price highlight tp_product_price">
-                                                        ${{ $top->price }}
+                                                        {{ $top->price }}₫
                                                     </p>
                                                 </div>
                                                 <div class="box-pro-prices">
                                                     <p class="pro-price highlight tp_product_price">
-                                                        ${{ $top->price }}
+                                                        {{ $top->price }}₫
                                                         <span class="pro-price-del">
-                                                            <del class="compare-price">213,100₫</del>
+                                                            <del class="compare-price">{{ $top->price }}₫</del>
                                                         </span>
                                                     </p>
                                                 </div>
@@ -417,7 +414,8 @@
                                         <div class="frameSale">
                                         </div>
                                         <div class="actionLoop visible-lg">
-                                            <a class="quickView styleBtnBuy notClick" data-id="{{ $top->id }}">
+                                            <a class="quickView styleBtnBuy notClick" data-id="{{ $top->id }}"
+                                                data-toggle="modal" data-target="#quickview-cart">
                                                 <i class="fa fa-shopping-cart"></i> Mua nhanh </a>
                                             <a class="styleBtnBuy"
                                                 href="{{ route('product_detail', ['id' => $top->id]) }}">
@@ -471,14 +469,15 @@
                                                 </h3>
                                                 <div class="box-pro-prices-seccond">
                                                     <p class="pro-price highlight tp_product_price">
-                                                        ${{ $new->price }}
+                                                        {{ $new->price }}₫
                                                     </p>
                                                 </div>
                                                 <div class="box-pro-prices">
                                                     <p class="pro-price highlight tp_product_price">
-                                                        <span class="pro-price-current">${{ $new->price }}</span>
+                                                        <span class="pro-price-current">{{ $new->price }}₫</span>
                                                         <span class="pro-price-del">
-                                                            <span class="compare-price WholesalePrice">15,100₫</span>
+                                                            <span
+                                                                class="compare-price WholesalePrice">{{ $new->price }}₫</span>
                                                         </span>
                                                     </p>
                                                 </div>
@@ -488,8 +487,9 @@
                                         </div>
 
                                         <div class="actionLoop visible-lg">
-                                            <a class="quickView styleBtnBuy notClick" data-id="{{ $new->id }}"><i
-                                                    class="fa fa-shopping-cart"></i> Mua nhanh </a>
+                                            <a class="quickView styleBtnBuy notClick" data-id="{{ $new->id }}"
+                                                data-toggle="modal" data-target="#quickview-cart">
+                                                <i class="fa fa-shopping-cart"></i> Mua nhanh </a>
                                             <a class="styleBtnBuy"
                                                 href="{{ route('product_detail', ['id' => $new->id]) }}"><i
                                                     class="fa fa-eye"></i> Xem chi tiết </a>
@@ -559,46 +559,6 @@
                             </tbody>
                         </table>
                     </div>
-
-
-                    <script>
-                        var $storeId = $('#storeId').val();
-                        var totalCartItems_hidden = document.getElementById('totalCartItems_hidden').value;
-                        $('.icon-cart .count').html(totalCartItems_hidden);
-
-                        if (in_array($storeId, [100699, 3138])) {
-                            $('.cart-header .count-cart').html(totalCartItems_hidden);
-                        }
-                    </script>
-                </div>
-            </div>
-
-            <div id="site-search" class="site-nav-container" tabindex="-1">
-                <div class="site-nav-container-last">
-                    <p class="title">Tìm kiếm</p>
-                    <div class="search-box wpo-wrapper-search">
-                        <meta itemprop="url" content="https://giadungnhanh.com/">
-                        <form action="/search" class="searchform searchform-categoris ultimate-search navbar-form">
-                            <div class="wpo-search-inner">
-                                <input id="inputSearchAuto" name="q" maxlength="40" autocomplete="off"
-                                    class="searchinput input-search search-input" type="text" size="20"
-                                    placeholder="Tìm kiếm...">
-                            </div>
-                            <button aria-label="submit" type="submit" class="btn-search btn" id="search-header-btn">
-                                <svg version="1.1" class="svg search" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                    viewBox="0 0 24 27" style="enable-background:new 0 0 24 27;" xml:space="preserve">
-                                    <path
-                                        d="M10,2C4.5,2,0,6.5,0,12s4.5,10,10,10s10-4.5,10-10S15.5,2,10,2z M10,19c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7S13.9,19,10,19z">
-                                    </path>
-                                    <rect x="17" y="17" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -9.2844 19.5856)"
-                                        width="4" height="8"></rect>
-                                </svg>
-                            </button>
-                        </form>
-                        <div id="ajaxSearchResults" class="smart-search-wrapper ajaxSearchResults" style="display: none">
-                            <div class="resultsContent"></div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <button aria-label="close" id="site-close-handle" class="site-close-handle" title="Đóng">
@@ -609,10 +569,6 @@
 
         <div id="site-overlay" class="site-overlay"></div>
 
-        <div id="quickview-cart" class="modal fade" role="dialog">
-            <div id="quickview-cart-desktop" class="clearfix"></div>
-        </div>
-
 
         <div id="bttop" style="display: none;">
             <span class="text-bttop">Về đầu trang</span>
@@ -621,12 +577,12 @@
                 <g>
                     <path
                         d="M32.135,16.817H0.5c-0.276,0-0.5-0.224-0.5-0.5s0.224-0.5,0.5-0.5h31.635c0.276,0,0.5,0.224,0.5,0.5
-                                                                                                                                                                                                                                                                                                     S32.411,16.817,32.135,16.817z">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     S32.411,16.817,32.135,16.817z">
                     </path>
                     <path
                         d="M19.598,29.353c-0.128,0-0.256-0.049-0.354-0.146c-0.195-0.195-0.195-0.512,0-0.707l12.184-12.184L19.244,4.136
-                                                                                                                                                                                                                                                                                                     c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l12.537,12.533c0.094,0.094,0.146,0.221,0.146,0.354
-                                                                                                                                                                                                                                                                                                     s-0.053,0.26-0.146,0.354L19.951,29.206C19.854,29.304,19.726,29.353,19.598,29.353z">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l12.537,12.533c0.094,0.094,0.146,0.221,0.146,0.354
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     s-0.053,0.26-0.146,0.354L19.951,29.206C19.854,29.304,19.726,29.353,19.598,29.353z">
                     </path>
                 </g>
             </svg>
@@ -651,6 +607,35 @@
         <div style="display: none;">
             <div id="dialogMessage"></div>
         </div>
-
     </div>
+    <script>
+        const loadScriptsTimer = setTimeout(loadScripts, 5000);
+        const userInteractionEvents = ['mouseover', 'keydown', 'touchmove', 'touchstart'];
+        userInteractionEvents.forEach(function(event) {
+            window.addEventListener(event, triggerScriptLoader, {
+                passive: true
+            });
+        });
+
+        function triggerScriptLoader() {
+            loadScripts();
+            clearTimeout(loadScriptsTimer);
+            userInteractionEvents.forEach(function(event) {
+                window.removeEventListener(event, triggerScriptLoader, {
+                    passive: true
+                });
+            });
+        }
+
+        function loadScripts() {
+            document.querySelectorAll('script[data-type=lazy]').forEach(function(elem) {
+                elem.setAttribute('src', elem.getAttribute('data-src'));
+            });
+            document.querySelectorAll('iframe[data-type=lazy]').forEach(function(elem) {
+                elem.setAttribute('src', elem.getAttribute('data-src'));
+            });
+        }
+    </script>
+
+    @include('customer_design.product.modal.detail_modal_product')
 @endsection

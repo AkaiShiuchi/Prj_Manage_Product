@@ -1,10 +1,9 @@
 @extends('customer_design.dashboard.layout_custom')
 
-@section('title', 'Chi tiết sản phẩm')
+@section('title', 'Đặt hàng thành công')
 
 @section('style')
     <script src="{{ asset('js/customer/dashboard.js') }}"></script>
-    {{-- <script src="{{ asset('js/customer/detail_product.js') }}"></script> --}}
 @endsection
 
 @section('content')
@@ -51,6 +50,7 @@
                                     </span>
                                 </li>
 
+
                                 @if (!session('user_id'))
                                     <li>
                                         <a href="/user/signin">
@@ -72,9 +72,8 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
+
             <div class="outerHeightHeader" style="min-height: 80px;">
                 <div class=" ">
                     <header id="site-header" class="main-header clearfix tp_header">
@@ -84,7 +83,7 @@
                                     <a aria-label="logo" href="/home-customer">
                                         <img width="225" height="45" src="../img/lava-logo-web.jpg"
                                             data-src="../img/lava-logo-web.jpg" alt="lavashop.com"
-                                            class="img-responsive logoimg ls-is-cached lazyloaded">
+                                            class="img-responsive logoimg lazyloaded">
                                     </a>
                                 </div>
                                 <div class="header-wrap-icon visible-sm">
@@ -140,8 +139,7 @@
                             <div class="menu-desktop hidden-sm hidden-xs">
                                 <div class="wrap-logo wrap-logp-mb">
                                     <a aria-label="logo" href="/">
-                                        <img height="23" width="150"
-                                            src="https://pos.nvncdn.com/e8033b-157317/store/20230831_PuNqWysm.png"
+                                        <img height="23" width="150" src="../img/lava-logo-web.jpg"
                                             alt="lavashop.com" class="img-responsive logoimg">
                                     </a>
                                 </div>
@@ -175,13 +173,11 @@
                             </div>
                         </div>
 
-
                         <div class="no-padding col-xs-12 hidden-sm hidden-xs col-md-2">
                             <div class="searchFormHeader" itemscope="" itemtype="https://schema.org/WebSite">
 
                                 <form class="searchHeader searchDesktop" action="/search" method="get"
                                     itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-
                                     <input itemprop="query-input" type="text" name="search" class="searchInput"
                                         placeholder="Tìm kiếm..." autocomplete="off">
                                     <input type="submit" class="btnSearch">
@@ -199,9 +195,8 @@
                                         class="bar"></span></a>
                                 <div class="wrap-logo">
                                     <a aria-label="logo" href="/">
-                                        <img width="160" height="32"
-                                            src="https://pos.nvncdn.com/e8033b-157317/store/20230831_PuNqWysm.png"
-                                            alt="giadungnhanh.com" class="img-responsive logoimg">
+                                        <img width="160" height="32" src="../img/lava-logo-web.jpg"
+                                            alt="lavashop.com" class="img-responsive logoimg">
                                     </a>
                                 </div>
                                 <div class="header-wrap-icon">
@@ -215,7 +210,10 @@
                                                     xml:space="preserve">
                                                     <g>
                                                         <path
-                                                            d="M447.05,428l-109.6-109.6c29.4-33.8,47.2-77.9,47.2-126.1C384.65,86.2,298.35,0,192.35,0C86.25,0,0.05,86.3,0.05,192.3                                                                                                                                                     s-74.1,165.4-165.3,165.4C101.15,357.7,26.95,283.5,26.95,192.3z">
+                                                            d="M447.05,428l-109.6-109.6c29.4-33.8,47.2-77.9,47.2-126.1C384.65,86.2,298.35,0,192.35,0C86.25,0,0.05,86.3,0.05,192.3
+                                                                                                             s86.3,192.3,192.3,192.3c48.2,0,92.3-17.8,126.1-47.2L428.05,447c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4
+                                                                                                             C452.25,441.8,452.25,433.2,447.05,428z M26.95,192.3c0-91.2,74.2-165.3,165.3-165.3c91.2,0,165.3,74.2,165.3,165.3
+                                                                                                             s-74.1,165.4-165.3,165.4C101.15,357.7,26.95,283.5,26.95,192.3z">
                                                         </path>
                                                     </g>
                                                 </svg>
@@ -232,7 +230,13 @@
                                                     <g>
                                                         <g>
                                                             <path
-                                                                d="M447.988,139.696c-0.156-2.084-1.9-3.696-3.988-3.696h-72v-20C372,52.036,319.96,0,256,0S140,52.036,140,116v20H68                                                                                                                                                              C396,230.056,378.06,248,356,248z">
+                                                                d="M447.988,139.696c-0.156-2.084-1.9-3.696-3.988-3.696h-72v-20C372,52.036,319.96,0,256,0S140,52.036,140,116v20H68
+                                                                                                                     c-2.088,0-3.832,1.612-3.988,3.696l-28,368c-0.084,1.108,0.296,2.204,1.056,3.02C37.824,511.536,38.888,512,40,512h432
+                                                                                                                     c1.112,0,2.176-0.464,2.932-1.28c0.756-0.816,1.14-1.912,1.056-3.02L447.988,139.696z M172,116c0-46.316,37.68-84,84-84
+                                                                                                                     s84,37.684,84,84v20H172V116z M156,248c-22.06,0-40-17.944-40-40c0-15.964,8-30.348,24-36.66V208c0,8.824,7.18,16,16,16
+                                                                                                                     s16-7.176,16-16v-36.636c16,6.312,24,20.804,24,36.636C196,230.056,178.06,248,156,248z M356,248c-22.06,0-40-17.944-40-40
+                                                                                                                     c0-15.964,8-30.348,24-36.66V208c0,8.824,7.18,16,16,16s16-7.176,16-16v-36.636c16,6.312,24,20.804,24,36.636
+                                                                                                                     C396,230.056,378.06,248,356,248z">
                                                             </path>
                                                         </g>
                                                     </g>
@@ -241,12 +245,12 @@
                                             </span>
                                         </a>
                                     </span>
-                                    <span><a aria-label="user" href="/user/signin"><i class="fa fa-user"
+                                    <span><a aria-label="user" href="/profile"><i class="fa fa-user"
                                                 style="font-size: 27px;padding: 0 0 0 5px;"></i></a></span> <span
                                         class="icon-mobile" title="Hotline">
                                         <a aria-label="hotline" href="tel:0912241237">
-                                            <i class="fa fa-phone" style="font-size: 27px;padding: 0 0 0 5px;"> </i> <span
-                                                class="hotline-txt">0123456789</span>
+                                            <i class="fa fa-phone" style="font-size: 27px;padding: 0 0 0 5px;"> </i>
+                                            <span class="hotline-txt">0123456789</span>
                                         </a>
                                     </span>
 
@@ -261,305 +265,46 @@
 
 
         <!--</body>-->
-        <script defer="" type="text/javascript" src="https://web.nvnstatic.net/tp/T0298/js/pview.js?v=33"></script><input type="hidden" id="hidden-p-name" value="{{ $product->name }}"><input
-            type="hidden" id="js-category-name" value="">
+        <main class="">
+            <div class="container">
+                <div class="row">
+                    <div class="page-content">
+                        <div id="orderVct">
+                            <div class="orderV-main">
+                                <h4><b>Đơn hàng được thực hiện thành công!</b></h4>
+                                <p>
+                                    Chúc mừng quý khách hàng đã thanh toán thành công đơn hàng tại lavashop.com.
+                                    Nhân viên chăm sóc khách hàng của chúng tôi sẽ liên hệ với quý khách hàng khi đơn
+                                    hàng được xác nhận. <br>
+                                    Chúng tôi sẽ gửi link theo dõi đơn hàng đến Email của quý khách hàng.
+                                </p>
+                                <p>
+                                    Quý khách hàng cũng có thể theo dõi đơn hàng bằng cách đăng nhập và theo dõi đơn
+                                    hàng trên website của chúng tôi
+                                </p>
+                            </div>
 
-        <div class="main-body">
-            <main class="">
-                <div id="product" class="productDetail-page tp_product_detail">
-                    <div class="breadcrumb-shop clearfix">
-                        <div class="padding-lf-40 clearfix">
-                            <div class=" ">
-                                <ol class="breadcrumb breadcrumb-arrows clearfix" itemscope=""
-                                    itemtype="https://schema.org/BreadcrumbList">
-                                    <meta itemprop="id"
-                                        content="https://giadungnhanh.com/1-thung-32-goi-khan-uot-rosemary-hoat-hinh-p38929952.html">
-                                    <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
-                                        <a href="/home-customer" target="_self" itemprop="item">
-                                            <i class="fa fa-home"></i>
-                                            <span itemprop="name">Trang chủ</span>
-                                        </a>
-                                        <meta itemprop="position" content="1">
-                                    </li>
-                                    <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
-                                        <a href="/-pc.html" itemprop="item">
-                                            <span itemprop="name"></span>
-                                        </a>
-                                        <meta itemprop="position" content="2">
-                                    </li>
-                                    <li class="active" itemprop="itemListElement" itemscope=""
-                                        itemtype="https://schema.org/ListItem">
-                                        <a href="" itemprop="item">
-                                            <span itemprop="name">{{ $product->name }}</span>
-                                        </a>
-                                        <meta itemprop="position" content="3">
-                                    </li>
-                                </ol>
+                            <div>
+                                <h4>
+                                    <a href="/product-all" class="btn btn-primary"
+                                        style="background: #C1A165; border-color: #C1A165; border-radius: 0;">
+                                        Quay lại trang sản phẩm
+                                    </a>
+                                </h4>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <div class="container">
-                            <div class="row product-detail-wrapper">
-                                <div class="clearfix product-detail-main pr_style_01">
-                                    <div class="col-md-8 col-sm-7 col-xs-12">
-                                        <div class="clearfix hidden-xs col-sm-1 thumbnails small-img">
-                                        </div>
-                                        <div class="clearfix col-sm-11 no_pd_mb">
-                                            <div id="slide-image" class="owl-carousel owl-theme owl-loaded">
-                                            </div>
-                                            <div class="hinh360" style="display:none">
-                                                <div id="mySpriteSpin"></div>
-                                            </div>
-                                        </div>
 
-                                        <div class="clearfix removeMobile under-p-img product-content">
-                                            <h3
-                                                style="font-size:18px;margin-left:77px;margin-top:20px;font-family:Arial, sans-serif;">
-                                                Mô tả sản phẩm</h3>
-                                            <p style="line-height:1.38;margin-bottom:0pt;margin-top:0pt;" dir="ltr">
-                                                <span style="background-color:#ffffff;color:#000000;">
-                                                    <span style="font-size:12pt;margin-left:77px;">
-                                                        {{ $product->describe }}
-                                                    </span>
-                                                </span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-5 col-xs-12 product-content-desc" id="detail-product"
-                                        itemscope="" itemtype="https://schema.org/Product">
-                                        <meta itemprop="name" content="{{ $product->name }}">
-                                        <meta itemprop="image"
-                                            content="https://pos.nvncdn.com/e8033b-157317/ps/20240415_YHGs3cATip.jpeg">
-                                        <div class="product-title">
-                                            <h1 class="tp_product_detail_name">{{ $product->name }}</h1>
-                                            <div class="pview-code">
-                                                Mã sản phẩm:
-                                                <span> {{ $product->id }}</span>
-                                            </div>
-                                            <span class="pro-soldold">
-                                                @if ($product->total > 0)
-                                                    <span class="statusProduct">Còn hàng</span>
-                                                @else
-                                                    <span class="statusProduct">Hết hàng</span>
-                                                @endif
-                                            </span>
-                                        </div>
-                                        <div class="product-price main-price" id="price-preview" itemscope=""
-                                            itemtype="http://schema.org/Offer">
-                                            <span class="pro-price tp_product_detail_price"
-                                                itemprop="lowPrice">{{ $product->price }}₫
-                                            </span>
-                                            <meta itemprop="availability" content="http://schema.org/InStock">
-                                            <meta itemprop="priceCurrency" content="VND">
-                                            <meta itemprop="priceValidUntil" content="2020-11-16">
-                                            <meta itemprop="price" content="218.300">
-                                        </div>
-                                        <div style="display: none">
-                                            <span itemprop="aggregateRating" itemscope=""
-                                                itemtype="http://schema.org/AggregateRating">
-                                                <span itemprop="ratingValue">5.0</span> stars, based on <span
-                                                    itemprop="reviewCount">189</span> reviews
-                                            </span>
-                                            <span itemprop="review" itemscope="" itemtype="http://schema.org/review">
-                                                <meta itemprop="author" content="Người dùng">
-                                            </span>
-                                        </div>
-                                        <span class="hidden" itemprop="brand">Đang cập nhật</span>
-                                        <meta itemprop="sku" content="3KHANGIAY74-32GOI">
-                                        <meta itemprop="name" content="{{ $product->name }}">
-                                        <form id="add-item-form" class="variants clearfix">
-                                            @csrf
-                                            <div class="select-swatch clearfix ">
-                                            </div>
-
-                                            <div class="product-price main-price price-65700" id="price-preview">
-                                                <span class="pro-price tp_product_detail_price">{{ $product->price }}₫
-                                                </span>
-                                            </div>
-
-                                            <div class="selector-actions">
-                                                <div class="quantity-area clearfix">
-                                                    <div class="title-quantity">Số lượng</div>
-                                                    <input type="button" value="-" onclick="minusQuantity()"
-                                                        class="qty-btn tp_button">
-                                                    <input type="text" id="quantity" name="quantity" value="1"
-                                                        min="1" class="quantity-selector"
-                                                        max="{{ $product->total }}">
-                                                    <input type="button" value="+" onclick="plusQuantity()"
-                                                        class="qty-btn tp_button">
-                                                    <input type="hidden" id="product_id" value="{{ $product->id }}">
-                                                    <span class="pro-soldold status-56700">
-                                                        @if ($product->total > 0)
-                                                            <span class="statusProduct">Còn hàng</span>
-                                                        @else
-                                                            <span class="statusProduct">Hết hàng</span>
-                                                        @endif
-                                                    </span>
-                                                    <div class="pview-ivt79592">
-                                                        <span class="ivt-label">Có thể bán : {{ $product->total }}</span>
-                                                    </div>
-                                                    <div class="wrap-addcart clearfix">
-                                                        <button type="button" id="add-to-cart"
-                                                            class="btnAddToCart tp_button">
-                                                            <i class="fa fa-cart-plus cart_plus"></i>Thêm vào giỏ hàng
-                                                        </button>
-                                                        <button type="button" id="addQuickCart"
-                                                            class="btnAddToCart tp_button">
-                                                            <a href="/cart/checkout" style="color: white;">
-                                                                <i class="fa fa-cart-arrow-down cart_down"></i>
-                                                                Mua ngay</a>
-                                                        </button>
-                                                    </div>
-                                                    <div class="pview-hightlight clearfix">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                        <ul class="policyProduct">
-                                        </ul>
-                                        <div
-                                            class="box_product_firstView product-description hidden-sm hidden-md hidden-lg">
-                                            <div class="title-bl">
-                                                <h2>
-                                                    Nội dung sản phẩm <span class="icon-open "></span>
-                                                </h2>
-                                            </div>
-                                            <div class="description-content" style="display: none;">
-                                                <div class="main_details">
-                                                    <p style="line-height:1.38;margin-bottom:0pt;margin-top:0pt;"
-                                                        dir="ltr">
-                                                        <span style="background-color:#ffffff;color:#000000;">
-                                                            <span
-                                                                style="font-family:Arial, sans-serif;font-size:12pt;font-style:normal;font-variant:normal;font-weight:400;text-decoration:none;vertical-align:baseline;white-space:pre-wrap;">
-                                                                {{ $product->describe }}.&nbsp;
-                                                            </span>
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-description title_none dnone-96772 ">
-                                            <div class="title-bl">
-                                                <h2>
-                                                    Thông số sản phẩm <span class="icon-open"></span>
-                                                </h2>
-                                            </div>
-                                            <div class="description-content">
-                                                <div class="main_details">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="product-description title_none return-policy-area dnone-96772 ">
-                                            <div class="title-bl">
-                                                <h2>
-                                                    Chính sách đổi trả <span class="icon-open"></span>
-                                                </h2>
-                                            </div>
-                                            <div class="description-content">
-                                                <div class="description-productdetail">
-                                                    <div class="description-productdetail">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="product-description title_none preservation-area dnone-96772 ">
-                                            <div class="title-bl">
-                                                <h2>
-                                                    Hướng dẫn bảo quản <span class="icon-open"></span>
-                                                </h2>
-                                            </div>
-                                            <div class="description-content">
-                                                <div class="description-productdetail">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="product-description-infor">
-                                            <ul class="policyProduct policyCart clearfix">
-                                            </ul>
-                                        </div>
-                                        <div class="product-tags tp_product_detail_tag">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="review-box">
-                                    <div class="fb-comments"
-                                        data-href="https://giadungnhanh.com/1-thung-32-goi-khan-uot-rosemary-hoat-hinh-p38929952.html"
-                                        data-numposts="5" data-width="100%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+            </div>
+        </main>
 
-                <div class="hidden images">
-                    <div class="item itemdelete" data-original="{{ asset('storage/uploads/' . $product->image) }}">
-                        <a href="{{ asset('storage/uploads/' . $product->image) }}" title="Click để xem"
-                            data-fancybox="gallery">
-                            <img class="img-fluid img-responsive lazyload" data-sizes="auto"
-                                src="{{ asset('storage/uploads/' . $product->image) }}"
-                                data-src="{{ asset('storage/uploads/' . $product->image) }}" alt="{{ $product->name }}">
-                            <p class="click-p" href="{{ asset('storage/uploads/' . $product->image) }}"
-                                data-zoom-image="{{ asset('storage/uploads/' . $product->image) }}" rel="lightbox-do">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                                Click xem hình lớn hơn
-                            </p>
-                        </a>
-                    </div>
-                </div>
-                <div class="hidden thumbnails-hidden">
-                    <div class="thumbnail thumdelete clickItem"
-                        data-zoom="{{ asset('storage/uploads/' . $product->image) }}">
-                        <img class="img-fluid img-thumbnail" src="{{ asset('storage/uploads/' . $product->image) }}"
-                            alt="{{ $product->name }}">
-                    </div>
-                </div>
-            </main>
-        </div>
-        <input type="hidden" class="checkCookies" value="">
-
-        <!-- Đánh dấu JSON-LD được tạo bởi Trình trợ giúp đánh dấu dữ liệu có cấu trúc của Google. -->
-        <script type="application/ld+json">
-            {
-                "@context" : "http://schema.org",
-                "@type" : "Product",
-                "name" : "{{ $product->name }}",
-                "offers": {
-                    "@type": "Offer",
-                    "url": "/1-thung-32-goi-khan-uot-rosemary-hoat-hinh-p38929952.html",
-                    "priceCurrency": "VND",
-                    "priceValidUntil": "2024-12-30",
-                    "price": "218300",
-                    "itemCondition": "https://schema.org/UsedCondition",
-                    "availability": "https://schema.org/InStock"
-                },
-    
-                "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": "5",
-                    "reviewCount": "20"
-                },
-                "review": {
-                    "@type": "Review",
-    
-                    "reviewRating": {
-                        "@type": "Rating",
-                        "ratingValue": "5",
-                        "bestRating": "5"
-                    },
-                    "author": {
-                        "@type": "Person",
-                        "name": "Admin"
-                    }
-                },
-                                            "sku" : "3KHANGIAY74-32GOI",
-                                    "image": "https://pos.nvncdn.com/e8033b-157317/ps/20240415_YHGs3cATip.jpeg"
+        <style>
+            div#orderVct {
+                text-align: center;
+                padding: 30px 0;
             }
-        </script>
+        </style>
 
         <div id="site-nav--mobile" class="site-nav style--sidebar">
             <!-- use ajaxLoadview fill cart content -->
@@ -636,7 +381,7 @@
                     <p class="title">Tìm kiếm</p>
                     <div class="search-box wpo-wrapper-search">
                         <meta itemprop="url"
-                            content="https://giadungnhanh.com/1-thung-32-goi-khan-uot-rosemary-hoat-hinh-p38929952.html">
+                            content="https://giadungnhanh.com/order/383846220-0a0fb5db67696cdb47976d65cbca4cff">
                         <form action="/search" class="searchform searchform-categoris ultimate-search navbar-form">
                             <div class="wpo-search-inner">
                                 <input id="inputSearchAuto" name="q" maxlength="40" autocomplete="off"
@@ -673,19 +418,19 @@
         </div>
 
 
-        <div id="bttop" style="display: none;">
+        <div id="bttop">
             <span class="text-bttop">Về đầu trang</span>
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                 viewBox="0 0 32.635 32.635" style="enable-background:new 0 0 32.635 32.635;" xml:space="preserve">
                 <g>
                     <path
                         d="M32.135,16.817H0.5c-0.276,0-0.5-0.224-0.5-0.5s0.224-0.5,0.5-0.5h31.635c0.276,0,0.5,0.224,0.5,0.5
-                                                                                                                                                                                                                                                                                                                                                                                                                                     S32.411,16.817,32.135,16.817z">
+                                                                                             S32.411,16.817,32.135,16.817z">
                     </path>
                     <path
                         d="M19.598,29.353c-0.128,0-0.256-0.049-0.354-0.146c-0.195-0.195-0.195-0.512,0-0.707l12.184-12.184L19.244,4.136
-                                                                                                                                                                                                                                                                                                                                                                                                                                     c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l12.537,12.533c0.094,0.094,0.146,0.221,0.146,0.354
-                                                                                                                                                                                                                                                                                                                                                                                                                                     s-0.053,0.26-0.146,0.354L19.951,29.206C19.854,29.304,19.726,29.353,19.598,29.353z">
+                                                                                             c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l12.537,12.533c0.094,0.094,0.146,0.221,0.146,0.354
+                                                                                             s-0.053,0.26-0.146,0.354L19.951,29.206C19.854,29.304,19.726,29.353,19.598,29.353z">
                     </path>
                 </g>
             </svg>
@@ -705,16 +450,16 @@
 
                             <div class="phistory-v-item">
                                 <a href="/1-thung-32-goi-khan-uot-rosemary-hoat-hinh-p38929952.html"
-                                    title="{{ $product->name }}"><img
+                                    title="Thùng 32 gói khăn ướt ROSEMARY chất lượng, an toàn cho sức khỏe"><img
                                         src="https://pos.nvncdn.com/e8033b-157317/ps/20240415_YHGs3cATip.jpeg"
-                                        alt="{{ $product->name }}"></a>
+                                        alt="Thùng 32 gói khăn ướt ROSEMARY chất lượng, an toàn cho sức khỏe"></a>
                             </div>
 
                             <div class="phistory-v-item">
                                 <a href="/50-ly-nhua-van-kim-cuong-p38929659.html"
-                                    title="Ly nhựa uống nước vân kim cương cao cấp, ly nhựa có nắp giá rẻ"><img
+                                    title="Ly nhựa uống nước vân kim cương 710ml cao cấp, có nắp giá rẻ"><img
                                         src="https://pos.nvncdn.com/e8033b-157317/ps/20240330_chxjXAPKd1.jpeg"
-                                        alt="Ly nhựa uống nước vân kim cương cao cấp, ly nhựa có nắp giá rẻ"></a>
+                                        alt="Ly nhựa uống nước vân kim cương 710ml cao cấp, có nắp giá rẻ"></a>
                             </div>
 
                             <div class="phistory-v-item">
@@ -733,6 +478,15 @@
                                         src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3"
                                         data-src="https://pos.nvncdn.com/e8033b-157317/ps/20231108_pBNpq6z8Kv.jpeg"
                                         alt="Nồi cơm điện mini Chigo cao cấp, nồi cơm điện đa năng giá tốt"></a>
+                            </div>
+
+                            <div class="phistory-v-item">
+                                <a href="/50-binh-nuoc-nhua-hinh-xe-o-to-p38929972.html"
+                                    title="Bình nước nhựa hình xe ô tô cho bé xinh xắn, có dây đeo tiện lợi"><img
+                                        class="lazyload" data-sizes="auto"
+                                        src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3"
+                                        data-src="https://pos.nvncdn.com/e8033b-157317/ps/20240508_8aTPfVcDfy.jpeg"
+                                        alt="Bình nước nhựa hình xe ô tô cho bé xinh xắn, có dây đeo tiện lợi"></a>
                             </div>
                         </div>
                     </div>
@@ -840,24 +594,4 @@
         }
     </script>
 
-    <script>
-        function plusQuantity() {
-            var quantityInput = document.getElementById('quantity');
-            var currentQuantity = parseInt(quantityInput.value);
-            var maxQuantity = parseInt(quantityInput.getAttribute('max'));
-
-            if (currentQuantity < maxQuantity) {
-                quantityInput.value = currentQuantity + 1;
-            }
-        }
-
-        function minusQuantity() {
-            var quantityInput = document.getElementById('quantity');
-            var currentQuantity = parseInt(quantityInput.value);
-
-            if (currentQuantity > 1) {
-                quantityInput.value = currentQuantity - 1;
-            }
-        }
-    </script>
 @endsection

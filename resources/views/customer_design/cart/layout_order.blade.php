@@ -203,6 +203,12 @@
     <script type="text/javascript" async=""
         src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/16481193416/?random=1715648367405&amp;cv=11&amp;fst=1715648367405&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=45je45d0v9184619481za200&amp;gcd=13l3l3l3l1&amp;dma=0&amp;u_w=1536&amp;u_h=864&amp;url=https%3A%2F%2Fgiadungnhanh.com%2Fcart%2Fcheckout&amp;ref=https%3A%2F%2Fgiadungnhanh.com%2Fcart&amp;hn=www.googleadservices.com&amp;frm=0&amp;tiba=Thanh%20to%C3%A1n&amp;npa=0&amp;pscdl=noapi&amp;auid=1946933850.1715436260&amp;uaa=x86&amp;uab=64&amp;uafvl=Chromium%3B124.0.6367.158%7CGoogle%2520Chrome%3B124.0.6367.158%7CNot-A.Brand%3B99.0.0.0&amp;uamb=0&amp;uam=&amp;uap=Windows&amp;uapv=15.0.0&amp;uaw=0&amp;fledge=1&amp;data=event%3Dform_start&amp;rfmt=3&amp;fmt=4">
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('style')
 </head>
 

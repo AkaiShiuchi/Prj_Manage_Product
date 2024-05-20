@@ -23,7 +23,8 @@ class User extends Authenticatable
         'password',
         'status',
         'role_id',
-        'remember_token'
+        'remember_token',
+        'phone_number'
     ];
 
     protected $table = 'users';
@@ -52,5 +53,10 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class, 'user_created_id');
     }
 }

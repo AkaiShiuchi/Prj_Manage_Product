@@ -3,16 +3,18 @@
 @section('title', 'Thanh toán')
 
 @section('style')
+    <script src="{{ asset('js/customer/cart.js') }}"></script>
 @endsection
 
 @section('content')
-    <input type="hidden" value="157317" id="storeId">
+    <input type="hidden" value="" id="storeId">
     <div class="wrapper">
         <script defer="" type="text/javascript" src="https://web.nvnstatic.net/tp/T0298/js/order.js?v=3"></script>
         <div class="content">
 
             <div class="wrap content-checkout">
-                <form action="" method="post" id="formCheckOut" class="clearfix" data-gtm-form-interact-id="0">
+                <form action="{{ route('pay_order', ['id' => $purchase_id]) }}" method="post" class="clearfix" id="order-form">
+                    @csrf
                     <div class="main">
                         <div class="main-header">
                             <a href="/home-customer" class="logo">
@@ -36,13 +38,19 @@
                                         <div class="section">
                                             <div class="section-header">
                                                 <h2 class="section-title">Thông tin giao hàng</h2>
-                                                <p class="section-content-text">
-                                                    <span id="submitCart"><i class="fa fa-user-circle"></i> Đăng nhập</span>
-                                                </p>
-                                                <span class="note_login">Để quản lý và theo dõi đơn hàng tốt hơn</span>
+                                                @if (!session('user_id'))
+                                                    <p class="section-content-text">
+                                                        <span id="submitCart"><i class="fa fa-user-circle"></i> Đăng
+                                                            nhập</span>
+                                                    </p>
+                                                @else
+                                                    <p class="section-content-text">Xin chào, <a
+                                                            href="/profile">{{ session('user_name') }}</a>
+                                                    </p>
+                                                    <span class="note_login">Để quản lý và theo dõi đơn hàng tốt hơn</span>
+                                                @endif
                                             </div>
                                             <div class="section-content section-customer-information no-mb">
-
                                                 <div class="fieldset">
                                                     <div class="field field-required  ">
                                                         <div class="field-input-wrapper">
@@ -51,7 +59,7 @@
                                                             <input placeholder="Họ và tên"
                                                                 class="field-input validate[required]" size="30"
                                                                 type="text" id="billing_address_full_name"
-                                                                name="customerName" value="">
+                                                                name="customerName" value="{{ session('user_name') }}">
                                                         </div>
 
                                                     </div>
@@ -62,7 +70,7 @@
                                                                 for="checkout_user_email">Email</label>
                                                             <input placeholder="Email" class="field-input " size="30"
                                                                 type="email" id="checkout_user_email" name="customerEmail"
-                                                                value="">
+                                                                value="{{ session('user_email') }}">
                                                         </div>
                                                     </div>
 
@@ -73,10 +81,8 @@
                                                             <input placeholder="Số điện thoại"
                                                                 class="field-input validate[required, custom[phone]]"
                                                                 size="30" maxlength="10" type="tel"
-                                                                id="billing_address_phone" name="customerMobile"
-                                                                value="">
+                                                                id="phone_number" name="phone_number" value="">
                                                         </div>
-
                                                     </div>
 
                                                     <div class="field field-required  ">
@@ -85,12 +91,9 @@
                                                                 chỉ </label>
                                                             <input placeholder="Địa chỉ"
                                                                 class="field-input validate[required]" size="30"
-                                                                type="text" id="billing_address_address1"
-                                                                name="customerAddress" value="">
+                                                                type="text" id="address" name="address" value="">
                                                         </div>
-
                                                     </div>
-
                                                 </div>
                                             </div>
 
@@ -193,7 +196,6 @@
                                                             </select>
                                                             <input type="hidden" name="selectIdWard">
                                                         </div>
-
                                                     </div>
                                                 </div>
 
@@ -282,8 +284,7 @@
                                                 <label class="radio-label">
                                                     <div class="radio-input">
                                                         <input class="input-radio validate[required] cod" checked=""
-                                                            name="desMethod" type="radio"
-                                                            value="Gửi tin nhắn SMS/Zalo">
+                                                            name="note1" type="radio" value="Gửi tin nhắn SMS/Zalo">
                                                     </div>
                                                     <span class="radio-label-primary">Gửi tin nhắn SMS/Zalo</span>
                                                     <span class="content-box__emphasis">*</span>
@@ -292,7 +293,7 @@
                                             <div class="radio-wrapper content-box-row">
                                                 <label class="radio-label">
                                                     <div class="radio-input">
-                                                        <input class="input-radio validate[required] cod" name="desMethod"
+                                                        <input class="input-radio validate[required] cod" name="note1"
                                                             type="radio" value="Gọi điện thoại trực tiếp">
                                                     </div>
                                                     <span class="radio-label-primary">Gọi điện thoại trực tiếp</span>
@@ -302,7 +303,7 @@
                                             <div class="radio-wrapper content-box-row">
                                                 <label class="radio-label">
                                                     <div class="radio-input">
-                                                        <input class="input-radio validate[required]" name="desMethod"
+                                                        <input class="input-radio validate[required]" name="note1"
                                                             type="radio" value="Tin nhắn Email">
                                                     </div>
                                                     <span class="radio-label-primary">Tin nhắn Email</span>
@@ -322,8 +323,8 @@
                                                 <label class="radio-label">
                                                     <div class="radio-input">
                                                         <input class="input-radio validate[required] cod" checked=""
-                                                            name="shippingMethod" type="radio"
-                                                            value="muốn giao tận nơi" data-gtm-form-interact-field-id="1">
+                                                            name="note2" type="radio" value="muốn giao tận nơi"
+                                                            data-gtm-form-interact-field-id="1">
                                                     </div>
                                                     <span class="radio-label-primary">Tôi muốn giao tận nơi</span>
                                                     <span class="content-box__emphasis"><i class="fa fa-money"></i></span>
@@ -337,8 +338,8 @@
                                             <div class="radio-wrapper content-box-row">
                                                 <label class="radio-label">
                                                     <div class="radio-input">
-                                                        <input class="input-radio validate[required]"
-                                                            name="shippingMethod" type="radio" value="sẽ qua shop lấy"
+                                                        <input class="input-radio validate[required]" name="note2"
+                                                            type="radio" value="sẽ qua shop lấy"
                                                             data-gtm-form-interact-field-id="0">
                                                     </div>
                                                     <span class="radio-label-primary">Tôi sẽ qua shop lấy</span>
@@ -368,102 +369,44 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr class="product">
-                                                    <td class="product-image">
-                                                        <div class="product-thumbnail">
-                                                            <div class="product-thumbnail-wrapper">
-                                                                <img class="product-thumbnail-image"
-                                                                    alt="[1] Nồi Chiên Không Dầu Air Fryer Màn hình cảm ứng 15L  "
-                                                                    (bh="" do="" lỗi=""
-                                                                    nsx)""=""
-                                                                    src="https://pos.nvncdn.com/e8033b-157317/ps/20240405_EeerfbJm9M.jpeg">
+                                                @foreach ($item_cart as $item)
+                                                    <tr class="product">
+                                                        <td class="product-image">
+                                                            <div class="product-thumbnail">
+                                                                <div class="product-thumbnail-wrapper">
+                                                                    <img class="product-thumbnail-image"
+                                                                        alt="{{ $item->product->name }}"
+                                                                        src="{{ asset('storage/uploads/' . $item->product->image) }}">
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="product-description">
-                                                        <span class="product-description-name order-summary-emphasis">[1]
-                                                            Nồi Chiên Không Dầu Air Fryer Màn hình cảm ứng 15L "(BH do lỗi
-                                                            NSX)"</span>
-                                                        <a data-id="36537835" class="deleteItem cart_remove">
-                                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                        <div class="qtt_checkout qty quantity-partent qty-click clearfix">
-                                                            <span class="add-down add-action">-</span>
-                                                            <input type="text" size="4" min="1"
-                                                                max="4" data-id="36537835" value="1"
-                                                                class="tc line-item-qty item-quantity" readonly="">
-                                                            <span class="add-up add-action">+</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="product-price">
-                                                        <span class="order-summary-emphasis">
-                                                            714,900 ₫</span>
-                                                    </td>
-
-                                                </tr>
-                                                <tr class="product">
-                                                    <td class="product-image">
-                                                        <div class="product-thumbnail">
-                                                            <div class="product-thumbnail-wrapper">
-                                                                <img class="product-thumbnail-image"
-                                                                    alt="Nồi Chiên Không Dầu CAMEL 12L nắp ngang "
-                                                                    (bh="" do="" lỗi=""
-                                                                    nsx)""=""
-                                                                    src="https://pos.nvncdn.com/e8033b-157317/ps/20240426_g0YavLclq4.jpeg">
+                                                        </td>
+                                                        <td class="product-description">
+                                                            <span
+                                                                class="product-description-name order-summary-emphasis">{{ $item->product->name }}</span>
+                                                            <a data-id="{{ $item->product_id }}"
+                                                                class="deleteItem cart_remove">
+                                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                            </a>
+                                                            <div
+                                                                class="qtt_checkout qty quantity-partent qty-click clearfix">
+                                                                <span class="add-down add-action"
+                                                                    data-id="{{ $item->product_id }}">-</span>
+                                                                <input type="text" size="4" min="1"
+                                                                    max="{{ $item->product->total }}"
+                                                                    data-id="{{ $item->product_id }}"
+                                                                    value="{{ $item->quantity }}"
+                                                                    class="tc line-item-qty item-quantity">
+                                                                <span class="add-up add-action"
+                                                                    data-id="{{ $item->product_id }}">+</span>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="product-description">
-                                                        <span class="product-description-name order-summary-emphasis">Nồi
-                                                            Chiên Không Dầu CAMEL 12L nắp ngang "(BH do lỗi NSX)"</span>
-                                                        <a data-id="38529606" class="deleteItem cart_remove">
-                                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                        <div class="qtt_checkout qty quantity-partent qty-click clearfix">
-                                                            <span class="add-down add-action">-</span>
-                                                            <input type="text" size="4" min="1"
-                                                                max="179" data-id="38529606" value="1"
-                                                                class="tc line-item-qty item-quantity" readonly="">
-                                                            <span class="add-up add-action">+</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="product-price">
-                                                        <span class="order-summary-emphasis">
-                                                            431,000 ₫</span>
-                                                    </td>
+                                                        </td>
+                                                        <td class="product-price">
+                                                            <span class="order-summary-emphasis">
+                                                                {{ $item->price }} ₫</span>
+                                                        </td>
 
-                                                </tr>
-                                                <tr class="product">
-                                                    <td class="product-image">
-                                                        <div class="product-thumbnail">
-                                                            <div class="product-thumbnail-wrapper">
-                                                                <img class="product-thumbnail-image"
-                                                                    alt="Nồi chiên không dầu MALATA 10L chính hãng, an toàn cho sức khỏe"
-                                                                    src="https://pos.nvncdn.com/e8033b-157317/ps/20240401_pKxNSNLl5c.jpeg">
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="product-description">
-                                                        <span class="product-description-name order-summary-emphasis">Nồi
-                                                            chiên không dầu MALATA 10L chính hãng, an toàn cho sức
-                                                            khỏe</span>
-                                                        <a data-id="38929932" class="deleteItem cart_remove">
-                                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                        <div class="qtt_checkout qty quantity-partent qty-click clearfix">
-                                                            <span class="add-down add-action">-</span>
-                                                            <input type="text" size="4" min="1"
-                                                                max="112" data-id="38929932" value="1"
-                                                                class="tc line-item-qty item-quantity" readonly="">
-                                                            <span class="add-up add-action">+</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="product-price">
-                                                        <span class="order-summary-emphasis">
-                                                            418,100 ₫</span>
-                                                    </td>
-
-                                                </tr>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -510,7 +453,6 @@
                                                             id="shipFee">
                                                             —
                                                         </span>
-
                                                         <span id="showCarrier"></span>
                                                         <style>
                                                             #showCarrier {
@@ -525,7 +467,6 @@
                                                                 text-decoration: underline;
                                                             }
                                                         </style>
-
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -539,7 +480,7 @@
                                                         <span class="payment-due-currency">VND</span>
                                                         <span class="payment-due-price" id="showTotalMoney"
                                                             value="1564000">
-                                                            1,564,000₫
+                                                            {{ $item_sum_total }}₫
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -591,151 +532,5 @@
                 display: none;
             }
         </style>
-
     </div>
-
-    <input type="hidden" class="fanpageId" value="">
-    <script type="application/ld+json">{
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Gia Dụng Nhanh",
-      "url": "https://giadungnhanh.com/",
-      "logo": "https://pos.nvncdn.com/e8033b-157317/store/20230831_PuNqWysm.png",
-      "sameAs": [
-        "https://www.facebook.com/fanpage.giadungnhanh",
-        "https://twitter.com/giadungnhanh",
-        "https://www.instagram.com/giadungnhanh/",
-        "https://www.youtube.com/@giadungnhanh8686/",
-        "https://www.linkedin.com/in/giadungnhanh/",
-        "https://giadungnhanhcom.tumblr.com/",
-        "https://giadungnhanh.wordpress.com/",
-        "https://www.webwiki.com/https://giadungnhanh.com/",
-        "https://giadungnhanh.com/",
-        "https://www.pinterest.com/giadungnhanh/"
-      ]
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "CÔNG TY TNHH GIA DỤNG NHANH",
-      "image": "https://pos.nvncdn.com/e8033b-157317/store/20230831_PuNqWysm.png",
-      "@id": "https://giadungnhanh.com/",
-      "url": "https://giadungnhanh.com/",
-      "telephone": "0912241237",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "343E/17 - 18, Lạc Long Quân, P5, Q.11",
-        "addressLocality": "Ho Chi Minh City",
-        "postalCode": "743100",
-        "addressCountry": "VN"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 106.642723,
-        "longitude": 10.769058
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday"
-        ],
-        "opens": "08:00",
-        "closes": "17:30"
-      },
-      "sameAs": [
-        "https://www.facebook.com/page.giadungnhanh",
-        "https://twitter.com/giadungnhanh",
-        "https://www.instagram.com/giadungnhanh/",
-        "https://www.youtube.com/@giadungnhanh8686",
-        "https://www.linkedin.com/in/giadungnhanhcom/",
-        "https://www.pinterest.com/giadungnhanhcom/",
-        "https://giadungnhanh.com/",
-        "https://giadungnhanhcom.tumblr.com/"
-      ] 
-    }
-    </script>
-    <style>
-        figure.image {
-            max-width: 600px;
-        }
-    </style>
-    <style>
-        h3.pro-name a {
-            color: #288e14;
-        }
-    </style>
-    <style>
-        .pro-loop .product-detail h3 a {
-            font-size: 16px;
-        }
-    </style>
-    <style>
-        button#add-to-cart,
-        .wrap-addcart button {
-            font-weight: 600;
-        }
-    </style><!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NX2TCN7L" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) --><input type="hidden" id="bussinessId" value="157317"><input
-        type="hidden"
-        value="tOVtfIjnWr1Bkf5I10hqGIbx34jAQHVeFXNUdrbC3QN6P4XmuLtyTrIW2wQB85WD3Q9PBm4Q5fRGg5LgoWDlC3u5SQCpS0d5cv0A4rJvUP9Yi4qHFqe4NrOVujYqkjgUG4oywLquWBqfP5WRRve29GLH2FJoAne"
-        id="uctk" name="uctk"><input type="hidden" id="clienIp" value="118.70.168.233">
-    <script id="gg_rmkCheckout">
-        gtag('event', 'begin_checkout', {
-            'value': 1564000.0000,
-            'currency': 'VND',
-            'items': [{
-                "id": 36537835,
-                "name": "[1] N\u1ed3i Chi\u00ean Kh\u00f4ng D\u1ea7u Air Fryer M\u00e0n h\u00ecnh c\u1ea3m \u1ee9ng 15L  \"(BH do l\u1ed7i NSX)\"",
-                "brand": null,
-                "category": "565770",
-                "list_name": "Search Results",
-                "list_position": 1,
-                "price": 714900,
-                "quantity": 1,
-                "variant": ""
-            }, {
-                "id": 38529606,
-                "name": "N\u1ed3i Chi\u00ean Kh\u00f4ng D\u1ea7u CAMEL 12L n\u1eafp ngang \"(BH do l\u1ed7i NSX)\"",
-                "brand": null,
-                "category": "565770",
-                "list_name": "Search Results",
-                "list_position": 1,
-                "price": 431000,
-                "quantity": 1,
-                "variant": ""
-            }, {
-                "id": 38929932,
-                "name": "N\u1ed3i chi\u00ean kh\u00f4ng d\u1ea7u MALATA 10L ch\u00ednh h\u00e3ng, an to\u00e0n cho s\u1ee9c kh\u1ecfe",
-                "brand": null,
-                "category": "565770",
-                "list_name": "Search Results",
-                "list_position": 1,
-                "price": 418100,
-                "quantity": 1,
-                "variant": ""
-            }],
-        });
-    </script><iframe allow="join-ad-interest-group" data-tagging-id="AW-16481193416"
-        data-load-time="1715648345193" height="0" width="0"
-        src="https://td.doubleclick.net/td/rul/16481193416?random=1715648345181&amp;cv=11&amp;fst=1715648345181&amp;fmt=3&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=45je45d0v9184619481za200&amp;gcd=13l3l3l3l1&amp;dma=0&amp;u_w=1536&amp;u_h=864&amp;url=https%3A%2F%2Fgiadungnhanh.com%2Fcart%2Fcheckout&amp;ref=https%3A%2F%2Fgiadungnhanh.com%2Fcart&amp;hn=www.googleadservices.com&amp;frm=0&amp;tiba=Thanh%20to%C3%A1n&amp;npa=0&amp;pscdl=noapi&amp;auid=1946933850.1715436260&amp;uaa=x86&amp;uab=64&amp;uafvl=Chromium%3B124.0.6367.158%7CGoogle%2520Chrome%3B124.0.6367.158%7CNot-A.Brand%3B99.0.0.0&amp;uamb=0&amp;uam=&amp;uap=Windows&amp;uapv=15.0.0&amp;uaw=0&amp;fledge=1&amp;data=event%3Dgtag.config"
-        style="display: none; visibility: hidden;"></iframe><iframe allow="join-ad-interest-group"
-        data-tagging-id="AW-16481193416" data-load-time="1715648345207" height="0" width="0"
-        src="https://td.doubleclick.net/td/rul/16481193416?random=1715648345201&amp;cv=11&amp;fst=1715648345201&amp;fmt=3&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=45je45d0v9184619481za200&amp;gcd=13l3l3l3l1&amp;dma=0&amp;u_w=1536&amp;u_h=864&amp;url=https%3A%2F%2Fgiadungnhanh.com%2Fcart%2Fcheckout&amp;ref=https%3A%2F%2Fgiadungnhanh.com%2Fcart&amp;hn=www.googleadservices.com&amp;frm=0&amp;tiba=Thanh%20to%C3%A1n&amp;value=1564000&amp;currency_code=VND&amp;npa=0&amp;pscdl=noapi&amp;auid=1946933850.1715436260&amp;uaa=x86&amp;uab=64&amp;uafvl=Chromium%3B124.0.6367.158%7CGoogle%2520Chrome%3B124.0.6367.158%7CNot-A.Brand%3B99.0.0.0&amp;uamb=0&amp;uam=&amp;uap=Windows&amp;uapv=15.0.0&amp;uaw=0&amp;fledge=1&amp;data=event%3Dbegin_checkout%3Bid%3D36537835%2C38529606%2C38929932"
-        style="display: none; visibility: hidden;"></iframe><iframe allow="join-ad-interest-group"
-        data-tagging-id="AW-16481193416" data-load-time="1715648345250" height="0" width="0"
-        src="https://td.doubleclick.net/td/rul/16481193416?random=1715648345248&amp;cv=11&amp;fst=1715648345248&amp;fmt=3&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=45be45d0v9184619481z89180051082za201&amp;gcd=13l3l3l3l1&amp;dma=0&amp;u_w=1536&amp;u_h=864&amp;url=https%3A%2F%2Fgiadungnhanh.com%2Fcart%2Fcheckout&amp;ref=https%3A%2F%2Fgiadungnhanh.com%2Fcart&amp;hn=www.googleadservices.com&amp;frm=0&amp;tiba=Thanh%20to%C3%A1n&amp;npa=0&amp;pscdl=noapi&amp;auid=1946933850.1715436260&amp;uaa=x86&amp;uab=64&amp;uafvl=Chromium%3B124.0.6367.158%7CGoogle%2520Chrome%3B124.0.6367.158%7CNot-A.Brand%3B99.0.0.0&amp;uamb=0&amp;uam=&amp;uap=Windows&amp;uapv=15.0.0&amp;uaw=0&amp;fledge=1"
-        style="display: none; visibility: hidden;"></iframe><iframe allow="join-ad-interest-group"
-        data-tagging-id="AW-16481193416" data-load-time="1715648367414" height="0" width="0"
-        src="https://td.doubleclick.net/td/rul/16481193416?random=1715648367405&amp;cv=11&amp;fst=1715648367405&amp;fmt=3&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=45je45d0v9184619481za200&amp;gcd=13l3l3l3l1&amp;dma=0&amp;u_w=1536&amp;u_h=864&amp;url=https%3A%2F%2Fgiadungnhanh.com%2Fcart%2Fcheckout&amp;ref=https%3A%2F%2Fgiadungnhanh.com%2Fcart&amp;hn=www.googleadservices.com&amp;frm=0&amp;tiba=Thanh%20to%C3%A1n&amp;npa=0&amp;pscdl=noapi&amp;auid=1946933850.1715436260&amp;uaa=x86&amp;uab=64&amp;uafvl=Chromium%3B124.0.6367.158%7CGoogle%2520Chrome%3B124.0.6367.158%7CNot-A.Brand%3B99.0.0.0&amp;uamb=0&amp;uam=&amp;uap=Windows&amp;uapv=15.0.0&amp;uaw=0&amp;fledge=1&amp;data=event%3Dform_start"
-        style="display: none; visibility: hidden;"></iframe>
 @endsection

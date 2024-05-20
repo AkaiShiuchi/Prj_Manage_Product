@@ -3,7 +3,7 @@
 @section('title', 'Tìm kiếm')
 
 @section('style')
-
+    <script src="{{ asset('js/customer/dashboard.js') }}"></script>
 @endsection
 
 @section('content')
@@ -42,8 +42,9 @@
                                         <a aria-label="cart" href="/cart" class="count-holder">
                                             <span class="iconTop icon-5-top"></span>
                                             <span class="title-info-top">
-                                                <span class="gh">Giỏ hàng</span> <span>(<span
-                                                        class="count">0</span>)</span>
+                                                <span class="gh">Giỏ hàng</span>
+                                                <span>(<span
+                                                        class="count">{{ session('cart') ? session('cart')->products->sum('quantity') : 0 }}</span>)</span>
                                             </span>
                                         </a>
                                     </span>
@@ -212,9 +213,9 @@
                                                     <g>
                                                         <path
                                                             d="M447.05,428l-109.6-109.6c29.4-33.8,47.2-77.9,47.2-126.1C384.65,86.2,298.35,0,192.35,0C86.25,0,0.05,86.3,0.05,192.3
-                                                                                                                                                                                                             s86.3,192.3,192.3,192.3c48.2,0,92.3-17.8,126.1-47.2L428.05,447c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4
-                                                                                                                                                                                                             C452.25,441.8,452.25,433.2,447.05,428z M26.95,192.3c0-91.2,74.2-165.3,165.3-165.3c91.2,0,165.3,74.2,165.3,165.3
-                                                                                                                                                                                                             s-74.1,165.4-165.3,165.4C101.15,357.7,26.95,283.5,26.95,192.3z">
+                                                                                                                                                                                                                                     s86.3,192.3,192.3,192.3c48.2,0,92.3-17.8,126.1-47.2L428.05,447c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4
+                                                                                                                                                                                                                                     C452.25,441.8,452.25,433.2,447.05,428z M26.95,192.3c0-91.2,74.2-165.3,165.3-165.3c91.2,0,165.3,74.2,165.3,165.3
+                                                                                                                                                                                                                                     s-74.1,165.4-165.3,165.4C101.15,357.7,26.95,283.5,26.95,192.3z">
                                                         </path>
                                                     </g>
                                                 </svg>
@@ -232,12 +233,12 @@
                                                         <g>
                                                             <path
                                                                 d="M447.988,139.696c-0.156-2.084-1.9-3.696-3.988-3.696h-72v-20C372,52.036,319.96,0,256,0S140,52.036,140,116v20H68
-                                                                                                                                                                                                                     c-2.088,0-3.832,1.612-3.988,3.696l-28,368c-0.084,1.108,0.296,2.204,1.056,3.02C37.824,511.536,38.888,512,40,512h432
-                                                                                                                                                                                                                     c1.112,0,2.176-0.464,2.932-1.28c0.756-0.816,1.14-1.912,1.056-3.02L447.988,139.696z M172,116c0-46.316,37.68-84,84-84
-                                                                                                                                                                                                                     s84,37.684,84,84v20H172V116z M156,248c-22.06,0-40-17.944-40-40c0-15.964,8-30.348,24-36.66V208c0,8.824,7.18,16,16,16
-                                                                                                                                                                                                                     s16-7.176,16-16v-36.636c16,6.312,24,20.804,24,36.636C196,230.056,178.06,248,156,248z M356,248c-22.06,0-40-17.944-40-40
-                                                                                                                                                                                                                     c0-15.964,8-30.348,24-36.66V208c0,8.824,7.18,16,16,16s16-7.176,16-16v-36.636c16,6.312,24,20.804,24,36.636
-                                                                                                                                                                                                                     C396,230.056,378.06,248,356,248z">
+                                                                                                                                                                                                                                             c-2.088,0-3.832,1.612-3.988,3.696l-28,368c-0.084,1.108,0.296,2.204,1.056,3.02C37.824,511.536,38.888,512,40,512h432
+                                                                                                                                                                                                                                             c1.112,0,2.176-0.464,2.932-1.28c0.756-0.816,1.14-1.912,1.056-3.02L447.988,139.696z M172,116c0-46.316,37.68-84,84-84
+                                                                                                                                                                                                                                             s84,37.684,84,84v20H172V116z M156,248c-22.06,0-40-17.944-40-40c0-15.964,8-30.348,24-36.66V208c0,8.824,7.18,16,16,16
+                                                                                                                                                                                                                                             s16-7.176,16-16v-36.636c16,6.312,24,20.804,24,36.636C196,230.056,178.06,248,156,248z M356,248c-22.06,0-40-17.944-40-40
+                                                                                                                                                                                                                                             c0-15.964,8-30.348,24-36.66V208c0,8.824,7.18,16,16,16s16-7.176,16-16v-36.636c16,6.312,24,20.804,24,36.636
+                                                                                                                                                                                                                                             C396,230.056,378.06,248,356,248z">
                                                             </path>
                                                         </g>
                                                     </g>
@@ -420,84 +421,17 @@
 
                                                     <div class="filter-category">
                                                         <ul>
-                                                            <li>
-                                                                <a href="/do-cong-nghe-pc565757.html">ĐỒ CÔNG NGHỆ</a>
-                                                                <span class="icon-control"><i
-                                                                        class="fa fa-sort-down"></i></span>
-                                                                {{-- <ul>
-                                                                    <li><a href="/den-ngu-den-trang-tri-pc565758.html">Đèn
-                                                                            ngủ, đèn trang trí</a></li>
-                                                                    <li><a href="/phu-kien-di-dong-pc565759.html">Phụ
-                                                                            kiện di động</a></li>
-                                                                    <li><a href="/may-xong-quat-mini-pc565760.html">Máy
-                                                                            xông, quạt mini</a></li>
-                                                                    <li><a href="/do-choi-cong-nghe-pc565761.html">Đồ
-                                                                            chơi công nghệ</a></li>
-                                                                </ul> --}}
-                                                            </li>
-                                                            <li>
-                                                                <a href="/do-dien-may-pc565767.html">ĐỒ ĐIỆN MÁY</a>
-                                                                <span class="icon-control"><i
-                                                                        class="fa fa-sort-down"></i></span>
-                                                                {{-- <ul>
-                                                                    <li><a href="/may-xay-vat-ep-pc565768.html">Máy
-                                                                            xay, vắt, ép</a></li>
-                                                                    <li><a href="/may-say-duoi-bam-toc-pc565769.html">Máy
-                                                                            sấy, duỗi, bấm tóc</a></li>
-                                                                    <li><a href="/bep-noi-am-dien-pc565770.html">Bếp,
-                                                                            nồi, ấm điện</a></li>
-                                                                    <li><a href="/ban-ui-may-may-pc565771.html">Bản ủi,
-                                                                            máy may</a></li>
-                                                                    <li><a href="/do-dien-may-khac-pc565772.html">Đồ
-                                                                            điện máy khác</a></li>
-                                                                </ul> --}}
-                                                            </li>
-                                                            <li>
-                                                                <a href="/dung-cu-an-uong-pc565777.html">DỤNG CỤ ĂN
-                                                                    UỐNG</a>
-                                                                <span class="icon-control"><i
-                                                                        class="fa fa-sort-down"></i></span>
-                                                                {{-- <ul>
-                                                                    <li><a
-                                                                            href="/binh-xach-tay-binh-giu-nhiet-pc565778.html">Bình
-                                                                            xách tay, Bình giữ nhiệt</a></li>
-                                                                    <li><a href="/hop-com-van-phong-pc565779.html">Hộp
-                                                                            cơm văn phòng</a></li>
-                                                                    <li><a href="/dua-muong-nia-pc565781.html">Đũa,
-                                                                            muỗng, nĩa</a></li>
-                                                                    <li><a href="/bat-dia-to-pc565782.html">Bát, đĩa,
-                                                                            tô</a></li>
-                                                                </ul> --}}
-                                                            </li>
-                                                            <li>
-                                                                <a href="/do-dung-nha-bep-pc565784.html">ĐỒ DÙNG NHÀ
-                                                                    BẾP</a>
-                                                                <span class="icon-control"><i
-                                                                        class="fa fa-sort-down"></i></span>
-                                                                {{-- <ul>
-                                                                    <li><a href="/dung-chua-thuc-pham-pc565786.html">Đựng
-                                                                            chứa thực phẩm</a></li>
-                                                                    <li><a href="/thau-ro-cac-loai-pc565785.html">Thau
-                                                                            rổ các loại</a></li>
-                                                                    <li><a href="/do-dung-nha-bep-khac-pc565787.html">Đồ
-                                                                            dùng nhà bếp khác</a></li>
-                                                                    <li><a href="/dung-cu-nau-an-pc565788.html">Dụng cụ
-                                                                            nấu ăn</a></li>
-                                                                    <li><a href="/noi-xoong-chao-bep-pc565789.html">Nồi,
-                                                                            xoong, chảo, bếp</a></li>
-                                                                </ul> --}}
-                                                            </li>
-                                                            <li>
-                                                                <a href="/do-noi-that-pc565796.html">ĐỒ NỘI THẤT</a>
-                                                                <span class="icon-control"><i
-                                                                        class="fa fa-sort-down"></i></span>
-                                                                {{-- <ul>
-                                                                    <li><a href="/tu-pc565797.html">Tủ</a></li>
-                                                                    <li><a href="/ke-pc565798.html">Kệ</a></li>
-                                                                    <li><a href="/ban-pc565799.html">Bàn</a></li>
-                                                                    <li><a href="/guong-pc565800.html">Gương</a></li>
-                                                                </ul> --}}
-                                                            </li>
+                                                            @foreach ($categories as $category)
+                                                                <li>
+                                                                    <a
+                                                                        href="{{ route('search_category', ['id' => $category->id]) }}">
+                                                                        {{ $category->name }}
+                                                                    </a>
+                                                                    <span class="icon-control">
+                                                                        <i class="fa fa-sort-down"></i>
+                                                                    </span>
+                                                                </li>
+                                                            @endforeach
                                                         </ul>
                                                     </div>
 
@@ -623,8 +557,10 @@
                                                 </div>
 
                                                 <div class="actionLoop visible-lg">
-                                                    <a class="quickView styleBtnBuy notClick" data-id="38929976"><i
-                                                            class="fa fa-shopping-cart"></i> Mua nhanh</a>
+                                                    <a class="quickView styleBtnBuy notClick"
+                                                        data-id="{{ $product->id }}" data-toggle="modal"
+                                                        data-target="#quickview-cart">
+                                                        <i class="fa fa-shopping-cart"></i> Mua nhanh</a>
                                                     <a class="styleBtnBuy"
                                                         href="{{ route('product_detail', ['id' => $product->id]) }}">
                                                         <i class="fa fa-eye"></i> Xem chi tiết</a>
@@ -792,11 +728,6 @@
 
         <div id="site-overlay" class="site-overlay"></div>
 
-        <div id="quickview-cart" class="modal fade" role="dialog">
-            <div id="quickview-cart-desktop" class="clearfix"></div>
-        </div>
-
-
         <div id="bttop" style="display: block;">
             <span class="text-bttop">Về đầu trang</span>
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -804,12 +735,12 @@
                 <g>
                     <path
                         d="M32.135,16.817H0.5c-0.276,0-0.5-0.224-0.5-0.5s0.224-0.5,0.5-0.5h31.635c0.276,0,0.5,0.224,0.5,0.5
-                                                                                                                                                                                             S32.411,16.817,32.135,16.817z">
+                                                                                                                                                                                                                     S32.411,16.817,32.135,16.817z">
                     </path>
                     <path
                         d="M19.598,29.353c-0.128,0-0.256-0.049-0.354-0.146c-0.195-0.195-0.195-0.512,0-0.707l12.184-12.184L19.244,4.136
-                                                                                                                                                                                             c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l12.537,12.533c0.094,0.094,0.146,0.221,0.146,0.354
-                                                                                                                                                                                             s-0.053,0.26-0.146,0.354L19.951,29.206C19.854,29.304,19.726,29.353,19.598,29.353z">
+                                                                                                                                                                                                                     c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l12.537,12.533c0.094,0.094,0.146,0.221,0.146,0.354
+                                                                                                                                                                                                                     s-0.053,0.26-0.146,0.354L19.951,29.206C19.854,29.304,19.726,29.353,19.598,29.353z">
                     </path>
                 </g>
             </svg>
@@ -972,4 +903,6 @@
             });
         }
     </script>
+
+    @include('customer_design.product.modal.detail_modal_product')
 @endsection

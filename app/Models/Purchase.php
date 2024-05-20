@@ -12,6 +12,9 @@ class Purchase extends Model
     protected $fillable = [
         'user_created_id',
         'status',
+        'total_price',
+        'address',
+        'note',
     ];
 
     protected $table = 'purchases';
@@ -25,5 +28,10 @@ class Purchase extends Model
     {
         return $this->belongsToMany(Product::class, 'product_purchase', 'purchase_id', 'product_id')
             ->withPivot('quantity', 'total_amount');
+    }
+
+    public function product_purchases()
+    {
+        return $this->hasMany(ProductPurchase::class);
     }
 }

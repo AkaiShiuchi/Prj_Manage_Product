@@ -93,14 +93,29 @@ Route::middleware(['checkLogin'])->group(function () {
     Route::post('/handle-reset/{user}/{remember_token}', [CustomerInterface::class, 'handle_reset']);
 });
 
-Route::get('/profile', [CustomerInterface::class, 'profile'])->name('profile');
-Route::get('/profile/changepassword', [CustomerInterface::class, 'change_password'])->name('change_password');
-Route::post('/handle-changePass', [CustomerInterface::class, 'handle_changePass'])->name('handle_changePass');
+Route::middleware(['checkLogout'])->group(function () {
+    Route::get('/profile', [CustomerInterface::class, 'profile'])->name('profile');
+    Route::get('/profile/changepassword', [CustomerInterface::class, 'change_password'])->name('change_password');
+    Route::post('/handle-changePass', [CustomerInterface::class, 'handle_changePass'])->name('handle_changePass');
+
+    Route::get('/history-order', [CustomerInterface::class, 'history_order'])->name('history_order');
+    Route::post('/cancel-order/{id}', [CustomerInterface::class, 'cancel_order'])->name('cancel_order');
+});
 
 Route::get('/user/signout', [CustomerInterface::class, 'signout'])->name('signout');
 
 Route::get('/product-all', [CustomerInterface::class, 'view_product'])->name('view_product');
 Route::get('/product-detail/{id}', [CustomerInterface::class, 'product_detail'])->name('product_detail');
+Route::get('/get-product-details', [CustomerInterface::class, 'get_product_detail'])->name('get_product_detail');
 
 Route::get('/cart', [CustomerInterface::class, 'view_cart'])->name('view_cart');
 Route::get('/cart/checkout', [CustomerInterface::class, 'order'])->name('order');
+Route::post('/cart/add', [CustomerInterface::class, 'update_cart'])->name('update_cart');
+
+Route::middleware(['auth', 'checkCart'])->group(function () {
+    Route::post('/add-item-cart/{id}', [CustomerInterface::class, 'add_item_cart'])->name('add_item_cart');
+    Route::get('/get-cart', [CustomerInterface::class, 'get_cart'])->name('get_cart');
+});
+Route::delete('/remove-item-cart/{id}', [CustomerInterface::class, 'remove_item_cart'])->name('remove_item_cart');
+Route::post('/pay-order/{id}', [CustomerInterface::class, 'pay_order'])->name('pay_order');
+Route::get('/order-success', [CustomerInterface::class, 'order_success'])->name('order_success');

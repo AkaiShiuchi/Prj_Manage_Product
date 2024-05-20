@@ -14,6 +14,7 @@ class ProductPurchase extends Model
         'purchase_id',
         'quantity',
         'total_amount',
+        'price',
     ];
 
     protected $table = 'product_purchase';

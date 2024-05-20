@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ValidateAddProductPurchase;
 use App\Http\Requests\ValidateLogin;
 use App\Http\Requests\ValidateRegister;
 use App\Models\Categories;
 use App\Models\Product;
+use App\Models\ProductPurchase;
 use App\Models\Purchase;
 use App\Models\User;
 use Carbon\Carbon;
@@ -283,8 +285,176 @@ class CustomerInterface extends Controller
     public function view_cart()
     {
         $categories = Categories::all();
-        return view('customer_design.cart.cart', compact('categories'));
+        //lấy id đơn hàng khi đăng nhập
+        $purchase_id = session('purchase_id');
+
+        //mảng chứa các sản phẩm trong đơn hàng
+        $item_cart = [];
+
+        //tổng giá của đơn hàng
+        $item_sum_total = 0;
+
+        //tổng số lượng sản phẩm trong đơn hàng
+        $item_sum_quantity = 0;
+
+        if ($purchase_id) {
+            $item_cart = ProductPurchase::with('product')->where('purchase_id', $purchase_id)->get();
+            $item_sum_total = $item_cart->sum('total_amount');
+            $item_sum_quantity = $item_cart->sum('quantity');
+        }
+
+        return view('customer_design.cart.cart', compact('categories', 'item_cart', 'item_sum_total', 'item_sum_quantity'));
     }
+
+    /**
+     * Hàm thêm sản phẩm vào giỏ hàng
+     *
+     * @param Request $request
+     * @param [type] $id
+     * @return void
+     */
+    public function add_item_cart(Request $request, $id)
+    {
+        $quantity = $request->input('quantity');
+        $product = Product::find($id);
+
+        if ($quantity > $product->total) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Số lượng sản phẩm không đủ!'
+            ]);
+        }
+
+        $user = auth()->user();
+
+        $purchaseId = session('purchase_id');
+        if ($purchaseId) {
+            $purchase = Purchase::find($purchaseId);
+        } else {
+            $purchase = $user->purchases->where('status', 'Chưa đặt hàng')->first();
+        }
+
+        if (!$purchase) {
+            $purchase = new Purchase();
+            $purchase->fill([
+                'status' => 'Chưa đặt hàng',
+                'user_created_id' => $user->id,
+                'total_price' => 0
+            ])->save();
+
+            session(['purchase_id' => $purchase->id]);
+        }
+
+        $productPurchase = ProductPurchase::where('purchase_id', $purchase->id)
+            ->where('product_id', $id)
+            ->first();
+
+        if ($productPurchase) {
+            $productPurchase->quantity += $quantity;
+            $productPurchase->total_amount = $productPurchase->quantity * $product->price;
+            $productPurchase->save();
+        } else {
+            $productPurchase = new ProductPurchase();
+            $productPurchase->fill([
+                'product_id' => $id,
+                'purchase_id' => $purchase->id,
+                'quantity' => $quantity,
+                'total_amount' => $product->price * $quantity,
+                'price' => $product->price,
+            ])->save();
+        }
+
+        $purchase->total_price += $product->price * $quantity;
+        $purchase->save();
+
+        session(['cart' => $purchase]);
+        $cartItems = ProductPurchase::where('purchase_id', $purchase->id)->get();
+        $total = $purchase->total_price;
+        $totalItems = $cartItems->sum('quantity');
+
+        $cartHtml = view('customer_design.cart.cart_items', ['products' => $cartItems])->render();
+
+        return response()->json([
+            'success' => true,
+            'cartHtml' => $cartHtml,
+            'total' => $total,
+            'totalItems' => $totalItems,
+        ]);
+    }
+
+    /**
+     * Hàm lấy thông tin giỏ hàng khi đăng nhập
+     *
+     * @return void
+     */
+    public function get_cart()
+    {
+        $purchaseId = session('purchase_id');
+        $cartItems = [];
+        $total = 0;
+        $totalItems = 0;
+
+        if ($purchaseId) {
+            $cartItems = ProductPurchase::with('product')->where('purchase_id', $purchaseId)->get();
+            $total = $cartItems->sum('total_amount');
+            $totalItems = $cartItems->sum('quantity');
+        }
+
+        $cartHtml = view('customer_design.cart.cart_items', ['products' => $cartItems])->render();
+
+        return response()->json([
+            'cartHtml' => $cartHtml,
+            'total' => $total,
+            'totalItems' => $totalItems
+        ]);
+    }
+
+    /**
+     * Hàm xóa sản phẩm ra khỏi giỏ hàng
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function remove_item_cart($id)
+    {
+        // Lấy purchase_id từ session
+        $purchaseId = session('purchase_id');
+
+        $productPurchase = ProductPurchase::where('purchase_id', $purchaseId)
+            ->where('product_id', $id)
+            ->first();
+
+        if ($productPurchase) {
+            // Cập nhật tổng giá tiền của đơn hàng
+            $purchase = Purchase::find($purchaseId);
+            $purchase->total_price -= $productPurchase->total_amount;
+            $purchase->save();
+
+            // Xóa sản phẩm khỏi giỏ hàng
+            $productPurchase->delete();
+
+            // Lấy thông tin cập nhật của giỏ hàng
+            $cartItems = ProductPurchase::with('product')->where('purchase_id', $purchase->id)->get();
+            $total = $purchase->total_price;
+            $totalItems = $cartItems->sum('quantity');
+
+            // Render lại view giỏ hàng
+            $cartHtml = view('customer_design.cart.cart_items', ['products' => $cartItems])->render();
+
+            return response()->json([
+                'success' => true,
+                'cartHtml' => $cartHtml,
+                'total' => $total,
+                'totalItems' => $totalItems
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sản phẩm không tồn tại trong giỏ hàng.'
+            ]);
+        }
+    }
+
 
     /**
      * hàm thanh toán
@@ -293,14 +463,187 @@ class CustomerInterface extends Controller
      */
     public function order()
     {
-        return view('customer_design.cart.order');
+        $purchase_id = session('purchase_id');
+        $item_cart = [];
+        $item_sum_total = 0;
+        $item_sum_quantity = 0;
+
+        if ($purchase_id) {
+            $item_cart = ProductPurchase::with('product')->where('purchase_id', $purchase_id)->get();
+            $item_sum_total = $item_cart->sum('total_amount');
+            $item_sum_quantity = $item_cart->sum('quantity');
+        }
+        return view('customer_design.cart.order', compact('item_cart', 'item_sum_total', 'item_sum_quantity', 'purchase_id'));
     }
 
+    /**
+     * hàm cập nhật số lượng sản phẩm khi bấm nút tăng giảm
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function update_cart(Request $request)
+    {
+        $productId = $request->input('product_id');
+        $quantity = $request->input('quantity');
+
+        $purchaseId = session('purchase_id');
+        if (!$purchaseId) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Không tìm thấy giỏ hàng.'
+            ]);
+        }
+
+        $productPurchase = ProductPurchase::where('purchase_id', $purchaseId)
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($productPurchase) {
+            $productPurchase->quantity = $quantity;
+            $productPurchase->total_amount = $productPurchase->price * $quantity;
+            $productPurchase->save();
+
+            // Update total price in Purchase table
+            $purchase = Purchase::find($purchaseId);
+            $purchase->total_price = ProductPurchase::where('purchase_id', $purchaseId)
+                ->sum('total_amount');
+            $purchase->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Số lượng cập nhật thành công.'
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Sản phẩm không tìm thấy trong giỏ hàng.'
+        ]);
+    }
+
+    /**
+     * hàm đặt hàng
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function pay_order(Request $request, $id)
+    {
+        if (!Auth::check()) {
+            toastr()->warning('Bạn cần đăng nhập để thanh toán.');
+            return redirect()->back();
+        }
+
+        $purchase = Purchase::find($id);
+
+        if (!$purchase) {
+            return redirect()->back()->with('error', 'Đơn hàng không tồn tại.');
+        }
+
+        $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
+        if ($productPurchases->isEmpty()) {
+            return redirect()->route('view_cart')->with('error', 'Đơn hàng không có sản phẩm.');
+        }
+
+        foreach ($productPurchases as $productPurchase) {
+            $product = Product::find($productPurchase->product_id);
+            if ($product->total < $productPurchase->quantity) {
+                return redirect()->back()->with('error', 'Số lượng sản phẩm không đủ.');
+            }
+
+            $product->total -= $productPurchase->quantity;
+            $product->save();
+        }
+
+        $user = User::find($purchase->user_created_id);
+        $user->update([
+            'phone_number' => $request->phone_number,
+        ]);
+
+        $purchase->update([
+            'address' => $request->address,
+            'status' => 'Chờ xác nhận',
+            'note' => $request->input('note1') . ', ' . $request->input('note2'),
+        ]);
+
+        session()->forget('purchase_id');
+        session()->forget('cart');
+
+        return redirect()->route('order_success')->with('success', 'Đơn hàng đã được đặt hàng thành công.');
+    }
+
+    /**
+     * hàm điều hướng đến trang khi đặt hàng thành công
+     *
+     * @return void
+     */
+    public function order_success()
+    {
+        $categories = Categories::all();
+        return view('customer_design.cart.order_success', compact('categories'));
+    }
+
+    /**
+     * hàm xem lịch sử các đơn hàng
+     *
+     * @return void
+     */
+    public function history_order()
+    {
+        $categories = Categories::all();
+        $purchases = Purchase::where('status', '!=', 'Chưa đặt hàng')->with('product_purchases.product')->get();
+
+        return view('customer_design.cart.history_order', compact('categories', 'purchases'));
+    }
+
+    public function cancel_order($id)
+    {
+        $purchase = Purchase::find($id);
+        $item_purchases = ProductPurchase::where('purchase_id', $id)->get();
+
+        foreach ($item_purchases as $item_purchase) {
+            $item = Product::find($item_purchase->product_id);
+            $item->update([
+                'total' => $item->total + $item_purchase->quantity,
+            ]);
+        }
+
+        $purchase->update([
+            'status' => 'Đã hủy',
+            'note' => 'Khách hàng đã hủy',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Bạn đã hủy đơn hàng thành công'
+        ]);
+    }
+
+
+    /**
+     * hàm điều hướng đến trang xem chi tiết sản phẩm
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function product_detail($id)
     {
         $categories = Categories::all();
         $product = Product::find($id);
         return view('customer_design.product.product_detail', compact('product', 'categories'));
+    }
+
+    /**
+     * hàm mở modal xem chi tiết sản phẩm
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function get_product_detail(Request $request)
+    {
+        $product = Product::find($request->id);
+        return response()->json($product);
     }
 
     /**
@@ -351,6 +694,6 @@ class CustomerInterface extends Controller
         Auth::logout();
         Session::flush();
         Session::regenerate();
-        return redirect()->route('view_home');
+        return redirect()->back();
     }
 }
