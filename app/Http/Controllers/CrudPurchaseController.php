@@ -105,7 +105,7 @@ class CrudPurchaseController extends Controller
     {
         $product = Product::findOrFail($request->product_id);
         $purchas = Purchase::find($purchase_id);
-        if ($purchas->status === 'paid') {
+        if ($purchas->status === 'Đã thanh toán') {
             toastr()->error('This purchase has been paid.');
             return redirect()->back();
         } else {
@@ -136,6 +136,7 @@ class CrudPurchaseController extends Controller
                     'purchase_id' => $purchase_id,
                     'quantity' => $request->quantity,
                     'total_amount' => $product->price * $request->quantity,
+                    'price' => $product->price,
                 ])->save();
             }
 
@@ -178,7 +179,7 @@ class CrudPurchaseController extends Controller
         $purcha_id = Purchase::find($purchase_id);
         $selected_ids = $request->input('selected_products');
 
-        if ($purcha_id->status !== 'paid') {
+        if ($purcha_id->status !== 'Đã thanh toán') {
             if (isset($selected_ids)) {
                 $deleted = ProductPurchase::where('purchase_id', $purchase_id)->whereIn('product_id', $selected_ids);
                 $deleted->delete();
@@ -209,7 +210,7 @@ class CrudPurchaseController extends Controller
             toastr()->warning('This purchase is empty.');
             return redirect()->back();
         } else {
-            if ($purchase->status === 'paid') {
+            if ($purchase->status === 'Đã thanh toán') {
                 toastr()->warning('This purchase already has been paid.');
                 return redirect()->back();
             }
@@ -232,11 +233,22 @@ class CrudPurchaseController extends Controller
             }
 
             $purchase->update([
-                'status' => 'paid'
+                'status' => 'Đã thanh toán'
             ]);
 
             toastr()->success('Payment successfully');
             return redirect()->route('purchase_manage');
         }
+    }
+
+    public function confirm($id)
+    {
+        $purchase = Purchase::find($id);
+
+        $purchase->update([
+            'status' => 'Chờ giao hàng'
+        ]);
+
+        return redirect()->back();
     }
 }

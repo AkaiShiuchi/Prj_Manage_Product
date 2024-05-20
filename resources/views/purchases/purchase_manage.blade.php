@@ -136,15 +136,25 @@
                                                         <?php
                                                         $pendingCount = 0;
                                                         $paidCount = 0;
+                                                        $failedCount = 0;
+                                                        $refundedCount = 0;
                                                         ?>
                                                         @foreach ($purchase as $purchas)
-                                                            @if ($purchas->status === 'pending')
+                                                            @if ($purchas->status === 'Đã thanh toán')
                                                                 @php
-                                                                    $pendingCount++;
+                                                                    $paidCount++;
+                                                                @endphp
+                                                            @elseif ($purchas->status === 'Đã hủy')
+                                                                @php
+                                                                    $failedCount++;
+                                                                @endphp
+                                                            @elseif ($purchas->status === 'Hoàn trả')
+                                                                @php
+                                                                    $paidCount++;
                                                                 @endphp
                                                             @else
                                                                 @php
-                                                                    $paidCount++;
+                                                                    $pendingCount++;
                                                                 @endphp
                                                             @endif
                                                         @endforeach
@@ -189,7 +199,11 @@
                                                 <div
                                                     class="d-flex justify-content-between align-items-start border-end pb-3 pb-sm-0 card-widget-3">
                                                     <div>
-                                                        <h3 class="mb-2">0</h3>
+                                                        @if ($refundedCount > 0)
+                                                            <h3 class="mb-2">{{ $refundedCount }}</h3>
+                                                        @else
+                                                            <h3 class="mb-2">0</h3>
+                                                        @endif
                                                         <p class="mb-0">Refunded</p>
                                                     </div>
                                                     <div class="avatar me-sm-4">
@@ -202,7 +216,11 @@
                                             <div class="col-sm-6 col-lg-3">
                                                 <div class="d-flex justify-content-between align-items-start">
                                                     <div>
-                                                        <h3 class="mb-2">0</h3>
+                                                        @if ($failedCount > 0)
+                                                            <h3 class="mb-2">{{ $failedCount }}</h3>
+                                                        @else
+                                                            <h3 class="mb-2">0</h3>
+                                                        @endif
                                                         <p class="mb-0">Failed</p>
                                                     </div>
                                                     <div class="avatar">
@@ -272,7 +290,7 @@
                                                         </th>
                                                         <th class="" tabindex="0"
                                                             aria-controls="DataTables_Table_0" rowspan="1"
-                                                            colspan="1" style="width: 251px;"
+                                                            colspan="1" style="width: 235px;"
                                                             aria-label="customers: activate to sort column ascending">
                                                             customers
                                                         </th>
@@ -288,7 +306,7 @@
                                                             aria-label="status: activate to sort column ascending">status
                                                         </th>
                                                         <th class="" rowspan="1" colspan="1"
-                                                            style="width: 64px;" aria-label="Actions">Actions</th>
+                                                            style="width: 67px;" aria-label="Actions">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -331,13 +349,19 @@
                                                             </td>
                                                             <td>
                                                                 <h6
-                                                                    class="mb-0 w-px-100 {{ $pur->status === 'pending' ? 'text-warning' : 'text-success' }}">
+                                                                    class="mb-0 w-px-105 {{ $pur->status === 'Đã thanh toán' ? 'text-success' : ($pur->status === 'Đã hủy' ? 'text-danger' : ($pur->status === 'Chờ xác nhận' ? 'text-warning' : 'text-info')) }}">
                                                                     <i class="fas fa-circle"></i> {{ $pur->status }}
                                                                 </h6>
                                                             </td>
                                                             <td>
                                                                 <div
-                                                                    class="d-flex justify-content-sm-center align-items-sm-center">
+                                                                    class="d-flex justify-content-sm-end align-items-sm-center">
+                                                                    @if ($pur->status === 'Chờ xác nhận')
+                                                                        <a href="{{ route('confirm', ['id' => $pur->id]) }}"
+                                                                            class="btn btn-outline-danger">
+                                                                            Xác nhận
+                                                                        </a>
+                                                                    @endif
                                                                     <button
                                                                         class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
                                                                         data-bs-toggle="dropdown" aria-expanded="false">

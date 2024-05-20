@@ -64,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/delete-purchase/{id}', [CrudPurchaseController::class, 'delete_purchase'])->name('delete_purchase');
     Route::post('/delete-product-purchase/{purchase_id}', [CrudPurchaseController::class, 'delete_product_to_purchase'])->name('purchase_deleteProduct');
     Route::post('/payment/{id}', [CrudPurchaseController::class, 'payment'])->name('payment');
+
+    Route::get('/confirm/{id}', [CrudPurchaseController::class, 'confirm'])->name('confirm');
 });
 
 Route::middleware(['auth', 'checkRole'])->group(function () {

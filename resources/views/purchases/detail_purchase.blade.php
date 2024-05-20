@@ -258,41 +258,42 @@
                             </div>
                             <div class="d-flex justify-content-between">
                                 <h6>Contact info</h6>
-                                <h6><a href=" javascript:void(0)" data-bs-toggle="modal"
+                                {{-- <h6><a href=" javascript:void(0)" data-bs-toggle="modal"
                                         data-bs-target="#editUser">Edit</a>
-                                </h6>
+                                </h6> --}}
                             </div>
                             <p class=" mb-1">Email: {{ $purchase->user->email }}</p>
-                            <p class=" mb-0">Mobile: </p>
+                            <p class=" mb-0">Mobile: {{ $purchase->user->phone_number }}</p>
                         @endif
                     </div>
                 </div>
 
-                {{-- <div class="card mb-4">
-
-                    <div class="card-header d-flex justify-content-between">
-                        <h6 class="card-title m-0">Shipping address</h6>
-                        <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal"
-                                data-bs-target="#addNewAddress">Edit</a></h6>
-                    </div>
-                    <div class="card-body">
-                        <p class="mb-0">45 Roker Terrace <br>Latheronwheel <br>KW5 8NW,London <br>UK</p>
-                    </div>
-
+                <div class="card mb-4">
+                    @if ($purchase)
+                        <div class="card-header d-flex justify-content-between">
+                            <h6 class="card-title m-0">Shipping address</h6>
+                            {{-- <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal"
+                                    data-bs-target="#addNewAddress">Edit</a></h6> --}}
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-0">{{ $purchase->address }} <br>VIETNAM</p>
+                        </div>
+                    @endif
                 </div>
                 <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between">
-                        <h6 class="card-title m-0">Billing address</h6>
-                        <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal"
-                                data-bs-target="#addNewAddress">Edit</a></h6>
-                    </div>
-                    <div class="card-body">
-                        <p class="mb-4">45 Roker Terrace <br>Latheronwheel <br>KW5 8NW,London <br>UK</p>
-                        <h6 class="mb-0 pb-2">Mastercard</h6>
-                        <p class="mb-0">Card Number: ******4291</p>
-                    </div>
-
-                </div> --}}
+                    @if ($purchase && $purchase->user)
+                        <div class="card-header d-flex justify-content-between">
+                            <h6 class="card-title m-0">Billing address</h6>
+                            {{-- <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal"
+                                    data-bs-target="#addNewAddress">Edit</a></h6> --}}
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4">{{ $purchase->address }} <br>VIETNAM</p>
+                            <h6 class="mb-0 pb-2">Mastercard</h6>
+                            <p class="mb-0">Card Number: {{ $purchase->user->phone_number }}</p>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
 
