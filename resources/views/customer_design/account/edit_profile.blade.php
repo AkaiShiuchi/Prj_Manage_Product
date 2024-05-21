@@ -1,21 +1,23 @@
 @extends('customer_design.dashboard.layout_custom')
 
-@section('title', 'Đổi mật khẩu')
+@section('title', 'Thông tin cá nhân')
 
 @section('style')
     <script src="{{ asset('js/customer/dashboard.js') }}"></script>
 @endsection
 
 @section('content')
-    <iframe allow="join-ad-interest-group" data-tagging-id="AW-16481193416" data-load-time="1715737209757" height="0"
-        width="0"
-        src="https://td.doubleclick.net/td/rul/16481193416?random=1715737209746&amp;cv=11&amp;fst=1715737209746&amp;fmt=3&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=45je45d0v9184619481za200&amp;gcd=13l3l3l3l1&amp;dma=0&amp;u_w=1536&amp;u_h=864&amp;url=https%3A%2F%2Fgiadungnhanh.com%2Fprofile%2Fchangepassword&amp;ref=https%3A%2F%2Fgiadungnhanh.com%2Fprofile&amp;hn=www.googleadservices.com&amp;frm=0&amp;tiba=Trang%20s%E1%BB%ADa%20m%E1%BA%ADt%20kh%E1%BA%A9u%20t%C3%A0i%20kho%E1%BA%A3n&amp;npa=0&amp;pscdl=noapi&amp;auid=1946933850.1715436260&amp;uaa=x86&amp;uab=64&amp;uafvl=Chromium%3B124.0.6367.202%7CGoogle%2520Chrome%3B124.0.6367.202%7CNot-A.Brand%3B99.0.0.0&amp;uamb=0&amp;uam=&amp;uap=Windows&amp;uapv=15.0.0&amp;uaw=0&amp;fledge=1&amp;data=event%3Dgtag.config"
-        style="display: none; visibility: hidden;"></iframe><iframe allow="join-ad-interest-group"
-        data-tagging-id="AW-16481193416" data-load-time="1715737209798" height="0" width="0"
-        src="https://td.doubleclick.net/td/rul/16481193416?random=1715737209796&amp;cv=11&amp;fst=1715737209796&amp;fmt=3&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=45be45d0v9184619481z89180051082za201&amp;gcd=13l3l3l3l1&amp;dma=0&amp;u_w=1536&amp;u_h=864&amp;url=https%3A%2F%2Fgiadungnhanh.com%2Fprofile%2Fchangepassword&amp;ref=https%3A%2F%2Fgiadungnhanh.com%2Fprofile&amp;hn=www.googleadservices.com&amp;frm=0&amp;tiba=Trang%20s%E1%BB%ADa%20m%E1%BA%ADt%20kh%E1%BA%A9u%20t%C3%A0i%20kho%E1%BA%A3n&amp;npa=0&amp;pscdl=noapi&amp;auid=1946933850.1715436260&amp;uaa=x86&amp;uab=64&amp;uafvl=Chromium%3B124.0.6367.202%7CGoogle%2520Chrome%3B124.0.6367.202%7CNot-A.Brand%3B99.0.0.0&amp;uamb=0&amp;uam=&amp;uap=Windows&amp;uapv=15.0.0&amp;uaw=0&amp;fledge=1"
-        style="display: none; visibility: hidden;"></iframe>
-    <div id="root"><!--<body id="Nhanh-template" class="index">-->
+    <input type="hidden" value="" id="storeId">
+    <style>
+        .box-pro-prices {
+            display: none;
+        }
 
+        p.pro-price span.pro-price-del {
+            display: none;
+        }
+    </style>
+    <div id="root"><!--<body id="Nhanh-template" class="index">-->
         <!--display in product/view page-->
         <div class="fixed_scroll">
             <div id="topbar" class="clearfix hidden-xs tp_header">
@@ -48,7 +50,6 @@
                                     </span>
                                 </li>
 
-
                                 <li>
                                     <a aria-label="user" href="/profile"><span class="iconTop icon-4-top"></span>
                                         <span class="title-info-top">{{ session('user_name') }}</span>
@@ -61,8 +62,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
             <div class="outerHeightHeader" style="min-height: 80px;">
                 <div class=" ">
@@ -72,8 +71,8 @@
                                 <div class="wrap-logo">
                                     <a aria-label="logo" href="/home-customer">
                                         <img width="225" height="45" src="../img/lava-logo-web.jpg"
-                                            data-src="../img/lava-logo-web.jpg" alt="giadungnhanh.com"
-                                            class="img-responsive logoimg ls-is-cached lazyloaded">
+                                            data-src="../img/lava-logo-web.jpg" alt="lavashop.com"
+                                            class="img-responsive logoimg lazyloaded">
                                     </a>
                                 </div>
                                 <div class="header-wrap-icon visible-sm">
@@ -169,7 +168,6 @@
 
                                 <form class="searchHeader searchDesktop" action="/search" method="get"
                                     itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-
                                     <input itemprop="query-input" type="text" name="search" class="searchInput"
                                         placeholder="Tìm kiếm..." autocomplete="off">
                                     <input type="submit" class="btnSearch">
@@ -187,9 +185,8 @@
                                         class="bar"></span></a>
                                 <div class="wrap-logo">
                                     <a aria-label="logo" href="/">
-                                        <img width="160" height="32"
-                                            src="https://pos.nvncdn.com/e8033b-157317/store/20230831_PuNqWysm.png"
-                                            alt="giadungnhanh.com" class="img-responsive logoimg">
+                                        <img width="160" height="32" src="../img/lava-logo-web.jpg"
+                                            alt="lavashop.com" class="img-responsive logoimg">
                                     </a>
                                 </div>
                                 <div class="header-wrap-icon">
@@ -204,9 +201,9 @@
                                                     <g>
                                                         <path
                                                             d="M447.05,428l-109.6-109.6c29.4-33.8,47.2-77.9,47.2-126.1C384.65,86.2,298.35,0,192.35,0C86.25,0,0.05,86.3,0.05,192.3
-                                                                                                                 s86.3,192.3,192.3,192.3c48.2,0,92.3-17.8,126.1-47.2L428.05,447c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4
-                                                                                                                 C452.25,441.8,452.25,433.2,447.05,428z M26.95,192.3c0-91.2,74.2-165.3,165.3-165.3c91.2,0,165.3,74.2,165.3,165.3
-                                                                                                                 s-74.1,165.4-165.3,165.4C101.15,357.7,26.95,283.5,26.95,192.3z">
+                                                                                                                         s86.3,192.3,192.3,192.3c48.2,0,92.3-17.8,126.1-47.2L428.05,447c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4
+                                                                                                                         C452.25,441.8,452.25,433.2,447.05,428z M26.95,192.3c0-91.2,74.2-165.3,165.3-165.3c91.2,0,165.3,74.2,165.3,165.3
+                                                                                                                         s-74.1,165.4-165.3,165.4C101.15,357.7,26.95,283.5,26.95,192.3z">
                                                         </path>
                                                     </g>
                                                 </svg>
@@ -224,12 +221,12 @@
                                                         <g>
                                                             <path
                                                                 d="M447.988,139.696c-0.156-2.084-1.9-3.696-3.988-3.696h-72v-20C372,52.036,319.96,0,256,0S140,52.036,140,116v20H68
-                                                                                                                         c-2.088,0-3.832,1.612-3.988,3.696l-28,368c-0.084,1.108,0.296,2.204,1.056,3.02C37.824,511.536,38.888,512,40,512h432
-                                                                                                                         c1.112,0,2.176-0.464,2.932-1.28c0.756-0.816,1.14-1.912,1.056-3.02L447.988,139.696z M172,116c0-46.316,37.68-84,84-84
-                                                                                                                         s84,37.684,84,84v20H172V116z M156,248c-22.06,0-40-17.944-40-40c0-15.964,8-30.348,24-36.66V208c0,8.824,7.18,16,16,16
-                                                                                                                         s16-7.176,16-16v-36.636c16,6.312,24,20.804,24,36.636C196,230.056,178.06,248,156,248z M356,248c-22.06,0-40-17.944-40-40
-                                                                                                                         c0-15.964,8-30.348,24-36.66V208c0,8.824,7.18,16,16,16s16-7.176,16-16v-36.636c16,6.312,24,20.804,24,36.636
-                                                                                                                         C396,230.056,378.06,248,356,248z">
+                                                                                                                                 c-2.088,0-3.832,1.612-3.988,3.696l-28,368c-0.084,1.108,0.296,2.204,1.056,3.02C37.824,511.536,38.888,512,40,512h432
+                                                                                                                                 c1.112,0,2.176-0.464,2.932-1.28c0.756-0.816,1.14-1.912,1.056-3.02L447.988,139.696z M172,116c0-46.316,37.68-84,84-84
+                                                                                                                                 s84,37.684,84,84v20H172V116z M156,248c-22.06,0-40-17.944-40-40c0-15.964,8-30.348,24-36.66V208c0,8.824,7.18,16,16,16
+                                                                                                                                 s16-7.176,16-16v-36.636c16,6.312,24,20.804,24,36.636C196,230.056,178.06,248,156,248z M356,248c-22.06,0-40-17.944-40-40
+                                                                                                                                 c0-15.964,8-30.348,24-36.66V208c0,8.824,7.18,16,16,16s16-7.176,16-16v-36.636c16,6.312,24,20.804,24,36.636
+                                                                                                                                 C396,230.056,378.06,248,356,248z">
                                                             </path>
                                                         </g>
                                                     </g>
@@ -242,8 +239,8 @@
                                                 style="font-size: 27px;padding: 0 0 0 5px;"></i></a></span> <span
                                         class="icon-mobile" title="Hotline">
                                         <a aria-label="hotline" href="tel:0912241237">
-                                            <i class="fa fa-phone" style="font-size: 27px;padding: 0 0 0 5px;"> </i>
-                                            <span class="hotline-txt">0912241237</span>
+                                            <i class="fa fa-phone" style="font-size: 27px;padding: 0 0 0 5px;"> </i> <span
+                                                class="hotline-txt">0123456789</span>
                                         </a>
                                     </span>
 
@@ -258,67 +255,156 @@
 
 
         <!--</body>-->
+        <link rel="stylesheet" href="https://web.nvnstatic.net/css/JqueryUi.css?v=2" type="text/css">
         <link rel="stylesheet" href="https://web.nvnstatic.net/css/validationEngine.jquery.css?v=2" type="text/css">
         <script defer="" type="text/javascript" src="https://web.nvnstatic.net/js/jquery/jquery.validationEngine.js?v=2">
         </script>
         <script defer="" type="text/javascript" src="https://web.nvnstatic.net/js/jquery/jquery.validationEngine-vi.js?v=2">
         </script>
         <script defer="" type="text/javascript" src="https://web.nvnstatic.net/tp/T0298/js/user.js?v=3"></script>
-        <section id="breadcrumb-wrapper" class="breadcrumb-w-img" style="margin-bottom: 20px;">
-            <div class="breadcrumb-overlay"></div>
-            <div class="breadcrumb-content">
-                <div class="wrapper">
-                    <div class="inner text-center">
-                        <div class="breadcrumb-big">
-                            <h2>Đổi mật khẩu</h2>
-                        </div>
-                        <div class="breadcrumb-small">
-                            <a href="/home-customer">Trang chủ</a>
-                            <span aria-hidden="true">/</span>
-                            <span>Đổi mật khẩu</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
         <main class="main-content main-pdd" role="main">
             <section id="page-wrapper">
                 <div class="container fadeIn animated">
                     <div class="row">
                         <div class="section-content col-md-12">
-                            <form id="formAcount" method="POST" action="{{ route('handle_changePass') }}"
-                                class="formAcount validate col-sm-offset-3 col-sm-6 col-xs-12 clearfix">
+                            <h1 class="text-center col-md-12">
+                                Thông tin cá nhân </h1>
+                            <div class="clearfix"></div>
+
+                            <div class="col-sm-2"></div>
+                            <form id="formAcount" action="{{ route('handle_edit', ['id' => $user->id]) }}" method="POST"
+                                class="formAcount validate col-sm-8 col-xs-12 clearfix">
                                 @csrf
                                 <div class="form-group clearfix">
-                                    <label for="oldpassword" class="col-sm-3 required control-label"> Mật khẩu cũ:
-                                    </label>
+                                    <label class="col-sm-3 control-label"> Họ tên: </label>
                                     <div class="col-lg-9">
-                                        <input type="password" id="oldpassword" name="oldpassword"
-                                            placeholder="Mật khẩu cũ"
-                                            class="validate[required],minSize[6] form-control input-sm">
+                                        <input type="text" id="name" name="name" value="{{ $user->name }}"
+                                            placeholder="Họ tên"
+                                            class="validate[required,minSize[4],maxSize[32]] form-control input-sm">
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
-                                    <label for="newpassword" class="col-sm-3 required control-label"> Mật khẩu mới:
-                                    </label>
+                                    <label class="col-sm-3 control-label">
+                                        Ngày sinh: </label>
                                     <div class="col-lg-9">
-                                        <input type="password" id="newpassword" name="newpassword"
-                                            placeholder="Mật khẩu mới"
-                                            class="validate[required],minSize[6] form-control input-sm">
+                                        <input type="text" id="birthday" name="birthday"
+                                            value="{{ $user->birthday }}" placeholder="Ngày sinh" autocomplete="off"
+                                            class="form-control input-sm  hasDatepicker">
+                                    </div>
+                                </div>
+
+                                <div class="form-group clearfix">
+                                    <label class="col-sm-3 control-label">Điện thoại:</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" id="phone_number" name="phone_number"
+                                            value="{{ $user->phone_number }}" placeholder="Điện thoại"
+                                            class="validate[required,custom[phone]] form-control input-sm">
+                                    </div>
+                                </div>
+
+                                <div class="form-group clearfix">
+                                    <label class="col-sm-3 control-label">Email:</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" id="email" name="email" value="{{ $user->email }}"
+                                            placeholder="Email"
+                                            class="validate[required,custom[email]] form-control input-sm">
+                                    </div>
+                                </div>
+
+                                <div class="form-group clearfix">
+                                    <label class="col-sm-3 control-label">Tỉnh/Thành phố :</label>
+                                    <div class="col-lg-9">
+                                        <select id="cityId" name="cityId"
+                                            class="validate[required] form-control minimal">
+                                            <option value="{{ $user->city }}">Chọn Tỉnh/ thành phố</option>
+                                            <option value="289">Nghệ An</option>
+                                            <option value="256">An Giang</option>
+                                            <option value="308">Vĩnh Phúc</option>
+                                            <option value="292">Phú Thọ</option>
+                                            <option value="257">Bà Rịa - Vũng Tàu</option>
+                                            <option value="283">Kiên Giang</option>
+                                            <option value="309">Yên Bái</option>
+                                            <option value="263">Bình Thuận</option>
+                                            <option value="255">Hồ Chí Minh</option>
+                                            <option value="269">Lào Cai</option>
+                                            <option value="294">Quảng Bình</option>
+                                            <option value="259">Bắc Giang</option>
+                                            <option value="274">Cao Bằng</option>
+                                            <option value="286">Lâm Đồng</option>
+                                            <option value="307">Vĩnh Long</option>
+                                            <option value="279">Hải Dương</option>
+                                            <option value="314">Hậu Giang</option>
+                                            <option value="291">Ninh Thuận</option>
+                                            <option value="293">Phú Yên</option>
+                                            <option value="270">Quảng Ninh</option>
+                                            <option value="296">Quảng Ngãi</option>
+                                            <option value="301">Thái Bình</option>
+                                            <option value="262">Bình Phước</option>
+                                            <option value="313">Đắc Nông</option>
+                                            <option value="312">Đà Nẵng</option>
+                                            <option value="277">Hà Nam</option>
+                                            <option value="273">Cà Mau</option>
+                                            <option value="297">Quảng Trị</option>
+                                            <option value="316">Điện Biên</option>
+                                            <option value="261">Bình Định</option>
+                                            <option value="258">Bắc Ninh</option>
+                                            <option value="275">Gia Lai</option>
+                                            <option value="276">Hà Giang</option>
+                                            <option value="282">Hưng Yên</option>
+                                            <option value="271">Đồng Nai</option>
+                                            <option value="306">Tuyên Quang</option>
+                                            <option value="295">Quảng Nam</option>
+                                            <option value="288">Long An</option>
+                                            <option value="264">Bến Tre</option>
+                                            <option value="287">Lạng Sơn</option>
+                                            <option value="299">Sơn La</option>
+                                            <option value="315">Bạc Liêu</option>
+                                            <option value="310">Đắk Lắk</option>
+                                            <option value="254">Hà Nội</option>
+                                            <option value="281">Hòa Bình</option>
+                                            <option value="266">Cần Thơ</option>
+                                            <option value="268">Thừa Thiên Huế</option>
+                                            <option value="285">Lai Châu</option>
+                                            <option value="311">Đồng Tháp</option>
+                                            <option value="267">Khánh Hòa</option>
+                                            <option value="278">Hà Tĩnh</option>
+                                            <option value="290">Ninh Bình</option>
+                                            <option value="298">Sóc Trăng</option>
+                                            <option value="305">Trà Vinh</option>
+                                            <option value="260">Bình Dương</option>
+                                            <option value="280">Hải Phòng</option>
+                                            <option value="272">Nam Định</option>
+                                            <option value="300">Tây Ninh</option>
+                                            <option value="265">Bắc Cạn</option>
+                                            <option value="284">Kon Tum</option>
+                                            <option value="302">Thái Nguyên</option>
+                                            <option value="304">Tiền Giang</option>
+                                            <option value="303">Thanh Hóa</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
-                                    <label for="repassword" class="col-sm-3 required control-label">Xác Mật khẩu :
-                                    </label>
+                                    <label for="districtId" class="col-sm-3 control-label">
+                                        Quận/Huyện: </label>
                                     <div class="col-lg-9">
-                                        <input type="password" id="repassword" name="repassword"
-                                            placeholder="Xác Mật khẩu"
-                                            class="validate[required],minSize[6] form-control input-sm">
+                                        <select id="districtId" name="districtId"
+                                            class="validate[required] form-control minimal">
+                                            <option value="">Chọn Quận/ Huyện</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-green" fdprocessedid="yb7ali"> Xác
-                                        nhận</button>
+                                <div class="form-group clearfix">
+                                    <label class="col-sm-3 control-label">Địa chỉ chi tiết: </label>
+                                    <div class="col-lg-9">
+                                        <input type="text" id="address" name="address"
+                                            value="{{ $user->address }}" placeholder="Địa chỉ chi tiết"
+                                            class="validate[required] form-control input-sm">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix text-center">
+                                    <button type="submit" class="btn btn-green"> Cập
+                                        nhật</button>
+                                    <a href="/profile" class="btn btn-green">Quay lại</a>
                                 </div>
                             </form>
                         </div>
@@ -384,16 +470,6 @@
                         </table>
                     </div>
 
-
-                    <script>
-                        var $storeId = $('#storeId').val();
-                        var totalCartItems_hidden = document.getElementById('totalCartItems_hidden').value;
-                        $('.icon-cart .count').html(totalCartItems_hidden);
-
-                        if (in_array($storeId, [100699, 3138])) {
-                            $('.cart-header .count-cart').html(totalCartItems_hidden);
-                        }
-                    </script>
                 </div>
             </div>
 
@@ -401,7 +477,7 @@
                 <div class="site-nav-container-last">
                     <p class="title">Tìm kiếm</p>
                     <div class="search-box wpo-wrapper-search">
-                        <meta itemprop="url" content="https://giadungnhanh.com/profile/changepassword">
+                        <meta itemprop="url" content="https://giadungnhanh.com/profile/edit">
                         <form action="/search" class="searchform searchform-categoris ultimate-search navbar-form">
                             <div class="wpo-search-inner">
                                 <input id="inputSearchAuto" name="q" maxlength="40" autocomplete="off"
@@ -445,163 +521,15 @@
                 <g>
                     <path
                         d="M32.135,16.817H0.5c-0.276,0-0.5-0.224-0.5-0.5s0.224-0.5,0.5-0.5h31.635c0.276,0,0.5,0.224,0.5,0.5
-                                                                                                 S32.411,16.817,32.135,16.817z">
+                                                                                                         S32.411,16.817,32.135,16.817z">
                     </path>
                     <path
                         d="M19.598,29.353c-0.128,0-0.256-0.049-0.354-0.146c-0.195-0.195-0.195-0.512,0-0.707l12.184-12.184L19.244,4.136
-                                                                                                 c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l12.537,12.533c0.094,0.094,0.146,0.221,0.146,0.354
-                                                                                                 s-0.053,0.26-0.146,0.354L19.951,29.206C19.854,29.304,19.726,29.353,19.598,29.353z">
+                                                                                                         c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l12.537,12.533c0.094,0.094,0.146,0.221,0.146,0.354
+                                                                                                         s-0.053,0.26-0.146,0.354L19.951,29.206C19.854,29.304,19.726,29.353,19.598,29.353z">
                     </path>
                 </g>
             </svg>
         </div>
-
-
-        <!--    SP đã xem    -->
-        <div id="phistory-bar" class="hidden-xs hidden-sm tp_product_detail_history">
-            <div class="phistor-icon"><i class="fa fa-angle-double-left"></i></div>
-            <div class="phistory-title">Đã xem</div>
-            <div class="phistory-content">
-                <div class="phis-v-box">
-                    <div class="caroufredsel_wrapper"
-                        style="text-align: start; float: none; position: relative; inset: auto; z-index: auto; width: 0px; height: 0px; margin: 0px; overflow: hidden;">
-                        <div class="phistor-v-slider"
-                            style="text-align: left; float: none; position: absolute; inset: 0px auto auto 0px; margin: 0px; height: 0px; width: 0px;">
-
-                            <div class="phistory-v-item">
-                                <a href="/1-thung-32-goi-khan-uot-rosemary-hoat-hinh-p38929952.html"
-                                    title="Thùng 32 gói khăn ướt ROSEMARY chất lượng, an toàn cho sức khỏe"><img
-                                        src="https://pos.nvncdn.com/e8033b-157317/ps/20240415_YHGs3cATip.jpeg"
-                                        alt="Thùng 32 gói khăn ướt ROSEMARY chất lượng, an toàn cho sức khỏe"></a>
-                            </div>
-
-                            <div class="phistory-v-item">
-                                <a href="/50-ly-nhua-van-kim-cuong-p38929659.html"
-                                    title="Ly nhựa uống nước vân kim cương 710ml cao cấp, có nắp giá rẻ"><img
-                                        src="https://pos.nvncdn.com/e8033b-157317/ps/20240330_chxjXAPKd1.jpeg"
-                                        alt="Ly nhựa uống nước vân kim cương 710ml cao cấp, có nắp giá rẻ"></a>
-                            </div>
-
-                            <div class="phistory-v-item">
-                                <a href="/1-noi-chien-khong-dau-air-fryer-man-hinh-cam-ung-15l-bh-do-loi-nsx-p36537835.html"
-                                    title="Nồi Chiên Không Dầu Air Fryer Màn hình cảm ứng 15L " (bh=""
-                                    do="" lỗi="" nsx)""=""><img
-                                        src="https://pos.nvncdn.com/e8033b-157317/ps/20240405_EeerfbJm9M.jpeg"
-                                        alt="Nồi Chiên Không Dầu Air Fryer Màn hình cảm ứng 15L " (bh=""
-                                        do="" lỗi="" nsx)""=""></a>
-                            </div>
-
-                            <div class="phistory-v-item">
-                                <a href="/8-noi-com-dien-chigo-1.2l-p38929578.html"
-                                    title="Nồi cơm điện mini Chigo cao cấp, nồi cơm điện đa năng giá tốt"><img
-                                        class="lazyload" data-sizes="auto"
-                                        src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3"
-                                        data-src="https://pos.nvncdn.com/e8033b-157317/ps/20231108_pBNpq6z8Kv.jpeg"
-                                        alt="Nồi cơm điện mini Chigo cao cấp, nồi cơm điện đa năng giá tốt"></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="phistor-v-nav">
-                        <div class="prevSlideZ" style="display: block;"><i class="fa fa-chevron-up"></i></div>
-                        <div class="nextSlideZ" style="display: block;"><i class="fa fa-chevron-down"></i></div>
-                    </div>
-                </div>
-            </div>
-            <script>
-                var $storeId = $('#storeId').val();
-                var pHisVer = $('.phistor-v-slider');
-                if (pHisVer.length) {
-                    pHisVer.carouFredSel({
-                        items: 3,
-                        direction: "up",
-                        scroll: {
-                            items: 1,
-                            duration: 700
-                        },
-                        auto: false,
-                        prev: ".phistor-v-nav .prevSlideZ",
-                        next: ".phistor-v-nav .nextSlideZ"
-                    });
-                }
-
-                $('.phistor-icon').click(function() {
-                    var productHistory = $('#phistory-bar .phistory-content');
-                    productHistory.empty();
-                    if (!$(this).hasClass('is-open')) {
-                        ajaxLoadView({
-                            view: 'pHistorySidebar',
-                            params: '&view=horizontal',
-                            delay: 150,
-                            onSuccess: function(rs) {
-                                productHistory.html(rs)
-                            }
-                        });
-                    } else {
-                        ajaxLoadView({
-                            view: 'pHistorySidebar',
-                            params: '&view=vertical',
-                            delay: 150,
-                            onSuccess: function(rs) {
-                                productHistory.html(rs)
-                            }
-                        });
-                    }
-                    $(this).toggleClass('is-open');
-                    $('#phistory-bar').toggleClass('is-active')
-                });
-
-                if (in_array($storeId, [113339])) {
-                    $('.closeBox').click(function() {
-                        $('#phistory-bar').addClass('hidden');
-                    });
-                }
-            </script>
-        </div>
-
-
-        <div id="modalShow" class="modal fade" role="dialog">
-            <div class="modal-dialog ">
-                <div class="modal-content"></div>
-            </div>
-        </div>
-        <span class="loadings"><img src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3" alt="loading"></span>
-
-        <div id="alertFixed">
-            <i class="fa fa-check"></i>
-            <p>Sản phẩm đã được thêm vào giỏ hàng !</p>
-        </div>
-
-        <div style="display: none;">
-            <div id="dialogMessage"></div>
-        </div>
     </div>
-    <script>
-        const loadScriptsTimer = setTimeout(loadScripts, 5000);
-        const userInteractionEvents = ['mouseover', 'keydown', 'touchmove', 'touchstart'];
-        userInteractionEvents.forEach(function(event) {
-            window.addEventListener(event, triggerScriptLoader, {
-                passive: true
-            });
-        });
-
-        function triggerScriptLoader() {
-            loadScripts();
-            clearTimeout(loadScriptsTimer);
-            userInteractionEvents.forEach(function(event) {
-                window.removeEventListener(event, triggerScriptLoader, {
-                    passive: true
-                });
-            });
-        }
-
-        function loadScripts() {
-            document.querySelectorAll('script[data-type=lazy]').forEach(function(elem) {
-                elem.setAttribute('src', elem.getAttribute('data-src'));
-            });
-            document.querySelectorAll('iframe[data-type=lazy]').forEach(function(elem) {
-                elem.setAttribute('src', elem.getAttribute('data-src'));
-            });
-        }
-    </script>
 @endsection

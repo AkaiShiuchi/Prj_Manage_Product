@@ -95,11 +95,24 @@ class CustomerInterface extends Controller
      * @param [type] $id
      * @return void
      */
-    public function search_category($id)
+    public function search_category(Request $request, $id)
     {
         $categories = Categories::all();
         $categor = Categories::find($id);
-        $products = Product::where('category_id', $id)->paginate(24);
+        $sort = $request->query('show', 'default');
+        $products = Product::query();
+
+        switch ($sort) {
+            case 'priceDesc':
+                $products->orderBy('price', 'desc');
+                break;
+            case 'priceAsc':
+                $products->orderBy('price', 'asc');
+                break;
+            default:
+                break;
+        }
+        $products = $products->where('category_id', $id)->paginate(24);
         return view('customer_design.product.search_category', compact('products', 'categories', 'categor'));
     }
 
@@ -270,10 +283,29 @@ class CustomerInterface extends Controller
      *
      * @return void
      */
-    public function view_product()
+    public function view_product(Request $request)
     {
+        $sort = $request->query('show', 'default');
+        $products = Product::query();
+
+        switch ($sort) {
+            case 'priceDesc':
+                $products->orderBy('price', 'desc');
+                break;
+            case 'priceAsc':
+                $products->orderBy('price', 'asc');
+                break;
+                // case 'discount':
+                //     $products->where('discount', '>', 0)->orderBy('discount', 'desc');
+                //     break;
+            default:
+                // $products->where('name', 'asc');
+                break;
+        }
+
+        $products = $products->paginate(24);
         $categories = Categories::all();
-        $products = Product::paginate(24);
+
         return view('customer_design.product.product_all', compact('products', 'categories'));
     }
 
@@ -477,6 +509,73 @@ class CustomerInterface extends Controller
     }
 
     /**
+     * hàm xử lý nút mua ngay
+     *
+     * @param Request $request
+     * @param [type] $id
+     * @return void
+     */
+    public function buynow_order(Request $request, $id)
+    {
+        $quantity = $request->input('quantity');
+        $product = Product::find($id);
+        $purchase_id = session('purchase_id');
+
+        if ($quantity > $product->total) {
+            return redirect()->back();
+        }
+
+        $user = auth()->user();
+
+        if ($purchase_id) {
+            $purchase = Purchase::find($purchase_id);
+        } else {
+            $purchase = $user->purchases->where('status', 'Chưa đặt hàng')->first();
+        }
+
+        if (!$purchase) {
+            $purchase = new Purchase();
+            $purchase->fill([
+                'status' => 'Chưa đặt hàng',
+                'user_created_id' => $user->id,
+                'total_price' => 0
+            ])->save();
+
+            session(['purchase_id' => $purchase->id]);
+        }
+
+        $product_purchase = ProductPurchase::where('purchase_id', $purchase->id)
+            ->where('product_id', $id)
+            ->first();
+
+        if ($product_purchase) {
+            $product_purchase->quantity += $quantity;
+            $product_purchase->total_amount = $product_purchase->quantity * $product->price;
+            $product_purchase->save();
+        } else {
+            $product_purchase = new ProductPurchase();
+            $product_purchase->fill([
+                'product_id' => $id,
+                'purchase_id' => $purchase->id,
+                'quantity' => $quantity,
+                'total_amount' => $product->price * $quantity,
+                'price' => $product->price,
+            ])->save();
+        }
+
+        $purchase->total_price += $product->price * $quantity;
+        $purchase->save();
+
+        session(['cart' => $purchase]);
+        $item_cart = ProductPurchase::where('purchase_id', $purchase->id)->get();
+        $item_sum_total = $purchase->total_price;
+        $item_sum_quantity = $item_cart->sum('quantity');
+        $purchase_id = $purchase->id;
+
+        return view('customer_design.cart.order', compact('item_cart', 'item_sum_total', 'item_sum_quantity', 'purchase_id'));
+    }
+
+    /**
      * hàm cập nhật số lượng sản phẩm khi bấm nút tăng giảm
      *
      * @param Request $request
@@ -592,11 +691,22 @@ class CustomerInterface extends Controller
     public function history_order()
     {
         $categories = Categories::all();
-        $purchases = Purchase::where('status', '!=', 'Chưa đặt hàng')->with('product_purchases.product')->get();
+        $user = auth()->user();
+        $purchases = Purchase::where('status', '!=', 'Chưa đặt hàng')
+            ->where('user_created_id', $user->id)
+            ->with('product_purchases.product')
+            ->latest()
+            ->get();
 
         return view('customer_design.cart.history_order', compact('categories', 'purchases'));
     }
 
+    /**
+     * hàm hủy đặt hàng
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function cancel_order($id)
     {
         $purchase = Purchase::find($id);
@@ -620,6 +730,77 @@ class CustomerInterface extends Controller
         ]);
     }
 
+    /**
+     * hàm xử lý mua lại đơn hàng
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function buyback($id)
+    {
+        if (!auth()->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn cần đăng nhập để mua lại đơn hàng.'
+            ]);
+        }
+
+        $current_purchaseId = session('purchase_id');
+        if ($current_purchaseId) {
+            $current_purchase = Purchase::find($current_purchaseId);
+            if ($current_purchase && $current_purchase->products()->count() > 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Giỏ hàng của bạn đã có sản phẩm. Không thể mua lại.'
+                ]);
+            }
+        }
+
+        $purchase = Purchase::find($id);
+
+        if (!$purchase || $purchase->status == 'Chưa đặt hàng') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Đơn hàng không hợp lệ.'
+            ]);
+        }
+
+        $new_purchase = new Purchase();
+        $new_purchase->fill([
+            'status' => 'Chưa đặt hàng',
+            'user_created_id' => auth()->id(),
+            'total_price' => 0
+        ])->save();
+
+        $cart_items = [];
+
+        foreach ($purchase->product_purchases as $item) {
+            $product_purchase = new ProductPurchase();
+            $product_purchase->fill([
+                'product_id' => $item->product_id,
+                'purchase_id' => $new_purchase->id,
+                'quantity' => $item->quantity,
+                'total_amount' => $item->total_amount,
+                'price' => $item->price,
+            ])->save();
+
+            $new_purchase->total_price += $item->total_amount;
+            $cart_items[] = $product_purchase;
+        }
+        $new_purchase->save();
+
+        session(['purchase_id' => $new_purchase->id]);
+        $cartHtml = view('customer_design.cart.cart_items', ['products' => $cart_items])->render();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Mua lại đơn hàng thành công.',
+            'purchase_id' => $new_purchase->id,
+            'cartHtml' => $cartHtml,
+            'total' => $new_purchase->total_price,
+            'totalItems' => count($cart_items)
+        ]);
+    }
 
     /**
      * hàm điều hướng đến trang xem chi tiết sản phẩm
@@ -655,6 +836,35 @@ class CustomerInterface extends Controller
     {
         $categories = Categories::all();
         return view('customer_design.account.personal_page', compact('categories'));
+    }
+
+    public function edit_profile()
+    {
+        $categories = Categories::all();
+        $user = User::find(auth()->id());
+        return view('customer_design.account.edit_profile', compact('categories', 'user'));
+    }
+
+    public function handle_edit(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            toastr()->error('Tài khoản của bạn không tồn tại.');
+            return redirect()->back();
+        }
+
+        $user->update([
+            'name' => $request->name,
+            'phone_number' => $request->phone_number,
+            'email' => $request->email,
+            'address' => $request->address,
+            'birthday' => $request->birthday,
+            'city' => $request->cityId . ', ' . $request->districtId,
+        ]);
+
+        toastr()->success('Thông tin tài khoản đã được sửa thành công.');
+        return redirect()->route('profile');
     }
 
     /**

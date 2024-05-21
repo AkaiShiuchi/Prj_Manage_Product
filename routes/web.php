@@ -97,11 +97,15 @@ Route::middleware(['checkLogin'])->group(function () {
 
 Route::middleware(['checkLogout'])->group(function () {
     Route::get('/profile', [CustomerInterface::class, 'profile'])->name('profile');
+    Route::get('/profile/edit', [CustomerInterface::class, 'edit_profile'])->name('edit_profile');
+    Route::post('/handle-edit/{id}', [CustomerInterface::class, 'handle_edit'])->name('handle_edit');
+
     Route::get('/profile/changepassword', [CustomerInterface::class, 'change_password'])->name('change_password');
     Route::post('/handle-changePass', [CustomerInterface::class, 'handle_changePass'])->name('handle_changePass');
 
     Route::get('/history-order', [CustomerInterface::class, 'history_order'])->name('history_order');
     Route::post('/cancel-order/{id}', [CustomerInterface::class, 'cancel_order'])->name('cancel_order');
+    Route::post('/buyback/{id}', [CustomerInterface::class, 'buyback'])->name('buyback');
 });
 
 Route::get('/user/signout', [CustomerInterface::class, 'signout'])->name('signout');
@@ -112,6 +116,7 @@ Route::get('/get-product-details', [CustomerInterface::class, 'get_product_detai
 
 Route::get('/cart', [CustomerInterface::class, 'view_cart'])->name('view_cart');
 Route::get('/cart/checkout', [CustomerInterface::class, 'order'])->name('order');
+Route::post('/buynow/{id}', [CustomerInterface::class, 'buynow_order'])->name('buynow_order');
 Route::post('/cart/add', [CustomerInterface::class, 'update_cart'])->name('update_cart');
 
 Route::middleware(['auth', 'checkCart'])->group(function () {

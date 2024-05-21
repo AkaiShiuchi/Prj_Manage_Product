@@ -211,9 +211,9 @@
                                                     <g>
                                                         <path
                                                             d="M447.05,428l-109.6-109.6c29.4-33.8,47.2-77.9,47.2-126.1C384.65,86.2,298.35,0,192.35,0C86.25,0,0.05,86.3,0.05,192.3
-                                                                                                                                                                                                                                             s86.3,192.3,192.3,192.3c48.2,0,92.3-17.8,126.1-47.2L428.05,447c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4
-                                                                                                                                                                                                                                             C452.25,441.8,452.25,433.2,447.05,428z M26.95,192.3c0-91.2,74.2-165.3,165.3-165.3c91.2,0,165.3,74.2,165.3,165.3
-                                                                                                                                                                                                                                             s-74.1,165.4-165.3,165.4C101.15,357.7,26.95,283.5,26.95,192.3z">
+                                                                                                                                                                                                                                                                         s86.3,192.3,192.3,192.3c48.2,0,92.3-17.8,126.1-47.2L428.05,447c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4
+                                                                                                                                                                                                                                                                         C452.25,441.8,452.25,433.2,447.05,428z M26.95,192.3c0-91.2,74.2-165.3,165.3-165.3c91.2,0,165.3,74.2,165.3,165.3
+                                                                                                                                                                                                                                                                         s-74.1,165.4-165.3,165.4C101.15,357.7,26.95,283.5,26.95,192.3z">
                                                         </path>
                                                     </g>
                                                 </svg>
@@ -380,12 +380,22 @@
                                                     </span>
 
                                                     <select class="sort-by custom-dropdown__select"
-                                                        onchange="location = this.value" fdprocessedid="eucxx">
-                                                        <!--                                            <option value="manual" data-filter="manual">Tùy chọn</option>-->
-                                                        <option value="/product?">Mặc định</option>
-                                                        <option value="/product?show=priceDesc">Giá giảm dần</option>
-                                                        <option value="/product?show=priceAsc">Giá tăng dần</option>
-                                                        <option value="/product?show=discount">Sale</option>
+                                                        onchange="location = this.value">
+                                                        <option value="{{ route('view_product', ['show' => 'default']) }}"
+                                                            {{ request('show') == 'default' ? 'selected' : '' }}>Mặc định
+                                                        </option>
+                                                        <option
+                                                            value="{{ route('view_product', ['show' => 'priceDesc']) }}"
+                                                            {{ request('show') == 'priceDesc' ? 'selected' : '' }}>Giá giảm
+                                                            dần</option>
+                                                        <option
+                                                            value="{{ route('view_product', ['show' => 'priceAsc']) }}"
+                                                            {{ request('show') == 'priceAsc' ? 'selected' : '' }}>Giá tăng
+                                                            dần</option>
+                                                        {{-- <option
+                                                            value="{{ route('view_product', ['show' => 'discount']) }}"
+                                                            {{ request('show') == 'discount' ? 'selected' : '' }}>Sale
+                                                        </option> --}}
                                                     </select>
                                                 </span>
                                             </div>
@@ -437,15 +447,16 @@
                                                             </h3>
                                                             <div class="box-pro-prices-seccond">
                                                                 <p class="pro-price highlight tp_product_price">
-                                                                    ${{ $product->price }}
+                                                                    {{ $product->price }}₫
                                                                 </p>
                                                             </div>
                                                             <div class="box-pro-prices">
                                                                 <p class="pro-price highlight tp_product_price">
                                                                     <span
-                                                                        class="pro-price-current">${{ $product->price }}</span>
+                                                                        class="pro-price-current">{{ $product->price }}₫</span>
                                                                     <span class="pro-price-del">
-                                                                        <span class="compare-price">213,100₫</span>
+                                                                        <span
+                                                                            class="compare-price">{{ $product->price }}₫</span>
                                                                     </span>
                                                                 </p>
                                                             </div>
@@ -641,12 +652,12 @@
                 <g>
                     <path
                         d="M32.135,16.817H0.5c-0.276,0-0.5-0.224-0.5-0.5s0.224-0.5,0.5-0.5h31.635c0.276,0,0.5,0.224,0.5,0.5
-                                                                                                                                                                                                                             S32.411,16.817,32.135,16.817z">
+                                                                                                                                                                                                                                                         S32.411,16.817,32.135,16.817z">
                     </path>
                     <path
                         d="M19.598,29.353c-0.128,0-0.256-0.049-0.354-0.146c-0.195-0.195-0.195-0.512,0-0.707l12.184-12.184L19.244,4.136
-                                                                                                                                                                                                                             c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l12.537,12.533c0.094,0.094,0.146,0.221,0.146,0.354
-                                                                                                                                                                                                                             s-0.053,0.26-0.146,0.354L19.951,29.206C19.854,29.304,19.726,29.353,19.598,29.353z">
+                                                                                                                                                                                                                                                         c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l12.537,12.533c0.094,0.094,0.146,0.221,0.146,0.354
+                                                                                                                                                                                                                                                         s-0.053,0.26-0.146,0.354L19.951,29.206C19.854,29.304,19.726,29.353,19.598,29.353z">
                     </path>
                 </g>
             </svg>
