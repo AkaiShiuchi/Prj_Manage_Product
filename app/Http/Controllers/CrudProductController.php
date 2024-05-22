@@ -29,12 +29,12 @@ class CrudProductController extends Controller
             $query = Product::query();
 
             if ($pro && $cat) {
-                $query->where('name', 'LIKE', $pro . '%')
+                $query->where('name', 'LIKE', '%' . $pro . '%')
                     ->whereIn('category_id', $cat);
             } elseif (!$pro && $cat) {
                 $query->whereIn('category_id', $cat);
             } elseif ($pro && !$cat) {
-                $query->where('name', 'LIKE', $pro . '%');
+                $query->where('name', 'LIKE', '%' . $pro . '%');
             }
 
             $results = $query->get();

@@ -14,7 +14,7 @@
             <a class="nav-link active ms-0">Edit</a>
         </nav>
         <hr class="mt-0 mb-4">
-        <form action="{{ route('handle_edit', ['id' => $product->id]) }}" method="POST" enctype="multipart/form-data"
+        <form action="{{ route('handle_edit_product', ['id' => $product->id]) }}" method="POST" enctype="multipart/form-data"
             id="editProductForm">
             <div class="row">
                 <div class="col-xl-4">

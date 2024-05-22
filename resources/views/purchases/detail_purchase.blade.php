@@ -91,12 +91,12 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td><span>${{ $product->price }}</span></td>
+                                                <td><span>{{ $product->price }}₫</span></td>
                                                 <td>
                                                     <span class="text-body">{{ $product->pivot->quantity }}</span>
                                                 </td>
                                                 <td>
-                                                    <h6 class="mb-0">${{ $product->pivot->total_amount }}</h6>
+                                                    <h6 class="mb-0">{{ $product->pivot->total_amount }}₫</h6>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -114,19 +114,19 @@
                                     @if ($sum_total)
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="w-px-100">Subtotal:</span>
-                                            <span class="text-heading">${{ $sum_total }}</span>
+                                            <span class="text-heading">{{ $sum_total }}₫</span>
                                         </div>
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="w-px-100">Discount:</span>
-                                            <span class="text-heading mb-0">$22</span>
+                                            <span class="text-heading mb-0">22₫</span>
                                         </div>
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="w-px-100">Tax:</span>
-                                            <span class="text-heading">$30</span>
+                                            <span class="text-heading">30₫</span>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <h6 class="w-px-100 mb-0">Total:</h6>
-                                            <h6 class="mb-0">${{ $sum_total + 22 + 30 }}</h6>
+                                            <h6 class="mb-0">{{ $sum_total + 22 + 30 }}₫</h6>
                                         </div>
                                     @else
                                         <div class="d-flex justify-content-between mb-2">

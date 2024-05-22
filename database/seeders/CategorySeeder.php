@@ -23,8 +23,8 @@ class CategorySeeder extends Seeder
         ]);
 
         \App\Models\Categories::create([
-            'name' => 'Dụng cụ ăn uống',
-            'describe' => 'là từ chỉ bộ đồ ăn và bát đĩa dùng để gọi và phục vụ đồ ăn, thức uống. Thông thường sẽ dao muỗng nĩa, thủy tinh và các dụng cụ dùng để rửa bát đĩa và các dụng cụ hữu ích cho các mục đích khác nhau.'
+            'name' => 'Đồ dùng văn phòng',
+            'describe' => 'là từ chỉ bộ đồ như các loại máy in, máy chiếu, máy tính, điện thoại.'
         ]);
 
         \App\Models\Categories::create([
@@ -33,8 +33,8 @@ class CategorySeeder extends Seeder
         ]);
 
         \App\Models\Categories::create([
-            'name' => 'Đồ nội thất',
-            'describe' => 'Đồ nội thất trong nhà thường đề cập đến đồ đạc trong nhà.'
+            'name' => 'Đồ dùng phòng khách',
+            'describe' => 'Các đồ điện gia dụng phòng khách gồm: tivi, quạt, đèn chiếu sáng, đầu thu kỹ thuật số,...'
         ]);
     }
 }

@@ -50,7 +50,7 @@
                                         class="bx bx-laptop"></i></span>{{ $item->category->name }}</span>
                         </td>
                         <td><span>{{ $item->total }}</span></td>
-                        <td><span>${{ $item->price }}</span></td>
+                        <td><span>{{ $item->price }}₫</span></td>
                         <td class="dtr-hidden">
                             <div class="d-inline-block text-nowrap">
                                 <a class="btn btn-sm btn-icon" href="{{ route('edit_product', ['id' => $item->id]) }}">

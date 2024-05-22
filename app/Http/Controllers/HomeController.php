@@ -21,14 +21,15 @@ class HomeController extends Controller
     public function display()
     {
         $user_count = User::count();
-        $purchase_count = Purchase::where('status', 'paid')->count();
+        $purchase_count = Purchase::where('status', 'Đã thanh toán')->count();
 
         $user = User::all();
         $products = Product::all();
         $product_quantities = [];
 
-        $purchas = Purchase::where('status', 'paid')->get();
-        $purchases = Purchase::where('status', 'paid')->paginate(6);
+        $purchas = Purchase::where('status', 'Đã thanh toán')->get();
+        $sum_purchas = $purchas->sum('total_price');
+        $purchases = Purchase::where('status', 'Đã thanh toán')->paginate(6);
         foreach ($purchas as $purchase) {
             foreach ($purchase->products as $product) {
                 $product_id = $product->id;
@@ -53,9 +54,9 @@ class HomeController extends Controller
             return $b->total - $a->total;
         });
 
-        $top_products = array_slice($top_product, 0, 4);
+        $top_products = array_slice($top_product, 0, 5);
 
-        return view('home.home', compact('user_count', 'user', 'purchases', 'purchase_count', 'top_products'));
+        return view('home.home', compact('user_count', 'user', 'purchases', 'purchase_count', 'top_products', 'sum_purchas'));
     }
 
     /**

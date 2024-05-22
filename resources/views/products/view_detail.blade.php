@@ -35,7 +35,7 @@
                     </h2>
                     <hr />
                     <h3 class="price-container">
-                        ${{ $products->price }}
+                        {{ $products->price }}₫
                     </h3>
                     <div class="certified">
                         <ul>

@@ -130,7 +130,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title">Filter</h5>
-                                <form action="{{ route('search') }}" method="POST" id="search_product">
+                                <form action="{{ route('search_product') }}" method="POST" id="search_product">
                                     @csrf
                                     <div class="d-flex justify-content-right align-items-center row py-3 gap-3 gap-md-0">
                                         <div class="col-md-3 product_status">
@@ -147,16 +147,12 @@
                                             <select id="ProductCategory" class="multise form-select text-capitalize"
                                                 name="category_id[]" id="category_id" multiple="multiple"
                                                 style="display:none;">
-                                                {{-- <option value="0">Chọn thể loại sản phẩm</option> --}}
-                                                <option value="1" {{ old('category_id') == 1 ? 'selected' : '' }}>Đồ
-                                                    gia dụng
-                                                </option>
-                                                <option value="2" {{ old('category_id') == 2 ? 'selected' : '' }}>Máy
-                                                    tính
-                                                </option>
-                                                <option value="3" {{ old('category_id') == 3 ? 'selected' : '' }}>Phụ
-                                                    kiện
-                                                </option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}"
+                                                        {{ old('category_id') == 1 ? 'selected' : '' }}>
+                                                        {{ $category->name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                             {{-- <div id="ms-list-1" class="ms-options-wrap">
                                                 <button type="button">
@@ -305,7 +301,7 @@
                                                             </span>
                                                         </td>
                                                         <td><span>{{ $item->total }}</span></td>
-                                                        <td><span>${{ $item->price }}</span></td>
+                                                        <td><span>{{ $item->price }}₫</span></td>
                                                         <td class="dtr-hidden">
                                                             <div class="d-inline-block text-nowrap">
                                                                 @if (auth()->user()->role_id === 1)

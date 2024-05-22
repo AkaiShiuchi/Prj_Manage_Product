@@ -40,7 +40,7 @@
                                 <div class="form-group">
                                     <label for="status">Status:</label>
                                     <input type="text" class="form-control" id="status" name="status"
-                                        value="pending">
+                                        value="Chưa đặt hàng">
                                 </div>
                             </div>
                         </div>
