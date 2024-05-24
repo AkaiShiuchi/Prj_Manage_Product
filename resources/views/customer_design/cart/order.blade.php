@@ -3,7 +3,7 @@
 @section('title', 'Thanh toán')
 
 @section('style')
-    <script src="{{ asset('js/customer/cart.js') }}"></script>
+    <script src="{{ asset('js/customer/order.js') }}"></script>
 @endsection
 
 @section('content')
@@ -402,9 +402,8 @@
                                                         </td>
                                                         <td class="product-price">
                                                             <span class="order-summary-emphasis">
-                                                                {{ $item->price }} ₫</span>
+                                                                {{ number_format($item->price, 0, ',', '.') }} ₫</span>
                                                         </td>
-
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -479,8 +478,8 @@
                                                     <td class="total-line-name payment-due">
                                                         <span class="payment-due-currency">VND</span>
                                                         <span class="payment-due-price" id="showTotalMoney"
-                                                            value="1564000">
-                                                            {{ $item_sum_total }}₫
+                                                            value="{{ $item_sum_total }}">
+                                                            {{ number_format($item_sum_total, 0, ',', '.') }}₫
                                                         </span>
                                                     </td>
                                                 </tr>

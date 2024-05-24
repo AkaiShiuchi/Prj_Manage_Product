@@ -348,7 +348,7 @@
                                         <div class="product-price main-price" id="price-preview" itemscope=""
                                             itemtype="http://schema.org/Offer">
                                             <span class="pro-price tp_product_detail_price"
-                                                itemprop="lowPrice">{{ $product->price }}₫
+                                                itemprop="lowPrice">{{ number_format($product->price, 0, ',', '.') }}₫
                                             </span>
                                             <meta itemprop="availability" content="http://schema.org/InStock">
                                             <meta itemprop="priceCurrency" content="VND">
@@ -375,7 +375,8 @@
                                             </div>
 
                                             <div class="product-price main-price price-65700" id="price-preview">
-                                                <span class="pro-price tp_product_detail_price">{{ $product->price }}₫
+                                                <span
+                                                    class="pro-price tp_product_detail_price">{{ number_format($product->price, 0, ',', '.') }}₫
                                                 </span>
                                             </div>
 
@@ -389,7 +390,8 @@
                                                         max="{{ $product->total }}">
                                                     <input type="button" value="+" onclick="plusQuantity()"
                                                         class="qty-btn tp_button">
-                                                    <input type="hidden" id="product_id" value="{{ $product->id }}">
+                                                    <input type="hidden" id="product_id"
+                                                        value="{{ number_format($product->price, 0, ',', '.') }}">
                                                     <span class="pro-soldold status-56700">
                                                         @if ($product->total > 0)
                                                             <span class="statusProduct">Còn hàng</span>
@@ -407,9 +409,8 @@
                                                         </button>
                                                         <button type="submit" id="addQuickCart"
                                                             class="btnAddToCart tp_button">
-                                                            <a href="javascript: void(0);" style="color: white;">
-                                                                <i class="fa fa-cart-arrow-down cart_down"></i>
-                                                                Mua ngay</a>
+                                                            <i class="fa fa-cart-arrow-down cart_down"></i>
+                                                            Mua ngay
                                                         </button>
                                                     </div>
                                                     <div class="pview-hightlight clearfix">
@@ -681,12 +682,12 @@
                 <g>
                     <path
                         d="M32.135,16.817H0.5c-0.276,0-0.5-0.224-0.5-0.5s0.224-0.5,0.5-0.5h31.635c0.276,0,0.5,0.224,0.5,0.5
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 S32.411,16.817,32.135,16.817z">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 S32.411,16.817,32.135,16.817z">
                     </path>
                     <path
                         d="M19.598,29.353c-0.128,0-0.256-0.049-0.354-0.146c-0.195-0.195-0.195-0.512,0-0.707l12.184-12.184L19.244,4.136
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l12.537,12.533c0.094,0.094,0.146,0.221,0.146,0.354
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 s-0.053,0.26-0.146,0.354L19.951,29.206C19.854,29.304,19.726,29.353,19.598,29.353z">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 c-0.195-0.195-0.195-0.512,0-0.707s0.512-0.195,0.707,0l12.537,12.533c0.094,0.094,0.146,0.221,0.146,0.354
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 s-0.053,0.26-0.146,0.354L19.951,29.206C19.854,29.304,19.726,29.353,19.598,29.353z">
                     </path>
                 </g>
             </svg>

@@ -96,7 +96,7 @@ $(document).ready(function() {
                     $('#total-view-cart').text(response.total + '₫');
                     $('#totalCartItems_hidden').val(response.totalItems);
                     $('.textCartSide b').text(response.totalItems);
-    
+                    window.location.reload();
                     // Hiển thị modal giỏ hàng nếu cần
                     $('#site-nav--mobile').addClass('active show-cart');
                 } else {
