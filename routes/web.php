@@ -29,6 +29,8 @@ Route::post('/handle-get/{user}/{remember_token}', [LoginController::class, 'han
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'display'])->name('home');
+    // Route::get('/statistics/sales', [HomeController::class, 'getSalesByDate']);
+    Route::get('/statistics/sales', [HomeController::class, 'getDailySalesByMonth']);
     Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
 
     Route::get('/product-manage', [HomeController::class, 'product_manage'])->name('product_manage');

@@ -741,6 +741,9 @@
     <script src="{{ asset('js/dashboard/menu.js') }}"></script>
     <script src="{{ asset('js/dashboard/apexcharts.js') }}"></script>
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>

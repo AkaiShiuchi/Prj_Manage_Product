@@ -60,6 +60,102 @@ class HomeController extends Controller
     }
 
     /**
+     * hàm xử lý thống kê doanh số theo ngày
+     *
+     * @param Request $request
+     * @return void
+     */
+    // public function getSalesByDate(Request $request)
+    // {
+    //     $date = $request->input('date');
+
+    //     // Truy vấn dữ liệu doanh số theo giờ trong ngày cụ thể
+    //     $salesData = Purchase::where('status', 'Đã thanh toán')
+    //         ->whereDate('updated_at', $date)
+    //         ->selectRaw('HOUR(updated_at) as hour, SUM(total_price) as total_sales')
+    //         ->groupBy('hour')
+    //         ->orderBy('hour')
+    //         ->get();
+
+    //     // Chuẩn bị dữ liệu cho các giờ trong ngày
+    //     $categories = [];
+    //     $sales = [];
+
+    //     for ($i = 0; $i < 24; $i++) {
+    //         $categories[] = sprintf('%02d:00', $i); // Thêm các giờ vào danh mục
+    //         $sales[] = 0; // Mặc định giá trị doanh số là 0
+    //     }
+
+    //     // Cập nhật dữ liệu doanh số theo giờ thực tế
+    //     foreach ($salesData as $data) {
+    //         $sales[intval($data->hour)] = $data->total_sales;
+    //     }
+
+    //     return response()->json(['categories' => $categories, 'sales' => $sales]);
+    // }
+
+    public function getDailySalesByMonth(Request $request)
+    {
+        $month = $request->input('month'); // Định dạng 'YYYY-MM'
+
+        // Truy vấn dữ liệu doanh số theo ngày trong tháng cụ thể
+        $salesData = Purchase::where('status', 'Đã thanh toán')
+            ->whereMonth('updated_at', '=', date('m', strtotime($month)))
+            ->whereYear('updated_at', '=', date('Y', strtotime($month)))
+            ->selectRaw('DAY(updated_at) as day, SUM(total_price) as total_sales')
+            ->groupBy('day')
+            ->orderBy('day')
+            ->get();
+
+        // Chuẩn bị dữ liệu cho các ngày trong tháng
+        $daysInMonth = date('t', strtotime($month));
+        $categories = [];
+        $sales = [];
+
+        for ($i = 1; $i <= $daysInMonth; $i++) {
+            $categories[] = sprintf('%02d', $i); // Thêm các ngày vào danh mục
+            $sales[] = 0; // Mặc định giá trị doanh số là 0
+        }
+
+        // Cập nhật dữ liệu doanh số theo ngày thực tế
+        foreach ($salesData as $data) {
+            $sales[intval($data->day) - 1] = $data->total_sales;
+        }
+
+        return response()->json(['categories' => $categories, 'sales' => $sales]);
+    }
+
+    // public function getMonthlySalesByYear(Request $request)
+    // {
+    //     $year = $request->input('year'); // Định dạng 'YYYY'
+
+    //     // Truy vấn dữ liệu doanh số theo tháng trong năm cụ thể
+    //     $salesData = Purchase::where('status', 'Đã thanh toán')
+    //         ->whereYear('updated_at', '=', $year)
+    //         ->selectRaw('MONTH(updated_at) as month, SUM(total_price) as total_sales')
+    //         ->groupBy('month')
+    //         ->orderBy('month')
+    //         ->get();
+
+    //     // Chuẩn bị dữ liệu cho các tháng trong năm
+    //     $categories = [];
+    //     $sales = [];
+
+    //     for ($i = 1; $i <= 12; $i++) {
+    //         $categories[] = sprintf('%02d', $i); // Thêm các tháng vào danh mục
+    //         $sales[] = 0; // Mặc định giá trị doanh số là 0
+    //     }
+
+    //     // Cập nhật dữ liệu doanh số theo tháng thực tế
+    //     foreach ($salesData as $data) {
+    //         $sales[intval($data->month) - 1] = $data->total_sales;
+    //     }
+
+    //     return response()->json(['categories' => $categories, 'sales' => $sales]);
+    // }
+
+
+    /**
      *Hàm điều hướng đến trang quản lý sản phẩm 
      *
      * @param Product $products

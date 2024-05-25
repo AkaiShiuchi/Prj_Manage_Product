@@ -19,6 +19,8 @@ class Purchase extends Model
 
     protected $table = 'purchases';
 
+    protected $guarded = [];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_created_id');
