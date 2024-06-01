@@ -116,31 +116,31 @@
                                             <span class="w-px-100">Subtotal:</span>
                                             <span class="text-heading">{{ $sum_total }}₫</span>
                                         </div>
-                                        <div class="d-flex justify-content-between mb-2">
+                                        {{-- <div class="d-flex justify-content-between mb-2">
                                             <span class="w-px-100">Discount:</span>
                                             <span class="text-heading mb-0">22₫</span>
                                         </div>
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="w-px-100">Tax:</span>
                                             <span class="text-heading">30₫</span>
-                                        </div>
+                                        </div> --}}
                                         <div class="d-flex justify-content-between">
                                             <h6 class="w-px-100 mb-0">Total:</h6>
-                                            <h6 class="mb-0">{{ $sum_total + 22 + 30 }}₫</h6>
+                                            <h6 class="mb-0">{{ $sum_total }}₫</h6>
                                         </div>
                                     @else
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="w-px-100">Subtotal:</span>
                                             <span class="text-heading">0</span>
                                         </div>
-                                        <div class="d-flex justify-content-between mb-2">
+                                        {{-- <div class="d-flex justify-content-between mb-2">
                                             <span class="w-px-100">Discount:</span>
                                             <span class="text-heading mb-0">0</span>
                                         </div>
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="w-px-100">Tax:</span>
                                             <span class="text-heading">0</span>
-                                        </div>
+                                        </div> --}}
                                         <div class="d-flex justify-content-between">
                                             <h6 class="w-px-100 mb-0">Total:</h6>
                                             <h6 class="mb-0">0</h6>

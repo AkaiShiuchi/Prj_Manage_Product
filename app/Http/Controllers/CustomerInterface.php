@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Http;
 
 class CustomerInterface extends Controller
 {
@@ -624,33 +625,46 @@ class CustomerInterface extends Controller
     }
 
     /**
-     * hàm đặt hàng
+     * hàm thanh toán online
      *
+     * @param Request $request
      * @param [type] $id
      * @return void
      */
-    public function pay_order(Request $request, $id)
+    public function vn_pay(Request $request, $id)
     {
         if (!Auth::check()) {
             toastr()->warning('Bạn cần đăng nhập để thanh toán.');
-            return redirect()->back();
+            return response()->json([
+                'error' => true,
+                'message' => 'Bạn cần đăng nhập để thanh toán.'
+            ]);
         }
 
         $purchase = Purchase::find($id);
 
         if (!$purchase) {
-            return redirect()->back()->with('error', 'Đơn hàng không tồn tại.');
+            return response()->json([
+                'error' => true,
+                'message' => 'Đơn hàng không tồn tại.'
+            ]);
         }
 
         $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
         if ($productPurchases->isEmpty()) {
-            return redirect()->route('view_cart')->with('error', 'Đơn hàng không có sản phẩm.');
+            return response()->json([
+                'error' => true,
+                'message' => 'Đơn hàng không có sản phẩm.'
+            ]);
         }
 
         foreach ($productPurchases as $productPurchase) {
             $product = Product::find($productPurchase->product_id);
             if ($product->total < $productPurchase->quantity) {
-                return redirect()->back()->with('error', 'Số lượng sản phẩm không đủ.');
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Số lượng sản phẩm không đủ.'
+                ]);
             }
 
             $product->total -= $productPurchase->quantity;
@@ -665,13 +679,138 @@ class CustomerInterface extends Controller
         $purchase->update([
             'address' => $request->address,
             'status' => 'Chờ xác nhận',
-            'note' => $request->input('note1') . ', ' . $request->input('note2'),
+            'note' => $request->input('note1') . ',' . $request->input('note2'),
+        ]);
+
+        $current = now('Asia/Ho_Chi_Minh');
+        $selectedTime = $current->format("Y-m-d H:i:s");
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = "http://localhost:8000/home-customer";
+        $vnp_TmnCode = "0X2Y1NRR"; //Mã website tại VNPAY 
+        $vnp_HashSecret = "VL1NN07L5SGHPJRWQNC4WJ4ANXLHHBGZ"; //Chuỗi bí mật
+
+        $vnp_TxnRef = $id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_OrderInfo = 'thanh toan don hang';
+        $vnp_OrderType = 'billpayment';
+        $vnp_Amount = $purchase->total_price * 100;
+        $vnp_Locale = 'vn';
+        $vnp_BankCode = 'NCB';
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+        $currentDate = strtotime($selectedTime);
+        $futureDate = $currentDate + (60 * 5);
+        $vnp_ExpireDate = date("YmdHis", $futureDate);
+        $vnp_CreateDate = now('Asia/Ho_Chi_Minh')->format("YmdHis");
+
+        $inputData = array(
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => $vnp_CreateDate,
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => $vnp_OrderType,
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+            "vnp_ExpireDate" => $vnp_ExpireDate,
+        );
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        $vnp_Url = $vnp_Url . "?" . $query;
+        if (isset($vnp_HashSecret)) {
+            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+        session()->forget('purchase_id');
+        session()->forget('cart');
+
+        return redirect($vnp_Url);
+    }
+
+    /**
+     * hàm đặt hàng
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function pay_order(Request $request, $id)
+    {
+        if (!Auth::check()) {
+            toastr()->warning('Bạn cần đăng nhập để thanh toán.');
+            // return redirect()->back();
+            return response()->json([
+                'error' => true,
+                'message' => 'Bạn cần đăng nhập để thanh toán.'
+            ]);
+        }
+
+        $purchase = Purchase::find($id);
+
+        if (!$purchase) {
+            // return redirect()->back()->with('error', 'Đơn hàng không tồn tại.');
+            return response()->json([
+                'error' => true,
+                'message' => 'Đơn hàng không tồn tại.'
+            ]);
+        }
+
+        $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
+        if ($productPurchases->isEmpty()) {
+            // return redirect()->route('view_cart')->with('error', 'Đơn hàng không có sản phẩm.');
+            return response()->json([
+                'error' => true,
+                'message' => 'Đơn hàng không có sản phẩm.'
+            ]);
+        }
+
+        foreach ($productPurchases as $productPurchase) {
+            $product = Product::find($productPurchase->product_id);
+            if ($product->total < $productPurchase->quantity) {
+                // return redirect()->back()->with('error', 'Số lượng sản phẩm không đủ.');
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Số lượng sản phẩm không đủ.'
+                ]);
+            }
+
+            $product->total -= $productPurchase->quantity;
+            $product->save();
+        }
+
+        $user = User::find($purchase->user_created_id);
+        $user->update([
+            'phone_number' => $request->phone_number,
+        ]);
+
+        $purchase->update([
+            'address' => $request->address,
+            'status' => 'Chờ xác nhận',
+            'note' => $request->input('note1'),
         ]);
 
         session()->forget('purchase_id');
         session()->forget('cart');
 
-        return redirect()->route('order_success')->with('success', 'Đơn hàng đã được đặt hàng thành công.');
+        // return redirect()->route('order_success')->with('success', 'Đơn hàng đã được đặt hàng thành công.');
+        toastr()->success('Đơn hàng đã được đặt hàng thành công.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Đơn hàng đã được đặt hàng thành công.',
+        ]);
     }
 
     /**

@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $(document).on('click', '.add-down', function() {
-        var $input = $('.item-quantity');
-        var currentValue = $input.val();
+        var $input = $(this).siblings('.item-quantity');
+        var currentValue = parseInt($input.val());
         var minValue = parseInt($input.attr('min'));
         var productId = $(this).data('id');
         if (currentValue > minValue) {

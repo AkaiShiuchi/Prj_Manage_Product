@@ -13,8 +13,10 @@
         <div class="content">
 
             <div class="wrap content-checkout">
-                <form action="{{ route('pay_order', ['id' => $purchase_id]) }}" method="post" class="clearfix" id="order-form">
+                <form action="" method="post" class="clearfix" id="order-form">
+                    {{-- {{ route('pay_order', ['id' => $purchase_id]) }} --}}
                     @csrf
+                    <input type="hidden" id="purchase_id" value="{{ $purchase_id }}">
                     <div class="main">
                         <div class="main-header">
                             <a href="/home-customer" class="logo">
@@ -276,57 +278,56 @@
                             <div class="description_checkout">
                                 <section class="section">
                                     <div class="section-header">
-                                        <h2> Hình thức chốt đơn:</h2>
+                                        <h2> Hình thức thanh toán:</h2>
                                     </div>
                                     <div class="section-content">
                                         <div class="content-box">
                                             <div class="radio-wrapper content-box-row">
                                                 <label class="radio-label">
                                                     <div class="radio-input">
-                                                        <input class="input-radio validate[required] cod" checked=""
-                                                            name="note1" type="radio" value="Gửi tin nhắn SMS/Zalo">
+                                                        <input class="input-radio cod" checked="" name="note1"
+                                                            type="radio" value="Thanh toán khi nhận hàng">
                                                     </div>
-                                                    <span class="radio-label-primary">Gửi tin nhắn SMS/Zalo</span>
+                                                    <span class="radio-label-primary">Thanh toán khi nhận hàng</span>
                                                     <span class="content-box__emphasis">*</span>
                                                 </label>
                                             </div>
                                             <div class="radio-wrapper content-box-row">
                                                 <label class="radio-label">
                                                     <div class="radio-input">
-                                                        <input class="input-radio validate[required] cod" name="note1"
-                                                            type="radio" value="Gọi điện thoại trực tiếp">
+                                                        <input class="input-radio cod" name="note1" type="radio"
+                                                            value="Thanh toán online">
                                                     </div>
-                                                    <span class="radio-label-primary">Gọi điện thoại trực tiếp</span>
+                                                    <span class="radio-label-primary">Thanh toán online</span>
                                                     <span class="content-box__emphasis">*</span>
                                                 </label>
                                             </div>
                                             <div class="radio-wrapper content-box-row">
                                                 <label class="radio-label">
                                                     <div class="radio-input">
-                                                        <input class="input-radio validate[required]" name="note1"
-                                                            type="radio" value="Tin nhắn Email">
+                                                        <input class="input-radio" name="note1" type="radio"
+                                                            value="Thanh toán trả góp">
                                                     </div>
-                                                    <span class="radio-label-primary">Tin nhắn Email</span>
+                                                    <span class="radio-label-primary">Thanh toán trả góp</span>
                                                     <span class="content-box__emphasis">*</span>
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                 </section>
-                                <section class="section">
+                                <section class="section" id="payment-gateways" style="display: none;">
                                     <div class="section-header">
-                                        <h2> Hình thức vận chuyển:</h2>
+                                        <h2> Chọn cổng thanh toán:</h2>
                                     </div>
                                     <div class="section-content">
                                         <div class="content-box">
                                             <div class="radio-wrapper content-box-row">
                                                 <label class="radio-label">
                                                     <div class="radio-input">
-                                                        <input class="input-radio validate[required] cod" checked=""
-                                                            name="note2" type="radio" value="muốn giao tận nơi"
-                                                            data-gtm-form-interact-field-id="1">
+                                                        <input class="input-radio cod" name="note2" type="radio"
+                                                            value="VNPAY" data-gtm-form-interact-field-id="1">
                                                     </div>
-                                                    <span class="radio-label-primary">Tôi muốn giao tận nơi</span>
+                                                    <span class="radio-label-primary">VNPay</span>
                                                     <span class="content-box__emphasis"><i class="fa fa-money"></i></span>
                                                 </label>
 
@@ -338,11 +339,10 @@
                                             <div class="radio-wrapper content-box-row">
                                                 <label class="radio-label">
                                                     <div class="radio-input">
-                                                        <input class="input-radio validate[required]" name="note2"
-                                                            type="radio" value="sẽ qua shop lấy"
-                                                            data-gtm-form-interact-field-id="0">
+                                                        <input class="input-radio" name="note2" type="radio"
+                                                            value="VIETTEL PAY" data-gtm-form-interact-field-id="0">
                                                     </div>
-                                                    <span class="radio-label-primary">Tôi sẽ qua shop lấy</span>
+                                                    <span class="radio-label-primary">VIETTEL PAY</span>
                                                     <span class="content-box__emphasis"><i class="fa fa-money"></i></span>
                                                 </label>
                                             </div>
@@ -401,8 +401,9 @@
                                                             </div>
                                                         </td>
                                                         <td class="product-price">
-                                                            <span class="order-summary-emphasis">
-                                                                {{ number_format($item->price, 0, ',', '.') }} ₫</span>
+                                                            <span
+                                                                class="order-summary-emphasis">{{ number_format($item->price, 0, ',', '.') }}
+                                                                ₫</span>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -496,10 +497,16 @@
                         </div>
 
                         <div class="sidebar-footer">
-                            <button type="submit" class="step-footer-continue-btn btn checkout-accept">
+                            <button type="submit" class="step-footer-continue-btn btn checkout-accept" name="redirect">
                                 <span class="btn-content">Hoàn tất đơn hàng</span>
                                 <i class="btn-spinner icon icon-button-spinner"></i>
                             </button>
+                            {{-- <form action="{{ route('vn_pay') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="step-footer-continue-btn btn checkout-accept"
+                                    name="redirect" href="">Thanh toán VNPAY
+                                </button>
+                            </form> --}}
                         </div>
                     </div>
                     <div id="tableShipFee"></div>

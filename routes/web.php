@@ -128,3 +128,4 @@ Route::middleware(['auth', 'checkCart'])->group(function () {
 Route::delete('/remove-item-cart/{id}', [CustomerInterface::class, 'remove_item_cart'])->name('remove_item_cart');
 Route::post('/pay-order/{id}', [CustomerInterface::class, 'pay_order'])->name('pay_order');
 Route::get('/order-success', [CustomerInterface::class, 'order_success'])->name('order_success');
+Route::post('/vn-pay/{id}', [CustomerInterface::class, 'vn_pay'])->name('vn_pay');
