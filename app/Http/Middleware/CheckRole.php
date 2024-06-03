@@ -21,6 +21,6 @@ class CheckRole
         if ($user && $user->role_id === 1) {
             return $next($request);
         }
-        return redirect('/home');
+        return redirect('/');
     }
 }

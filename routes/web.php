@@ -27,7 +27,7 @@ Route::post('/handle-forget', [LoginController::class, 'handle_forget']);
 Route::get('/get-password/{user}/{remember_token}', [LoginController::class, 'get_pass'])->name('get_password');
 Route::post('/handle-get/{user}/{remember_token}', [LoginController::class, 'handle_get']);
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'checkRole'])->group(function () {
     Route::get('/home', [HomeController::class, 'display'])->name('home');
     // Route::get('/statistics/sales', [HomeController::class, 'getSalesByDate']);
     Route::get('/statistics/sales', [HomeController::class, 'getDailySalesByMonth']);
@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/purchase-manage', [HomeController::class, 'purchase_manage'])->name('purchase_manage');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'checkRole'])->group(function () {
     Route::post('/search', [CrudProductController::class, 'search'])->name('search_product');
 
     Route::post('/add-product', [CrudProductController::class, 'add_product'])->name('add_product');
@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/print-barcode/{id}', [BarcodeController::class, 'print_barcode'])->name('print_barcode');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'checkRole'])->group(function () {
     Route::get('/purchase-manage/view-detail/{id}', [PurcharseManage::class, 'view_detail'])->name('view_detail_1');
     Route::get('/get-category/{id}', [PurcharseManage::class, 'get_category']);
     Route::post('/search-purchase', [CrudPurchaseController::class, 'search_purchase'])->name('search_purchase');

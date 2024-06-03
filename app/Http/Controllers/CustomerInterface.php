@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePassword;
+use App\Http\Requests\EditProfile;
 use App\Http\Requests\ValidateAddProductPurchase;
 use App\Http\Requests\ValidateLogin;
 use App\Http\Requests\ValidateRegister;
@@ -986,7 +988,7 @@ class CustomerInterface extends Controller
         return view('customer_design.account.edit_profile', compact('categories', 'user'));
     }
 
-    public function handle_edit(Request $request, $id)
+    public function handle_edit(EditProfile $request, $id)
     {
         $user = User::find($id);
 
@@ -1019,10 +1021,10 @@ class CustomerInterface extends Controller
         return view('customer_design.account.change_password', compact('categories'));
     }
 
-    public function handle_changePass(Request $request)
+    public function handle_changePass(ChangePassword $request)
     {
         $id = session('user_id');
-        // dd($id);
+
         $user = User::find($id);
         if (Hash::check($request->oldpassword, $user->password)) {
             $user->update([
